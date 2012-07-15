@@ -1,0 +1,20 @@
+Module
+  name: mapeditor
+  description: Initialize the mapeditor and setups its main window
+  author: fallen, edubart
+  reloadable: false
+
+  load-later:
+    - client_skins
+    - client_topmenu
+    - client_terminal
+    - client_modulemanager
+    - game_tibiafiles
+    - mapeditor_interface
+
+  @onLoad: |
+    dofile 'mapeditor'
+    MapEditor.init()
+
+  @onUnload: |
+    MapEditor.terminate()

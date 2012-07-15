@@ -1,12 +1,12 @@
 Interface = {}
 
 function Interface.init()
-  rootPanel = g_ui.displayUI('interface.otui')
+  rootPanel = displayUI('interface.otui')
   mapWidget = rootPanel:getChildById('map')
 
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
-  mapWidget:setCameraPosition({x=1149, y=1114, z=5} )
+  mapWidget:setCameraPosition({ x = 1552, y = 529, z = 7 })
 
   mapWidget.onMouseWheel = function(self, mousePos, direction)
     if direction == MouseWheelUp then
@@ -16,8 +16,7 @@ function Interface.init()
     end
   end
 
-  g_things.loadOtb("/items.otb")
-  g_map.loadOtbm("/emperia.otbm")
+  g_map.load("/test.otcmap")
 end
 
 function Interface.terminate()
