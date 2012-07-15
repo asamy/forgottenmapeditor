@@ -41,6 +41,7 @@ function Interface.init()
 
   g_things.loadOtb("/items.otb")
   g_map.loadOtbm("/forgotten.otbm")
+
 end
 
 function Interface.terminate()

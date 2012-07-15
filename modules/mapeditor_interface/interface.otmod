@@ -8,6 +8,7 @@ Module
     - mapeditor_itembox
 
   @onLoad: |
+    dofile 'uieditablemap'
     dofile 'interface'
     Interface.init()
 

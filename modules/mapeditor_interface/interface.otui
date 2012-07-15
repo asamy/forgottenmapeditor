@@ -4,20 +4,18 @@ UIWidget
   anchors.top: topMenu.bottom
 
   UIMiniWindowContainer
+    id: leftPanel
     image-source: /images/sidepanel.png
     image-border: 4
     padding: 4
-    id: leftPanel
-    width: 190
+    width: 198
     layout: verticalBox
     anchors.left: parent.left
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     focusable: false
 
-  UIMap
-    padding: 4
-    image-border: 4
+  UIEditableMap
     id: map
     anchors.left: leftPanel.right
     anchors.right: parent.right

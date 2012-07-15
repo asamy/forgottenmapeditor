@@ -1,7 +1,0 @@
-Module
-  name: mapeditor_itembox
-  description: Item box window
-  author: fallen, edubart
-
-  @onLoad: |
-    dofile 'itembox'
