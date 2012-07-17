@@ -1,23 +1,85 @@
 Interface = {}
 
+local zoomLevel = 3
+local zoomLevels = {
+   16,
+   24,
+   32,
+   48,
+   64,
+   96,
+   128,
+   192,
+   256,
+   384,
+   512,
+   768,
+   1024,
+   1536,
+   2048,
+   3072,
+   4096
+}
+local navigating = false
+
+function updateZoom(delta)
+  if delta then
+    zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
+  end
+  mapWidget:setZoom(zoomLevels[zoomLevel])
+end
+
 function Interface.init()
   rootPanel = g_ui.displayUI('interface.otui')
   mapWidget = rootPanel:getChildById('map')
 
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
-  mapWidget:setCameraPosition({x=100, y=100, z=7} )
+  mapWidget:setMaxZoomOut(4096)
+  --mapWidget:setCameraPosition({x=33307, y=32818, z=7} )
+  mapWidget:setCameraPosition({x=4000, y=3500, z=7} )
+  updateZoom()
 
   mapWidget.onMouseWheel = function(self, mousePos, direction)
     if direction == MouseWheelUp then
-      self:zoomIn()
+      if g_keyboard.isCtrlPressed() then
+        local pos = self:getCameraPosition()
+        pos.z = math.max(pos.z - 1, 0)
+        self:setCameraPosition(pos)
+      else
+        updateZoom(-1)
+      end
     else
-      self:zoomOut()
+      if g_keyboard.isCtrlPressed() then
+        local pos = self:getCameraPosition()
+        pos.z = math.min(pos.z + 1, 15)
+        self:setCameraPosition(pos)
+      else
+        updateZoom(1)
+      end
     end
+  end
+
+  mapWidget.onMouseRelease = function(self, mousePos, mouseButton)
+    if navigating then
+      navigating = false
+      return true
+    end
+    if mouseButton == MouseRightButton then
+      local tile = self:getTile(mousePos)
+      if tile then
+        self:setCameraPosition(tile:getPosition())
+      end
+      return true
+    end
+    return false
   end
 
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
+      if elapsed < 300 then return end
+
+      navigating = true
       local px = mousePos.x - self:getX()
       local py = mousePos.y - self:getY()
       local dx = px - self:getWidth()/2
@@ -38,9 +100,6 @@ function Interface.init()
       self:setCameraPosition(pos)
     end
   , nil, MouseRightButton)
-
-  g_things.loadOtb("/items.otb")
-  g_map.loadOtbm("/forgotten.otbm")
 
 end
 

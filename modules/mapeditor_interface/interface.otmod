@@ -2,7 +2,6 @@ Module
   name: mapeditor_interface
   description: Manages the mapeditor interface
   author: fallen, edubart
-  reloadable: false
 
   load-later:
     - mapeditor_itembox

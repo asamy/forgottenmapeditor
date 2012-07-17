@@ -2,6 +2,6 @@
 -- you can place any custom user code here
 
 -- map editor modules
-g_modules.autoLoadModules(999);
-g_modules.ensureModuleLoaded("mapeditor")
-
+g_things.loadOtb('/data/forgotten-items.otb')
+g_map.loadOtbm('/data/forgotten.otbm')
+mapWidget:setCameraPosition({y=498,x=207,z=7})
