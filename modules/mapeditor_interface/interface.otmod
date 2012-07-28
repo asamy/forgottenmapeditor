@@ -3,9 +3,6 @@ Module
   description: Manages the mapeditor interface
   author: fallen, edubart
 
-  load-later:
-    - mapeditor_itembox
-
   @onLoad: |
     dofile 'uieditablemap'
     dofile 'interface'
