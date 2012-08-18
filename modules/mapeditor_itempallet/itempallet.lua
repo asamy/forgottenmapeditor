@@ -7,13 +7,11 @@ local palletList
 local comboBox
 
 local function onOptionChange(optText, optData)
-	if g_things.isDatLoaded() then print("ok") end
-	if g_things.isOtbLoaded() then print("ok") end
 	if optData ~= "Creatures" and optData ~= "Effects" and optData ~= "Missile" then -- hack since ItemType is just OTB items.
 		print("find items: " .. optData .. " text: " .. type(optText))
 		for _, v in ipairs(g_things.findItemTypeByCategory(0)) do 
 			local itemWidget = g_ui.createWidget('PalletItem', palletList)
-	    itemWidget:setItemId(v.getServerId())
+	    itemWidget:setItemId(v:getServerId())
 		end
 	else
 		print("find others")
@@ -25,7 +23,12 @@ local function onOptionChange(optText, optData)
 end
 
 function ItemPallet.init()
-  palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
+  g_game.setClientVersion(860)
+  g_things.loadDat("/data/Tibia.dat")
+  g_sprites.loadSpr("/data/Tibia.spr")
+	g_things.loadOtb('/data/forgotten-items.otb')
+
+	palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
   palletList   = palletWindow:recursiveGetChildById('palletList')
   comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
 
