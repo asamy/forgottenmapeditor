@@ -7,17 +7,28 @@ local palletList
 local comboBox
 
 local function onOptionChange(optText, optData)
+	palletList:destroyChildren()
+	local i = 0
 	if optData ~= "Creatures" and optData ~= "Effects" and optData ~= "Missile" then -- hack since ItemType is just OTB items.
-		print("find items: " .. optData .. " text: " .. type(optText))
-		for _, v in ipairs(g_things.findItemTypeByCategory(0)) do 
-			local itemWidget = g_ui.createWidget('PalletItem', palletList)
-	    itemWidget:setItemId(v:getServerId())
+		for _, v in ipairs(g_things.findItemTypeByCategory(tonumber(optText))) do 
+			local clientId = v:getClientId()
+			if clientId >= 100 then
+				i = i + 1
+				if i == 500 then
+					break
+				end
+				local itemWidget = g_ui.createWidget('PalletItem', palletList)
+				itemWidget:setItemId(clientId)
+			end
 		end
 	else
-		print("find others")
-		for _, v in ipairs(g_things.getThingTypes(optData)) do
+		for _, v in ipairs(g_things.getThingTypes(tonumber(optText))) do
+			i = i + 1
+			if i == 500 then
+				break
+			end
 			local itemWidget = g_ui.createWidget('PalletItem', palletList)
-	    itemWidget:setItemId(v.getServerId())
+	    itemWidget:setItemId(v.getId())
 	  end
 	end
 end

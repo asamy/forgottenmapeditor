@@ -1,5 +1,5 @@
 PalletItem < Item
-  __class: UIPalletItem
+  __class: UIItem
 
 MiniWindow
   text: Item Pallet
