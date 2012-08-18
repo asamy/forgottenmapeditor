@@ -7,7 +7,6 @@ Module
   @onLoad: |
     dofile 'uipalletitem'
     dofile 'itempallet'
-    dofile 'palletcombobox'
     ItemPallet.init()
 
   @onUnload: |

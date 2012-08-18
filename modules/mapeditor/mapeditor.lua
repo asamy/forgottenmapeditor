@@ -24,7 +24,6 @@ function MapEditor.init()
   g_game.setClientVersion(860)
   g_things.loadDat("/data/Tibia.dat")
   g_sprites.loadSpr("/data/Tibia.spr")
-
   -- window icon and title
   g_window.setTitle('Forgotten Map Editor')
   --g_window.setIcon(resolvepath('windowicon.png'))

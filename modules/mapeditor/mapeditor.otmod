@@ -9,7 +9,6 @@ Module
     - client_topmenu
     - client_terminal
     - client_modulemanager
-    - game_tibiafiles
     - mapeditor_interface
 
   @onLoad: |
