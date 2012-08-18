@@ -1,21 +1,24 @@
 PalletItem < Item
   __class: UIPalletItem
 
+PalletComboBox < ComboBox
+  __class: UIPalletComboBox
+
 MiniWindow
   text: Item Pallet
   height: 300
 
   MiniWindowContents
     padding-right: 3
-    ComboBox
-      id: palletCheckBox
+    PalletComboBox
+      id: palletComboBox
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
 
     Panel
       id: palletList
-      anchors.top: palletCheckBox.bottom
+      anchors.top: palletComboBox.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       layout:
