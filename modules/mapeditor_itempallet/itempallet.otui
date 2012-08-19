@@ -1,5 +1,8 @@
 PalletItem < Item
-  __class: UIItem
+  __class: UIPalletItem
+
+PalletCreature < Creature
+  __class: UIPalletCreature
 
 MiniWindow
   text: Item Pallet

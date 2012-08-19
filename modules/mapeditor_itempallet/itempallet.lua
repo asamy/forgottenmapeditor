@@ -6,29 +6,48 @@ local palletWindow
 local palletList
 local comboBox
 
-local function onOptionChange(optText, optData)
+local function onOptionChange(widget, optText, optData)
 	palletList:destroyChildren()
 	local i = 0
-	if optData ~= "Creatures" and optData ~= "Effects" and optData ~= "Missile" then -- hack since ItemType is just OTB items.
-		for _, v in ipairs(g_things.findItemTypeByCategory(tonumber(optText))) do 
+
+	-- render up to 500 items of type optData
+	-- TODO: whenever the user scrolls to the end of the list, render more and perhaps free some of
+	--			 the current ones?
+	-- TODO: Move this to another function instead and call it from here
+	--       also from the scroll bar callback
+	--			 maybe subclass UIComboBox for ease.
+	if optText ~= "Creatures" and optText ~= "Effects" and optText ~= "Missile" then
+		for _, v in ipairs(g_things.findItemTypeByCategory(optData)) do
 			local clientId = v:getClientId()
 			if clientId >= 100 then
 				i = i + 1
 				if i == 500 then
 					break
 				end
-				local itemWidget = g_ui.createWidget('PalletItem', palletList)
-				itemWidget:setItemId(clientId)
+			else
+				clientId = clientid + 99
 			end
+			local itemWidget = g_ui.createWidget('PalletItem', palletList)
+			itemWidget:setItemId(clientId)
 		end
 	else
-		for _, v in ipairs(g_things.getThingTypes(tonumber(optText))) do
+		for _, v in ipairs(g_things.getThingTypes(optData)) do
 			i = i + 1
 			if i == 500 then
 				break
 			end
-			local itemWidget = g_ui.createWidget('PalletItem', palletList)
-	    itemWidget:setItemId(v.getId())
+			if v:getCategory() == ThingCategoryCreature then
+				local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
+				local creaturePtr = g_things.castThingToCreature(v)
+				if creaturePtr then
+			    creatureWidget:setCreature(creaturePtr)
+			  end
+		  elseif v:getCategory() == ThingCategoryEffect then
+		  	local effect = Effect.create()
+
+
+		 	elseif v:getCategory() == ThingCategoryMissile then
+		 	end
 	  end
 	end
 end
@@ -38,24 +57,25 @@ function ItemPallet.init()
   g_things.loadDat("/data/Tibia.dat")
   g_sprites.loadSpr("/data/Tibia.spr")
 	g_things.loadOtb('/data/forgotten-items.otb')
+	g_things.loadXml("/data/items.xml")
 
 	palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
   palletList   = palletWindow:recursiveGetChildById('palletList')
   comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
 
-  comboBox:addOption("Grounds",      ThingAttrGround)
-	comboBox:addOption("Containers",   ThingAttrContainer)
-	comboBox:addOption("Weapons",      ThingAttrWeapon)
-	comboBox:addOption("Ammunition",   ThingAttrAmmunition)
-	comboBox:addOption("Armor",        ThingAttrArmor)
-	comboBox:addOption("Charges",      ThingAttrCharges)
-	comboBox:addOption("Teleports",    ThingAttrTeleport)
-	comboBox:addOption("MagicFields",  ThingAttrMagicField)
-	comboBox:addOption("Writables",    ThingAttrWritable)
-	comboBox:addOption("Keys",         ThingAttrKey)
-	comboBox:addOption("Splashs",      ThingAttrSplash)
-	comboBox:addOption("Fluids",       ThingAttrFluid)
-	comboBox:addOption("Doors",		     ThingAttrDoor)
+  comboBox:addOption("Grounds",      ItemCategoryGround)
+	comboBox:addOption("Containers",   ItemCategoryContainer)
+	comboBox:addOption("Weapons",      ItemCategoryWeapon)
+	comboBox:addOption("Ammunition",   ItemCategoryAmmunition)
+	comboBox:addOption("Armor",        ItemCategoryArmor)
+	comboBox:addOption("Charges",      ItemCategoryCharges)
+	comboBox:addOption("Teleports",    ItemCategoryTeleport)
+	comboBox:addOption("MagicFields",  ItemCategoryMagicField)
+	comboBox:addOption("Writables",    ItemCategoryWritable)
+	comboBox:addOption("Keys",         ItemCategoryKey)
+	comboBox:addOption("Splashs",      ItemCategorySplash)
+	comboBox:addOption("Fluids",       ItemCategoryFluid)
+	comboBox:addOption("Doors",		     ItemCategoryDoor)
 	-- DAT types
 	comboBox:addOption("Creatures",    ThingCategoryCreature)
 	comboBox:addOption("Effects", 	   ThingCategoryEffect)

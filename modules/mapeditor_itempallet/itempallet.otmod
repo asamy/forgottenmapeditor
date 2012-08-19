@@ -6,6 +6,8 @@ Module
 
   @onLoad: |
     dofile 'uipalletitem'
+    dofile 'uipalletcreature'
+    dofile 'uipalleteffect'
     dofile 'itempallet'
     ItemPallet.init()
 
