@@ -1,0 +1,29 @@
+PalletItem < Item
+  __class: UIPalletItem
+
+PalletCreature < Creature
+  __class: UIPalletCreature
+
+MiniWindow
+  text: Item Pallet
+  height: 600
+
+  MiniWindowContents
+    padding-right: 3
+    ComboBox
+      id: palletComboBox
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+    Panel
+      id: palletList
+      anchors.top: palletComboBox.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      layout:
+        type: grid
+        fit-children: true
+        flow: true
+        cell-size: 34 34
+      margin-top: 4

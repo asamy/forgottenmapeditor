@@ -1,0 +1,15 @@
+Module
+  name: mapeditor_itempallet
+  description: Map editor item pallet window
+  author: edubart, fallen
+  autoload: true
+
+  @onLoad: |
+    dofile 'uipalletitem'
+    dofile 'uipalletcreature'
+    dofile 'uipalleteffect'
+    dofile 'itempallet'
+    ItemPallet.init()
+
+  @onUnload: |
+    ItemPallet.terminate()

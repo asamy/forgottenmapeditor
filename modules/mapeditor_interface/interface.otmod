@@ -1,0 +1,12 @@
+Module
+  name: mapeditor_interface
+  description: Manages the mapeditor interface
+  author: fallen, edubart
+
+  @onLoad: |
+    dofile 'uieditablemap'
+    dofile 'interface'
+    Interface.init()
+
+  @onUnload: |
+    Interface.terminate()

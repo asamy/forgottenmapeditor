@@ -1,0 +1,22 @@
+ThingCategoryItem         = 0
+ThingCategoryCreature     = 1
+ThingCategoryEffect       = 2
+ThingCategoryMissile      = 3
+ThingInvalidCategory      = 4
+ThingLastCategory         = ThingInvalidCategory
+
+ItemCategoryInvalid      = 0
+ItemCategoryGround       = 1
+ItemCategoryContainer    = 2
+ItemCategoryWeapon       = 3
+ItemCategoryAmmunition   = 4
+ItemCategoryArmor        = 5
+ItemCategoryCharges      = 6
+ItemCategoryTeleport     = 7
+ItemCategoryMagicField   = 8
+ItemCategoryWritable     = 9
+ItemCategoryKey          = 10
+ItemCategorySplash       = 11
+ItemCategoryFluid        = 12
+ItemCategoryDoor         = 13
+ItemCategoryLast         = 14
