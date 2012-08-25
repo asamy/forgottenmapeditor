@@ -9,6 +9,7 @@ Module
     - client_topmenu
     - client_terminal
     - client_modulemanager
+    - mapeditor_startup
     - mapeditor_interface
 
   @onLoad: |

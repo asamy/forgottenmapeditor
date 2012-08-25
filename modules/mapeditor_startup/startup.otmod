@@ -1,0 +1,13 @@
+Module
+  name: mapeditor_startup
+  description: Load up OTBM OTB and various files before rendering anything.
+  author: fallen, edubart
+  website: http://github.com/niczkx/forgottenmapeditor/
+  sandboxed: true
+
+  @onLoad: |
+    dofile 'startup'
+    startup()
+  @onUnload: |
+    shutdown()
+

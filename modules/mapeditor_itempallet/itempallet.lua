@@ -17,76 +17,63 @@ local function onOptionChange(widget, optText, optData)
 	--       also from the scroll bar callback
 	--			 maybe subclass UIComboBox for ease.
 	if optText ~= "Creatures" and optText ~= "Effects" and optText ~= "Missile" then
-		for _, v in ipairs(g_things.findItemTypeByCategory(optData)) do
-			local clientId = v:getClientId()
-			if clientId >= 100 then
-				i = i + 1
-				if i == 500 then
-					break
-				end
-			else
-				clientId = clientid + 99
-			end
-			local itemWidget = g_ui.createWidget('PalletItem', palletList)
-			itemWidget:setItemId(clientId)
+	  for _, v in ipairs(g_things.findItemTypeByCategory(optData)) do
+	    local clientId = v:getClientId()
+		if clientId >= 100 then
+		  i = i + 1
+		  if i == 500 then
+		    break
+		  end
+		else
+		  clientId = clientid + 99
 		end
+		local itemWidget = g_ui.createWidget('PalletItem', palletList)
+		itemWidget:setItemId(clientId)
+	  end
 	else
 		for _, v in ipairs(g_things.getThingTypes(optData)) do
-			i = i + 1
-			if i == 500 then
-				break
-			end
-			if v:getCategory() == ThingCategoryCreature then
-				local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
-				local creaturePtr = g_things.castThingToCreature(v)
-				if creaturePtr then
-			    creatureWidget:setCreature(creaturePtr)
-			  end
-		  elseif v:getCategory() == ThingCategoryEffect then
-		  	local effect = Effect.create()
-
-
-		 	elseif v:getCategory() == ThingCategoryMissile then
-		 	end
-	  end
-	end
+		  i = i + 1
+		  if i == 500 then
+		    break
+		  end
+		  if v:getCategory() == ThingCategoryCreature then
+		    local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
+				creatureWidget:setCreature(g_things.castThingToCreature(v))
+      end
+      end
+  end
 end
 
 function ItemPallet.init()
   g_game.setClientVersion(860)
-  g_things.loadDat("/data/Tibia.dat")
-  g_sprites.loadSpr("/data/Tibia.spr")
-	g_things.loadOtb('/data/forgotten-items.otb')
-	g_things.loadXml("/data/items.xml")
-
-	palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
+  palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
   palletList   = palletWindow:recursiveGetChildById('palletList')
   comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
 
   comboBox:addOption("Grounds",      ItemCategoryGround)
-	comboBox:addOption("Containers",   ItemCategoryContainer)
-	comboBox:addOption("Weapons",      ItemCategoryWeapon)
-	comboBox:addOption("Ammunition",   ItemCategoryAmmunition)
-	comboBox:addOption("Armor",        ItemCategoryArmor)
-	comboBox:addOption("Charges",      ItemCategoryCharges)
-	comboBox:addOption("Teleports",    ItemCategoryTeleport)
-	comboBox:addOption("MagicFields",  ItemCategoryMagicField)
-	comboBox:addOption("Writables",    ItemCategoryWritable)
-	comboBox:addOption("Keys",         ItemCategoryKey)
-	comboBox:addOption("Splashs",      ItemCategorySplash)
-	comboBox:addOption("Fluids",       ItemCategoryFluid)
-	comboBox:addOption("Doors",		     ItemCategoryDoor)
+  comboBox:addOption("Containers",   ItemCategoryContainer)
+  comboBox:addOption("Weapons",      ItemCategoryWeapon)
+  comboBox:addOption("Ammunition",   ItemCategoryAmmunition)
+  comboBox:addOption("Armor",        ItemCategoryArmor)
+  comboBox:addOption("Charges",      ItemCategoryCharges)
+  comboBox:addOption("Teleports",    ItemCategoryTeleport)
+  comboBox:addOption("MagicFields",  ItemCategoryMagicField)
+  comboBox:addOption("Writables",    ItemCategoryWritable)
+  comboBox:addOption("Keys",         ItemCategoryKey)
+  comboBox:addOption("Splashs",      ItemCategorySplash)
+  comboBox:addOption("Fluids",       ItemCategoryFluid)
+  comboBox:addOption("Doors",		     ItemCategoryDoor)
 	-- DAT types
-	comboBox:addOption("Creatures",    ThingCategoryCreature)
-	comboBox:addOption("Effects", 	   ThingCategoryEffect)
-	comboBox:addOption("Missile",      ThingCategoryMissile)
+  comboBox:addOption("Creatures",    ThingCategoryCreature)
+  comboBox:addOption("Effects", 	   ThingCategoryEffect)
+  comboBox:addOption("Missile",      ThingCategoryMissile)
 
-	comboBox.onOptionChange = onOptionChange
-
-	comboBox:setCurrentIndex(1)
+  comboBox.onOptionChange = onOptionChange
+  comboBox:setCurrentIndex(1)
 end
 
 function ItemPallet.terminate()
   palletWindow:destroy()
   palletWindow = nil
 end
+
