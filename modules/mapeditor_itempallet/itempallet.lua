@@ -16,7 +16,7 @@ local function onOptionChange(widget, optText, optData)
 	-- TODO: Move this to another function instead and call it from here
 	--       also from the scroll bar callback
 	--			 maybe subclass UIComboBox for ease.
-	if optText ~= "Creatures" and optText ~= "Effects" and optText ~= "Missile" then
+	if optData ~= ThingCategoryCreature then
 	  for _, v in ipairs(g_things.findItemTypeByCategory(optData)) do
 	    local clientId = v:getClientId()
 		if clientId >= 100 then
@@ -39,7 +39,7 @@ local function onOptionChange(widget, optText, optData)
 		  if v:getCategory() == ThingCategoryCreature then
 		    local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
 				creatureWidget:setCreature(g_things.castThingToCreature(v))
-      end
+        end
       end
   end
 end
@@ -64,8 +64,6 @@ function ItemPallet.init()
   comboBox:addOption("Doors",		     ItemCategoryDoor)
 	-- DAT types
   comboBox:addOption("Creatures",    ThingCategoryCreature)
-  comboBox:addOption("Effects", 	   ThingCategoryEffect)
-  comboBox:addOption("Missile",      ThingCategoryMissile)
 
   comboBox.onOptionChange = onOptionChange
   comboBox:setCurrentIndex(1)

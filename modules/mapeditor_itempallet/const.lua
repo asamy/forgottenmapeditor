@@ -1,5 +1,5 @@
 ThingCategoryItem         = 0
-ThingCategoryCreature     = 1
+ThingCategoryCreature     = 15
 ThingCategoryEffect       = 2
 ThingCategoryMissile      = 3
 ThingInvalidCategory      = 4
