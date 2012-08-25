@@ -11,12 +11,14 @@ NPC_FOLDER = "/data/npcs"
 OTBM_FILE  = "/data/forgotten.otbm"
 DAT_FILE   = "/data/Tibia.dat"
 SPR_FILE   = "/data/Tibia.spr"
+VERSION    = 860  -- Most important for loading Tibia files correctly.
 
 -- Nothing beyond here is useful to people who can't code
 function startup()
   print("Starting up...")
   -- All of the functions below throw exceptions on failure
   -- not in terms of terminaing the applications, though.
+  g_game.setClientVersion(VERSION)
   -- Load up dat.
   g_things.loadDat(DAT_FILE)
   -- Load up SPR.

@@ -45,7 +45,6 @@ local function onOptionChange(widget, optText, optData)
 end
 
 function ItemPallet.init()
-  g_game.setClientVersion(860)
   palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
   palletList   = palletWindow:recursiveGetChildById('palletList')
   comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
