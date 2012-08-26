@@ -31,16 +31,10 @@ local function onOptionChange(widget, optText, optData)
 		itemWidget:setItemId(clientId)
 	  end
 	else
-		for _, v in ipairs(g_things.getThingTypes(optData)) do
-		  i = i + 1
-		  if i == 500 then
-		    break
-		  end
-		  if v:getCategory() == ThingCategoryCreature then
-		    local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
-				creatureWidget:setCreature(g_things.castThingToCreature(v))
-        end
-      end
+      for _, v in ipairs(g_creatures.getCreatures()) do
+        local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
+        creatureWidget:setCreature(v:cast())
+    end
   end
 end
 

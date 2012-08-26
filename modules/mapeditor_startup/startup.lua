@@ -28,7 +28,7 @@ function startup()
   -- Load up XML
   g_things.loadXml(XML_FILE)
   -- load up monsters
-  g_map.loadMonsters(MON_FILE)
+  g_creatures.loadMonsters(MON_FILE)
   -- uncomment this if  you wanna load NPCs
   -- g_map.loadNpcs(NPC_FOLDER)
   -- Map time
@@ -36,5 +36,7 @@ function startup()
 end
 
 function shutdown()
-end
+end 
+
+-- /* vim :set ts=2 sw=2 et; */
 
