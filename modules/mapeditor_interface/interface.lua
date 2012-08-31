@@ -101,6 +101,10 @@ function Interface.init()
     end
   , nil, MouseRightButton)
 
+  local firstTown = g_map.getTown(1)
+  if firstTown then
+    mapWidget:setCameraPosition(firstTown:getTemplePos())
+  end
 end
 
 function Interface.terminate()
