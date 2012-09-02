@@ -2,10 +2,11 @@ PalletItem < Item
   __class: UIPalletItem
 
 PalletCreature < Creature
+  dragable: true
   __class: UIPalletCreature
 
 MiniWindow
-  text: Item Pallet
+  text: Item Pallete
   height: 600
 
   MiniWindowContents
