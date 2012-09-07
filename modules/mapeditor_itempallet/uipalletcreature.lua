@@ -17,7 +17,7 @@ function UIPalletCreature:onMousePress(mousePos, button)
   return self:setCurrentThing(self:getCreature())
 end
 
-function UIEditableMap:onMouseRelease(mousePos, button)
+function UIPalletCreature:onMouseRelease(mousePos, button)
   return self:setCurrentThing(nil)
 end
 

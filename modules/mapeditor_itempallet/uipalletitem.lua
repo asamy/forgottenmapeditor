@@ -17,7 +17,7 @@ function UIPalletItem:onMousePress(mousePos, button)
   return self:setCurrentThing(self:getItemId())
 end
 
-function UIEditableMap:onMouseRelease(mousePos, button)
+function UIPalletItem:onMouseRelease(mousePos, button)
   return self:setCurrentThing(nil)
 end
 
