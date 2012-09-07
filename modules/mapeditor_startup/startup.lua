@@ -36,7 +36,6 @@ function startup()
 end
 
 function shutdown()
-end 
-
--- /* vim :set ts=2 sw=2 et; */
+  print("Starting down...")
+end
 

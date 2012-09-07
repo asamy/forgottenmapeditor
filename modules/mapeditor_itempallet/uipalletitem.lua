@@ -1,15 +1,30 @@
 UIPalletItem = extends(UIItem)
 
-function UIPalletItem:onDragEnter(mousePos)
-  self:setBorderWidth(1)
-  g_mouse.setTargetCursor()
-  self.currentDragThing = self:getItem():clone()
+function UIPalletItem:setCurrentThing(c)
+  if c == 0 then
+    g_mouse.restoreCursor()
+    self:setBorderWidth(0)
+    _G["currentThing"] = 0
+  else
+    self:setBorderWidth(1)
+    g_mouse.setTargetCursor()
+    _G["currentThing"] = c
+  end
   return true
 end
 
+function UIPalletItem:onMousePress(mousePos, button)
+  return self:setCurrentThing(self:getItemId())
+end
+
+function UIEditableMap:onMouseRelease(mousePos, button)
+  return self:setCurrentThing(nil)
+end
+
+function UIPalletItem:onDragEnter(mousePos)
+  return self:setCurrentThing(self:getItemId())
+end
+
 function UIPalletItem:onDragLeave(droppedWidget, mousePos)
-  g_mouse.restoreCursor()
-  self.currentDragThing = nil
-  self:setBorderWidth(0)
-  return true
+  return self:setCurrentThing(0)
 end

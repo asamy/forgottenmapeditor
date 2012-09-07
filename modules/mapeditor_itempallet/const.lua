@@ -1,10 +1,3 @@
-ThingCategoryItem         = 0
-ThingCategoryCreature     = 15
-ThingCategoryEffect       = 2
-ThingCategoryMissile      = 3
-ThingInvalidCategory      = 4
-ThingLastCategory         = ThingInvalidCategory
-
 ItemCategoryInvalid      = 0
 ItemCategoryGround       = 1
 ItemCategoryContainer    = 2
@@ -20,3 +13,4 @@ ItemCategorySplash       = 11
 ItemCategoryFluid        = 12
 ItemCategoryDoor         = 13
 ItemCategoryLast         = 14
+ThingCategoryCreature    = 15
