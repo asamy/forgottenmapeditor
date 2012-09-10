@@ -18,7 +18,7 @@ function UIPalletCreature:onMousePress(mousePos, button)
 end
 
 function UIPalletCreature:onMouseRelease(mousePos, button)
-  return self:setCurrentThing(nil)
+--  return self:setCurrentThing(nil)
 end
 
 function UIPalletCreature:onDragEnter(mousePos)
