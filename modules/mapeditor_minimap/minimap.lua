@@ -94,6 +94,7 @@ function center()
   local firstTown = g_map.getTown(1)
   if firstTown then
     minimapWidget:setCameraPosition(firstTown:getTemplePos())
+    mapWidget:setCameraPosition(firstTown:getTemplePos())
   end
 end
 
