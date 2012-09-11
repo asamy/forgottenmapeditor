@@ -93,12 +93,11 @@ end
 function center()
   local firstTown = g_map.getTown(1)
   if firstTown then
-    syncOn(firstTown:getTemplePos())
+    minimapWidget:setCameraPosition(firstTown:getTemplePos())
   end
 end
 
 function syncOn(pos)
-  minimapWidget:setCameraPosition(pos)
   mapWidget:setCameraPosition(pos)
 end
 
