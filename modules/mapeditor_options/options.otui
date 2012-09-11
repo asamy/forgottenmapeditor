@@ -1,0 +1,44 @@
+OptionCheckBox < CheckBox
+  @onCheckChange: Options.setOption(self:getId(), self:isChecked())
+  @onSetup: self:setChecked(Options.getOption(self:getId()))
+  height: 16
+
+  $first:
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+  $!first:
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 2
+
+MainWindow
+  id: optionsWindow
+  !text: tr('Options')
+  size: 350 280
+
+  @onEnter: Options.hide()
+  @onEscape: Options.hide()
+
+  TabBarRounded
+    id: optionsTabBar
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+  Panel
+    id: optionsTabContent
+    anchors.top: optionsTabBar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 10
+
+  Button
+    !text: tr('Ok')
+    width: 64
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    @onClick: Options.hide()

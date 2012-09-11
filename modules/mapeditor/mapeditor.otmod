@@ -12,6 +12,7 @@ Module
     - mapeditor_startup
     - mapeditor_interface
     - mapeditor_minimap
+    - mapeditor_options
 
   @onLoad: |
     dofile 'mapeditor'

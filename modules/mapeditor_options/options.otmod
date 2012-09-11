@@ -1,0 +1,15 @@
+Module
+  name: mapeditor_options
+  description: Create the options window
+  author: edubart, fallen
+  website: www.otclient.info
+
+  dependencies:
+    - client_topmenu
+
+  @onLoad: |
+    dofile 'options'
+    Options.init()
+
+  @onUnload: |
+    Options.terminate()
