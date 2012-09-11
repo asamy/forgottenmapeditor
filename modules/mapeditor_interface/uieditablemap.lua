@@ -5,19 +5,15 @@ function UIEditableMap:__render(thing, pos)
     print("error in __render")
     return false
   end
-  local tile = self:getTile(pos)
-  if not tile then
-     g_logger.error("Internal error: Could not get or create tile in UIEditableMap:__render")
-     return false
-  end
 
+  local position = self:getPosition(pos)
   if g_keyboard.isShiftPressed() then
     g_map.removeThing(thing)
   else
     if thing:isItem() then thing = thing:clone() end
   end
 
-  g_map.addThing(thing, tile:getPosition(), thing:isItem() and -1 or 255)
+  g_map.addThing(thing, position, thing:isItem() and -1 or 255)
   return true
 end
 
