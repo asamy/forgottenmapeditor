@@ -98,11 +98,11 @@ function center()
 end
 
 function syncOn(pos)
+  minimapWidget:setCameraPosition(pos)
   mapWidget:setCameraPosition(pos)
 end
 
 function syncZoom(zoom)
-    print("sync zoom")
   minimapWidget:setZoom(zoom)
   mapWidget:setZoom(zoom)
 end
