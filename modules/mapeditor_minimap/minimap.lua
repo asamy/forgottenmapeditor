@@ -93,9 +93,19 @@ end
 function center()
   local firstTown = g_map.getTown(1)
   if firstTown then
-    minimapWidget:setCameraPosition(firstTown:getTemplePos())
-    mapWidget:setCameraPosition(firstTown:getTemplePos())
+    syncOn(firstTown:getTemplePos())
   end
+end
+
+function syncOn(pos)
+  minimapWidget:setCameraPosition(pos)
+  mapWidget:setCameraPosition(pos)
+end
+
+function syncZoom(zoom)
+    print("sync zoom")
+  minimapWidget:setZoom(zoom)
+  mapWidget:setZoom(zoom)
 end
 
 function compassClick(self, mousePos, mouseButton, elapsed)
@@ -119,25 +129,27 @@ function compassClick(self, mousePos, mouseButton, elapsed)
 
   local cameraPos = minimapWidget:getCameraPosition()
   local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
-  minimapWidget:setCameraPosition(pos)
+  syncOn(pos)
 end
 
 function onButtonClick(id)
   if id == "zoomIn" then
-    minimapWidget:setZoom(math.max(minimapWidget:getMaxZoomIn(), minimapWidget:getZoom()-15))
+    local zoom = math.max(minimapWidget:getMaxZoomIn(), minimapWidget:getZoom() - 15)
+    syncZoom(zoom)
   elseif id == "zoomOut" then
-    minimapWidget:setZoom(math.min(minimapWidget:getMaxZoomOut(), minimapWidget:getZoom()+15))
+    local zoom = math.min(minimapWidget:getMaxZoomOut(), minimapWidget:getZoom()+15)
+    syncZoom(zoom)
   elseif id == "floorUp" then
     local pos = minimapWidget:getCameraPosition()
     pos.z = pos.z - 1
     if pos.z > MAX_FLOOR_UP then
-      minimapWidget:setCameraPosition(pos)
+      syncOn(pos)
     end
   elseif id == "floorDown" then
     local pos = minimapWidget:getCameraPosition()
     pos.z = pos.z + 1
     if pos.z < MAX_FLOOR_DOWN then
-      minimapWidget:setCameraPosition(pos)
+      syncOn(pos)
     end
   end
 end

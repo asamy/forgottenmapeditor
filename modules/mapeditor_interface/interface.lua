@@ -108,4 +108,5 @@ function Interface.init()
 end
 
 function Interface.terminate()
+-- mapWidget:destroyChildren()
 end
