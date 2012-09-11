@@ -2,8 +2,7 @@ UIPalletCreature = extends(UICreature)
 
 function UIPalletCreature:setCurrentThing(c)
   if not c then
-    self:setBorderWidth(0)
-    g_mouse.restoreCursor()
+    self:restoreState()
     _G["currentThing"] = ""
   else
     self:setBorderWidth(1)
@@ -13,12 +12,18 @@ function UIPalletCreature:setCurrentThing(c)
   return true
 end
 
+function UIPalletCreature:restoreState()
+  g_mouse.restoreCursor()
+  self:setBorderWidth(0)
+end
+
 function UIPalletCreature:onMousePress(mousePos, button)
   return self:setCurrentThing(self:getCreature())
 end
 
 function UIPalletCreature:onMouseRelease(mousePos, button)
---  return self:setCurrentThing(nil)
+  self:restoreState()
+  return true
 end
 
 function UIPalletCreature:onDragEnter(mousePos)

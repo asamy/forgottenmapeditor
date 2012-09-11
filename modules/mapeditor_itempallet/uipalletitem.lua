@@ -2,8 +2,7 @@ UIPalletItem = extends(UIItem)
 
 function UIPalletItem:setCurrentThing(c)
   if c == 0 then
-    g_mouse.restoreCursor()
-    self:setBorderWidth(0)
+    self:restoreState()
     _G["currentThing"] = 0
   else
     self:setBorderWidth(1)
@@ -13,12 +12,18 @@ function UIPalletItem:setCurrentThing(c)
   return true
 end
 
+function UIPalletItem:restoreState()
+  g_mouse.restoreCursor()
+  self:setBorderWidth(0)
+end
+
 function UIPalletItem:onMousePress(mousePos, button)
   return self:setCurrentThing(self:getItemId())
 end
 
 function UIPalletItem:onMouseRelease(mousePos, button)
---  return self:setCurrentThing(nil)
+  self:restoreState()
+  return true
 end
 
 function UIPalletItem:onDragEnter(mousePos)

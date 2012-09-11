@@ -13,7 +13,7 @@ function UIEditableMap:__render(thing, pos)
     if thing:isItem() then thing = thing:clone() end
   end
 
-  g_map.addThing(thing, position, thing:isItem() and -1 or 255)
+  g_map.addThing(thing, position, thing:isItem() and -1 or 4)
   return true
 end
 
