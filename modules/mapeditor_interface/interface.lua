@@ -36,12 +36,10 @@ function Interface.init()
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
   mapWidget:setMaxZoomOut(4096)
-  --mapWidget:setCameraPosition({x=33307, y=32818, z=7} )
-  mapWidget:setCameraPosition({x=4000, y=3500, z=7} )
   updateZoom()
 
   mapWidget.onMouseWheel = function(self, mousePos, direction)
-    if direction == MouseWheelUp then
+    if direction == MouseWheelDown then
       if g_keyboard.isCtrlPressed() then
         local pos = self:getCameraPosition()
         pos.z = math.max(pos.z - 1, 0)
@@ -65,7 +63,7 @@ function Interface.init()
       navigating = false
       return true
     end
-    if mouseButton == MouseRightButton then
+    if mouseButton == MouseMidButton then
       local tile = self:getTile(mousePos)
       if tile then
         self:setCameraPosition(tile:getPosition())
@@ -99,9 +97,9 @@ function Interface.init()
       local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
       self:setCameraPosition(pos)
     end
-  , nil, MouseRightButton)
+  , nil, MouseMidButton)
 
-  local firstTown = g_map.getTown(1)
+  local firstTown = g_map.getTown(2)
   if firstTown then
     mapWidget:setCameraPosition(firstTown:getTemplePos())
   end
