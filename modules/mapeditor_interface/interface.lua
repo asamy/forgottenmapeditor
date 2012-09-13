@@ -98,8 +98,11 @@ function Interface.init()
       self:setCameraPosition(pos)
     end
   , nil, MouseMidButton)
+  Interface.sync()
+end
 
-  local firstTown = g_map.getTown(2)
+function Interface.sync()
+  local firstTown = g_map.getTown(1)
   if firstTown then
     mapWidget:setCameraPosition(firstTown:getTemplePos())
   end

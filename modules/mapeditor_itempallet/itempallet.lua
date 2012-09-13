@@ -26,6 +26,12 @@ function ItemPallet.init()
   palletList   = palletWindow:recursiveGetChildById('palletList')
   comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
 
+  comboBox.onOptionChange = onOptionChange
+  _G["currentThing"] = nil
+  ItemPallet.initData()
+end
+
+function ItemPallet.initData()
   comboBox:addOption("Grounds",      ItemCategoryGround)
   comboBox:addOption("Containers",   ItemCategoryContainer)
   comboBox:addOption("Weapons",      ItemCategoryWeapon)
@@ -41,9 +47,7 @@ function ItemPallet.init()
   comboBox:addOption("Doors",		     ItemCategoryDoor)
   comboBox:addOption("Creatures",    ThingCategoryCreature)
 
-  comboBox.onOptionChange = onOptionChange
   comboBox:setCurrentIndex(1)
-  _G["currentThing"] = nil
 end
 
 function ItemPallet.terminate()

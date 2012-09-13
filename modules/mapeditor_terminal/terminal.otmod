@@ -1,0 +1,13 @@
+Module
+  name: mapeditor_terminal
+  description: Terminal for executing lua functions
+  author: edubart
+  website: www.otclient.info
+
+  @onLoad: |
+    dofile 'terminal'
+    dofile 'commands'
+    Terminal.init()
+
+  @onUnload: |
+    Terminal.terminate()

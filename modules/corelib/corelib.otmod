@@ -1,0 +1,24 @@
+Module
+  name: corelib
+  description: Contains core lua classes, functions and constants used by other modules
+  author: OTClient team
+  website: www.otclient.info
+  reloadable: false
+
+  @onLoad: |
+    dofile 'math'
+    dofile 'string'
+    dofile 'table'
+    dofile 'bitwise'
+
+    dofile 'const'
+    dofile 'util'
+    dofile 'globals'
+    dofile 'settings'
+    dofile 'keyboard'
+    dofile 'mouse'
+
+    dofiles 'ui'
+
+    dofile 'inputmessage'
+    dofile 'outputmessage'

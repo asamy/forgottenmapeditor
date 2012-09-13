@@ -49,7 +49,7 @@ function UIEditableMap:onMousePress(mousePos, button)
     return self:rmThing(mousePos)
   end
   if button == MouseRightButton or button == MouseLeftButton then
-	return self:_(mousePos)--so are you here?
+    return self:_(mousePos)
   end
   return true
 end

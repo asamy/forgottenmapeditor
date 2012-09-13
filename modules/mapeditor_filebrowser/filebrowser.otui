@@ -1,0 +1,56 @@
+FileLabel < Label
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+  color: #cccccc
+
+  $focus:
+    color: #ffffff
+
+FileEdit < TextEdit
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+
+MiniWindow
+  text: Manage Files
+  height: 600
+  focusable: true
+
+  MiniWindowContents
+    FileEdit
+      id: fileEdit
+      !text: 'Search...'
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      focusable: true
+
+    ComboBox
+      id: versionComboBox
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: fileEdit.bottom
+
+    TextList
+      id: fileList
+      anchors.top: versionComboBox.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      layout:
+        type: grid
+        fit-children: true
+        cell-size: 180 20
+      margin-top: 4
+      margin-bottom: 4
+
+    Button
+      id: reloadButton
+      !tooltip: 'Always press this button after loading any important file like DAT or OTBM.'
+      !text: 'Reload Modules'
+      anchors.top: fileList.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      @onClick: g_modules.discoverModules()

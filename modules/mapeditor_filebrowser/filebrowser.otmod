@@ -1,0 +1,13 @@
+Module
+  name: mapeditor_filebrowser
+  description: The integrated file browser.
+  author: fallen, edubart
+  website: http://github.com/niczkx/forgottenmapeditor/
+  sandboxed: true
+  autoload: true
+
+  @onLoad: |
+    dofile 'filebrowser'
+    FileBrowser.init()
+  @onUnload: |
+    FileBrowser.terminate()

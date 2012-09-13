@@ -27,4 +27,5 @@ MiniWindow
         fit-children: true
         flow: true
         cell-size: 34 34
+      margin-right: 4
       margin-top: 4

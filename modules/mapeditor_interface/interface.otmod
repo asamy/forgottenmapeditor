@@ -2,6 +2,7 @@ Module
   name: mapeditor_interface
   description: Manages the mapeditor interface
   author: fallen, edubart
+  reloadable: false
 
   @onLoad: |
     dofile 'uieditablemap'

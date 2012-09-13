@@ -5,11 +5,10 @@ Module
   reloadable: false
 
   load-later:
-    - client_skins
-    - client_topmenu
-    - client_terminal
-    - client_modulemanager
-    - mapeditor_startup
+    - mapeditor_skins
+    - mapeditor_topmenu
+    - mapeditor_terminal
+    - mapeditor_modulemanager
     - mapeditor_interface
     - mapeditor_minimap
 

@@ -1,0 +1,55 @@
+TerminalLabel < UILabel
+  font: terminus-14px-bold
+  text-wrap: true
+  text-auto-resize: true
+
+UIWindow
+  id: terminalWindow
+  background-color: #000000
+  opacity: 0.85
+  clipping: true
+  anchors.fill: parent
+
+  Panel
+    id: terminalBuffer
+    layout:
+      type: verticalBox
+      fit-children: true
+    focusable: false
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: commandSymbolLabel.top
+    margin-left: 2
+
+  UILabel
+    id: commandSymbolLabel
+    size: 12 16
+    fixed-size: true
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-left: 2
+    font: terminus-14px-bold
+    text: >
+
+  UITextEdit
+    id: commandTextEdit
+    height: 16
+    anchors.bottom: parent.bottom
+    anchors.left: commandSymbolLabel.right
+    anchors.right: parent.right
+    margin-left: 5
+    font: terminus-14px-bold
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    enabled: false
+
+  ResizeBorder
+    id: rightResizeBorder
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    enabled: false

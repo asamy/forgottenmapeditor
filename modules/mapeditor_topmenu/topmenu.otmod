@@ -1,0 +1,12 @@
+Module
+  name: mapeditor_topmenu
+  description: Create the top menu
+  author: edubart
+  website: www.otclient.info
+
+  @onLoad: |
+    dofile 'topmenu'
+    TopMenu.init()
+
+  @onUnload: |
+    TopMenu.terminate()

@@ -1,0 +1,15 @@
+Module
+  name: mapeditor_modulemanager
+  description: Manage other modules
+  author: edubart
+  website: www.otclient.info
+
+  dependencies:
+    - mapeditor_topmenu
+
+  @onLoad: |
+    dofile 'modulemanager'
+    ModuleManager.init()
+
+  @onUnload: |
+    ModuleManager.terminate()

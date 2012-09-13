@@ -15,10 +15,8 @@ g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.g
 --add base folder to search path
 g_resources.addSearchPath(g_resources.getWorkDir())
 
--- add otclient modules to the search path
-if not g_resources.addSearchPath(g_resources.getWorkDir() .. "../otclient/modules", true) then
-    g_logger.fatal("Unable to add otclient's modules directory to the search path.")
-end
+--add data folder to search path as well
+g_resources.addSearchPath(g_resources.getWorkDir() .. "data")
 
 -- add modules directory to the search path
 if not g_resources.addSearchPath(g_resources.getWorkDir() .. "modules", true) then
@@ -26,7 +24,7 @@ if not g_resources.addSearchPath(g_resources.getWorkDir() .. "modules", true) th
 end
 
 -- try to add addons path too
-g_resources.addSearchPath(g_resources.getWorkDir() .. "addons", true)
+g_resources.addSearchPath(g_resources.getWorkDir() .. "mods", true)
 
 -- setup directory for saving configurations
 g_resources.setWriteDir(g_resources.getWorkDir() .. 'data')
@@ -37,11 +35,11 @@ g_configs.load("/config.otml")
 g_modules.discoverModules()
 
 -- core modules 0-99
-g_modules.autoLoadModules(99);
+g_modules.autoLoadModules(99)
 g_modules.ensureModuleLoaded("corelib")
 
 -- mapeditor modules 100-999
-g_modules.autoLoadModules(999);
+g_modules.autoLoadModules(999)
 g_modules.ensureModuleLoaded("mapeditor")
 
 -- addons 1000-9999
@@ -50,3 +48,4 @@ g_modules.autoLoadModules(9999)
 if g_resources.fileExists("/fmerc.lua") then
     dofile("/fmerc.lua")
 end
+

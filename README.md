@@ -11,5 +11,5 @@ Please read the wiki if you would like to try it out or have a problem.  If your
   See LICENSE for more information.
 
 ### Things you may like
-  ![otclient](https://github.com/edubart/otclient/)
+  [otclient](https://github.com/edubart/otclient/)
 
