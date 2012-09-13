@@ -48,7 +48,10 @@ function UIEditableMap:onMousePress(mousePos, button)
   if g_keyboard.isShiftPressed() then
     return self:rmThing(mousePos)
   end
-  return self:_(mousePos)
+  if button == MouseRightButton or button == MouseLeftButton then
+	return self:_(mousePos)--so are you here?
+  end
+  return true
 end
 
 --function UIEditableMap:onMouseRelease(mousePos, button)
