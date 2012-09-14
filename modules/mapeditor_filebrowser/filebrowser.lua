@@ -55,12 +55,8 @@ function add(filename)
   local file  = g_ui.createWidget('FileLabel', fileList)
   file:setText(filename)
 
-  file.onDoubleClick = function()
-    openFile(filename)
-  end
-  file.onMousePress = function()
-    _G["selection"] = filename
-  end
+  file.onDoubleClick = function() openFile(filename) end
+  file.onMousePress = function() _G["selection"] = filename end
 
   table.insert(fsCache, file)
 end

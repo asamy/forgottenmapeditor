@@ -35,7 +35,6 @@ function init()
   minimapWidget:setDrawMinimapColors(true)
   minimapWidget:setMultifloor(false)
   minimapWidget:setKeepAspectRatio(false)
-  minimapWidget.onMouseRelease = onMinimapMouseRelease
   minimapWidget.onMouseWheel = onMinimapMouseWheel
 
   reset()
@@ -157,23 +156,6 @@ function onButtonClick(id)
   end
 end
 
-function onMinimapMouseRelease(self, mousePosition, mouseButton)
-  if navigating then
-    navigating = false
-    return
-  end
-  local pos = self:getPosition(mousePosition)
-  if pos and mouseButton == MouseLeftButton and self:isPressed() then
-    local dirs = g_map.findPath(g_game.getLocalPlayer():getPosition(), pos, 127, PathFindFlags.AllowNullTiles)
-    if #dirs == 0 then
-      modules.game_textmessage.displayStatusMessage(tr('There is no way.'))
-      return true
-    end
-    return true
-  end
-  return false
-end
-
 function onMinimapMouseWheel(self, mousePos, direction)
   if direction == MouseWheelUp then
     self:zoomIn()
@@ -185,4 +167,3 @@ end
 function onMiniWindowClose()
   minimapButton:setOn(false)
 end
-
