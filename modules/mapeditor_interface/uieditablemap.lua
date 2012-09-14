@@ -37,7 +37,9 @@ function UIEditableMap:_(pos)
   if type(typ) == 'number' then
     res = Item.create(typ)
   elseif type(typ) == 'string' then
-    res = g_creatures.getCreatureByName(typ):cast()
+    res = g_creatures.getCreatureByName(typ)
+    res:setName(ucwords(res:getName()))
+    res = res:cast()
   else
     return
   end

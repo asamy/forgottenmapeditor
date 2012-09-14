@@ -25,7 +25,7 @@ UIWidget
     anchors.right: parent.right
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    focusable: true
+    //focusable: true
 
   UIEditableMap
     id: map

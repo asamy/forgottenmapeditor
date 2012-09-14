@@ -5,18 +5,35 @@ ItemPallet = {}
 local palletWindow
 local palletList
 local comboBox
+local thingCache = {}
 
 local function onOptionChange(widget, optText, optData)
   palletList:destroyChildren()
+--[[
+  if not thingCache[optData] then
+    thingCache[optData] = {}
+  end
+  if #thingCache[optData] > 0 then
+    for i = 1, #thingCache[optData] do
+      palletList:addChild(thingCache[optData][i])
+    end
+    return
+  end
+]]
   if optData ~= ThingCategoryCreature then
-    for _, v in ipairs(g_things.findItemTypeByCategory(optData)) do
+    local items = g_things.findItemTypeByCategory(optData)
+    for i = 1, #items do
       local itemWidget = g_ui.createWidget('PalletItem', palletList)
-      itemWidget:setItemId(v:getClientId())
+      itemWidget:setItemId(items[i]:getClientId())
+  --    table.insert(thingCache[optData], itemWidget)
     end
   else
-    for _, v in ipairs(g_creatures.getCreatures()) do
+    assert(g_creatures.isLoaded())
+    local creatures = g_creatures.getCreatures()
+    for i = 1, #creatures do
       local creatureWidget = g_ui.createWidget('PalletCreature', palletList)
-      creatureWidget:setCreature(v:cast())
+      creatureWidget:setCreature(creatures[i]:cast())
+    --  table.insert(thingCache[optData], creatureWidget)
     end
   end
 end
@@ -32,6 +49,9 @@ function ItemPallet.init()
 end
 
 function ItemPallet.initData()
+  palletList:destroyChildren()
+  comboBox:clearOptions()
+
   comboBox:addOption("Grounds",      ItemCategoryGround)
   comboBox:addOption("Containers",   ItemCategoryContainer)
   comboBox:addOption("Weapons",      ItemCategoryWeapon)

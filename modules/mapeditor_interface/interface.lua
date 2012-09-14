@@ -102,12 +102,12 @@ function Interface.init()
 end
 
 function Interface.sync()
-  local firstTown = g_map.getTown(1)
-  if firstTown then
+  local firstTown = g_towns.getTown(1)
+  if firstTown and firstTown:getTemplePos() ~= nil then
     mapWidget:setCameraPosition(firstTown:getTemplePos())
   end
 end
 
 function Interface.terminate()
--- mapWidget:destroyChildren()
+  g_creatures.clear()
 end

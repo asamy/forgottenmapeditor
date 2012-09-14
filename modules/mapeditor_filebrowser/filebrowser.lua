@@ -12,6 +12,19 @@ local function guess()
   return "newmap-" .. os.date("%Y/%m/%d-%H:%M:%S") .. ".otbm"
 end
 
+-- Ripped off http://lua-users.org/wiki/SciteIndentation
+function endsWith(sbig, slittle)
+  if type(slittle) == "table" then
+    for k,v in ipairs(slittle) do
+      if string.sub(sbig, string.len(sbig) - string.len(v) + 1) == v then 
+        return true
+      end
+    end
+    return false
+  end
+  return string.sub(sbig, string.len(sbig) - string.len(slittle) + 1) == slittle
+end
+
 function loadDat(f)
   local currentVersion = versionComboBox:getCurrentOption()
   assert(currentVersion)
@@ -21,15 +34,15 @@ function loadDat(f)
 end
 
 local ext = {
-  ["otb"]  = function(f) g_things.loadOtb(f) ItemPallet.initData() end,
+  ["otb"]  = function(f) g_things.loadOtb(f) end,
   ["otbm"] = function(f) openMap() end,
   ["dat"]  = loadDat,
   ["spr"]  = g_sprites.loadSpr,
   ["xml"]  = function(f) openXml(f) end
 }
 local valid_xml_types = {
-  ["house"]   = g_map.loadHouses,
-  ["spawn"]   = g_map.loadspawns,
+  ["house"]   = g_houses.load,
+  ["spawn"]   = g_creatures.loadSpawns,
   ["items"]   = g_things.loadXml,
   ["monster"] = g_creatures.loadMonsters
 }
@@ -64,7 +77,12 @@ end
 function saveCurrent()
   local current = _G["selection"] or _G["currentMap"]
   if current and current:len() == 0 then current = guess() end
+  g_map.setHouseFile(current .. "-houses.xml")
+  g_map.setSpawnFile(current .. "-spawns.xml")
   g_map.saveOtbm(current)
+
+  g_houses.save(current .. "-houses.xml")
+  g_creatures.saveSpawns(current .. "-spawns.xml")
 end
 
 function checks()
@@ -88,8 +106,12 @@ function openMap()
   if g_resources.fileExists(filename) then
     g_map.clean()
     g_map.loadOtbm(filename)
+    g_houses.load(g_map.getHouseFile())
+    g_creatures.loadSpawns(g_map.getSpawnFile())
     Interface.sync()
   end
+
+  ItemPallet.initData()
 end
 
 function FileBrowser.init()
