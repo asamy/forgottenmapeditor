@@ -35,7 +35,6 @@ local valid_xml_types = {
 }
 
 function openFile(f)
-  print(f)
   for k, v in pairs(ext) do
     if endsWith(f, k) then
       v(f)
@@ -67,33 +66,24 @@ function add(filename)
 end
 
 function saveCurrent()
-  local current = _G["currentMap"] or _G["selection"]
-    -- current can be empty only in case of empty file label so guess a file name.
-  if not current then current = guess() end
+  local current = _G["selection"] or _G["currentMap"]
+  if current and current:len() == 0 then current = guess() end
   g_map.saveOtbm(current)
 end
 
 function checks()
   local current = _G["currentMap"]
-  local newName = _G["selection"] or guess()
-
-  local _callback = function() _G["currentMap"] = newName end
   if current and current:len() ~= 0 then
     -- i'm not sure what kind of naming is this...
-    displayGeneralBox('New File', {{text='Continue', callback=_callback},
-                                               {text='Save', callback=function()
-                                                                        g_map.saveOtbm(current)
-                                                                      end
+    local mbox = displayGeneralBox('New File', 'You have unsaved changes, would you like to proceed?',
+                                                {{text='Continue', function() _G["currentMap"] = _G["selection"] or guess() end },
+                                                 {text='Save', callback=function() g_map.saveOtbm(current) end}
                                                 }
-                                  },
-                                  'You have unsaved changes, would you like to proceed?')
+                                  )
+    mbox:destroy()
   else
-    _callback()
+    _G["currentMap"] = _G["selection"]
   end
-end
-
-function newMap()
-  checks()
 end
 
 function openMap()

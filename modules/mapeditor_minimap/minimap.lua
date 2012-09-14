@@ -13,7 +13,11 @@ minimapWindow = nil
   you change floor it will not update the minimap.
 ]]
 function init()
-  connect(mapWidget, { onMouseMove = center } )
+  connect(mapWidget, { onMouseMove = function() 
+                                      local pos = mapWidget:getCameraPosition()
+                                      if pos ~= nil then minimapWidget:setCameraPosition(pos) end
+                                      end }
+          )
   g_keyboard.bindKeyDown('Ctrl+M', toggle)
 
   minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', 'minimap.png', toggle)
@@ -93,7 +97,7 @@ end
 function center()
   local firstTown = g_map.getTown(1)
   if firstTown then
-    minimapWidget:setCameraPosition(firstTown:getTemplePos())
+    syncOn(firstTown:getTemplePos())
   end
 end
 

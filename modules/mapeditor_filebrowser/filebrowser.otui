@@ -18,6 +18,7 @@ MiniWindow
   text: Manage Files
   height: 600
   focusable: true
+  @onEnter: openMap()
 
   MiniWindowContents
     FileEdit
