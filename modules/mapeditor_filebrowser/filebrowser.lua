@@ -29,7 +29,7 @@ function loadDat(f)
   local currentVersion = versionComboBox:getCurrentOption()
   assert(currentVersion)
 
-  g_game.setClientVersion(tonumber(currentVersion.data))
+  g_game.setClientVersion(tonumber(currentVersion.text))
   g_things.loadDat(f)
 end
 

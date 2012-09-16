@@ -109,5 +109,4 @@ function Interface.sync()
 end
 
 function Interface.terminate()
-  g_creatures.clear()
 end

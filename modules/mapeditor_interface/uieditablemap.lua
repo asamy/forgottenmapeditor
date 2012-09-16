@@ -20,7 +20,7 @@ end
 function UIEditableMap:rmThing(pos)
   local tile = self:getTile(pos)
   if not tile then
-    g_logger.notice("Could not find tile at that pos, if you believe this is a bug, please report it.")
+    g_logger.warning("Could not find tile at that pos, if you believe this is a bug, please report it.")
     return false
   end
 
@@ -37,11 +37,17 @@ function UIEditableMap:_(pos)
   if type(typ) == 'number' then
     res = Item.create(typ)
   elseif type(typ) == 'string' then
-    res = g_creatures.getCreatureByName(typ)
-    res:setName(ucwords(res:getName()))
-    res = res:cast()
+    local spawn = g_creatures.getSpawn(pos)
+    if not spawn then
+      spawn = Spawn.create()
+      spawn:setRadius(5)
+      spawn:setCenterPos(pos)
+      g_creatures.addSpawn(spawn)
+    end
+    spawn:addCreature(g_creatures.getCreatureByName(typ))
+    return true
   else
-    return
+    return true
   end
   return self:__render(res, pos)
 end
