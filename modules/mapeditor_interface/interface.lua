@@ -64,10 +64,7 @@ function Interface.init()
       return true
     end
     if mouseButton == MouseMidButton then
-      local tile = self:getTile(mousePos)
-      if tile then
-        self:setCameraPosition(tile:getPosition())
-      end
+      self:setCameraPosition(self:getPosition(mousePos))
       return true
     end
     return false

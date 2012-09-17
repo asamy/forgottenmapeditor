@@ -6,14 +6,13 @@ function UIEditableMap:__render(thing, pos)
     return false
   end
 
-  local position = self:getPosition(pos)
   if g_keyboard.isShiftPressed() then
     g_map.removeThing(thing)
   else
     if thing:isItem() then thing = thing:clone() end
   end
 
-  g_map.addThing(thing, position, thing:isItem() and -1 or 4)
+  g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
   return true
 end
 
@@ -53,11 +52,12 @@ function UIEditableMap:_(pos)
 end
 
 function UIEditableMap:onMousePress(mousePos, button)
+  local pos = self:getPosition(mousePos)
   if g_keyboard.isShiftPressed() then
-    return self:rmThing(mousePos)
+    return self:rmThing(pos)
   end
   if button == MouseRightButton or button == MouseLeftButton then
-    return self:_(mousePos)
+    return self:_(pos)
   end
   return true
 end
