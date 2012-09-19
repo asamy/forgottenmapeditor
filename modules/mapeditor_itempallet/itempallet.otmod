@@ -5,8 +5,6 @@ Module
   autoload: true
 
   @onLoad: |
-    dofile 'uipalletitem'
-    dofile 'uipalletcreature'
     dofile 'itempallet'
     ItemPallet.init()
 

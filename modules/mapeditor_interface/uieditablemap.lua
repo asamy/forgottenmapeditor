@@ -1,8 +1,7 @@
 UIEditableMap = extends(UIMap)
 
-function UIEditableMap:__render(thing, pos)
+function UIEditableMap:doRender(thing, pos)
   if not thing then
-    print("error in __render")
     return false
   end
 
@@ -17,25 +16,15 @@ function UIEditableMap:__render(thing, pos)
 end
 
 function UIEditableMap:rmThing(pos)
-  local tile = self:getTile(pos)
-  if not tile then
-    g_logger.warning("Could not find tile at that pos, if you believe this is a bug, please report it.")
-    return false
-  end
-
-  local thing = tile:getTopThing()
-  if thing then
-    g_map.removeThing(thing)
-  end
-  return true
+  return g_map.removeThingByPos(pos)
 end
 
-function UIEditableMap:_(pos)
-  local typ = _G["currentThing"]
-  local res
-  if type(typ) == 'number' then
-    res = Item.create(typ)
-  elseif type(typ) == 'string' then
+function UIEditableMap:resolve(pos)
+  if not _G["currentWidget"] then return false end
+
+  local thing = _G["currentThing"]
+  if type(thing) == 'string' then
+    -- this won't function correctly, i'll leave it as a TODO.
     local spawn = g_creatures.getSpawn(pos)
     if not spawn then
       spawn = Spawn.create()
@@ -43,12 +32,15 @@ function UIEditableMap:_(pos)
       spawn:setCenterPos(pos)
       g_creatures.addSpawn(spawn)
     end
-    spawn:addCreature(g_creatures.getCreatureByName(typ))
+    spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
     return true
-  else
-    return true
+  elseif type(thing) == 'number' then
+    local itemType = g_things.findItemTypeByClientId(thing)
+    if itemType then
+      return self:doRender(Item.createOtb(itemType:getServerId()), pos)
+    end
   end
-  return self:__render(res, pos)
+  return false
 end
 
 function UIEditableMap:onMousePress(mousePos, button)
@@ -57,20 +49,10 @@ function UIEditableMap:onMousePress(mousePos, button)
     return self:rmThing(pos)
   end
   if button == MouseRightButton or button == MouseLeftButton then
-    return self:_(pos)
+    return self:resolve(pos)
   end
   return true
 end
 
---function UIEditableMap:onMouseRelease(mousePos, button)
---todo this should be used for brushes I guess
---end
-
--- display item information
---function UIEditableMap:onMouseMove(oldPos, newPos)
-  -- todo
---end
-
-function UIEditableMap:onDrop(widget, mousePos)
-  return self:_(mousePos)
+function UIEditableMap:onMouseMove(oldPos, newPos)
 end

@@ -28,7 +28,7 @@ function init()
   minimapWindow:setContentMaximumHeight(256)
 
   minimapWidget = minimapWindow:recursiveGetChildById('minimap')
-  g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseRightButton)
+  g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseMidButton)
   g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseLeftButton)
   minimapWidget:setAutoViewMode(false)
   minimapWidget:setViewMode(1) -- mid view

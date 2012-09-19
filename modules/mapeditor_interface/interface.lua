@@ -100,8 +100,11 @@ end
 
 function Interface.sync()
   local firstTown = g_towns.getTown(1)
-  if firstTown and firstTown:getTemplePos() ~= nil then
-    mapWidget:setCameraPosition(firstTown:getTemplePos())
+  if firstTown then
+    local templePos = firstTown:getTemplePos()
+    if templePos ~= nil then
+      mapWidget:setCameraPosition(templePos)
+    end
   end
 end
 

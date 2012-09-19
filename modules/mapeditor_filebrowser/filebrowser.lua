@@ -27,24 +27,25 @@ end
 
 function loadDat(f)
   local currentVersion = versionComboBox:getCurrentOption()
-  assert(currentVersion)
-
   g_game.setClientVersion(tonumber(currentVersion.text))
   g_things.loadDat(f)
 end
 
-local ext = {
-  ["otb"]  = function(f) g_things.loadOtb(f) end,
+local ext, valid_xml_types, supportedVersions = {
+  ["otb"]  = g_things.loadOtb,
   ["otbm"] = function(f) openMap() end,
   ["dat"]  = loadDat,
   ["spr"]  = g_sprites.loadSpr,
   ["xml"]  = function(f) openXml(f) end
-}
-local valid_xml_types = {
+}, {
   ["house"]   = g_houses.load,
   ["spawn"]   = g_creatures.loadSpawns,
   ["items"]   = g_things.loadXml,
   ["monster"] = g_creatures.loadMonsters
+}, {
+  810, 853, 854, 860, 861, 862, 870,
+  910, 940, 944, 953, 954, 960, 961,
+  963
 }
 
 function openFile(f)
@@ -60,6 +61,8 @@ function openXml(f)
   for type, func in pairs(valid_xml_types) do
     if f:find(type) then
       func(f)
+    elseif not func then
+      g_creatures.loadSingleCreature(f)
     end
   end
 end
@@ -90,8 +93,9 @@ function checks()
   if current and current:len() ~= 0 then
     -- i'm not sure what kind of naming is this...
     local mbox = displayGeneralBox('New File', 'You have unsaved changes, would you like to proceed?',
-                                                {{text='Continue', function() _G["currentMap"] = _G["selection"] or guess() end },
-                                                 {text='Save', callback=function() g_map.saveOtbm(current) end}
+                                                {
+                                                    { text='Continue', function() _G["currentMap"] = _G["selection"] or guess() end },
+                                                    { text='Save', callback=function() g_map.saveOtbm(current) end }
                                                 }
                                   )
     mbox:destroy()
@@ -110,8 +114,31 @@ function openMap()
     g_creatures.loadSpawns(g_map.getSpawnFile())
     Interface.sync()
   end
+end
 
-  ItemPallet.initData()
+function loadMyFile(yourFile)
+  for _ext, _ in pairs(ext) do
+    if endsWith(yourFile, _ext) then
+      add(yourFile)
+      break
+    end
+  end
+end
+
+function loadDir(dir)
+  if not endsWith(dir, "/") then dir = dir.."/" end
+
+  local list = g_resources.listDirectoryFiles(dir)
+  for i = 1, #list do
+    local name = dir..list[i]
+
+    if g_resources.directoryExists(name) then
+      g_resources.addSearchPath(name)
+      loadDir(name)
+    else
+      loadMyFile(name)
+    end
+  end
 end
 
 function FileBrowser.init()
@@ -120,9 +147,8 @@ function FileBrowser.init()
   fileEdit        = fileWindow:recursiveGetChildById('fileEdit')
   versionComboBox = fileWindow:recursiveGetChildById('versionComboBox')
 
-  for _, proto in ipairs({810, 853, 854, 860, 861, 862, 870,
-                                         910, 940, 944, 953, 954, 960, 961,
-                                         963}) do
+  _G["currentMa["] = guess() -- Presume current map..
+  for _, proto in ipairs(supportedVersions) do
     versionComboBox:addOption(proto)
   end
 
@@ -137,34 +163,7 @@ function FileBrowser.init()
     return true
   end
 
-  local loadMyFile = function(yourFile)
-    for _ext, _ in pairs(ext) do
-      if endsWith(yourFile, _ext) then
-        add(yourFile)
-        break
-      end
-    end
-  end
-
-  local list = g_resources.listDirectoryFiles(root)
-  for i = 1, #list do
-    local name = list[i]
-
-    if g_resources.directoryExists(root .. name) then
-        g_resources.addSearchPath(root..name)
-        local subdir = g_resources.listDirectoryFiles(root..name)
-        for j = 1, #subdir do
-          local infile = root..name.."/"..subdir[j]
-          if g_resources.fileExists(infile) then
-            loadMyFile(infile)
-            break
-          end
-        end
-    else
-      loadMyFile(root..name)
-    end
-  end
-
+  loadDir(root)
   g_keyboard.bindKeyPress('Ctrl+P', openFile)
   g_keyboard.bindKeyPress('Ctrl+S', saveCurrent)
 end
@@ -172,3 +171,4 @@ end
 function FileBrowser.terminate()
   fileWindow:destroy()
 end
+

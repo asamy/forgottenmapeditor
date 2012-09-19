@@ -16,7 +16,6 @@ FileEdit < TextEdit
 
 MiniWindow
   text: Manage Files
-  height: 600
   focusable: true
   @onEnter: openMap()
 
@@ -35,23 +34,21 @@ MiniWindow
       anchors.right: parent.right
       anchors.top: fileEdit.bottom
 
-    TextList
-      id: fileList
+    Button
+      id: reloadButton
+      !text: 'Reload Modules'
       anchors.top: versionComboBox.bottom
       anchors.left: parent.left
       anchors.right: parent.right
-      layout:
-        type: grid
-        fit-children: true
-        cell-size: 180 20
-      margin-top: 4
-      margin-bottom: 4
+      @onClick: g_modules.discoverModules()
 
-    Button
-      id: reloadButton
-      !tooltip: 'Always press this button after loading any important file like DAT or OTBM.'
-      !text: 'Reload Modules'
-      anchors.top: fileList.bottom
+    TextList
+      id: fileList
+      anchors.top: reloadButton.bottom
       anchors.left: parent.left
       anchors.right: parent.right
-      @onClick: g_modules.discoverModules()
+      layout:
+        type: verticalBox
+        fit-children: true
+      margin-top: 4
+      margin-bottom: 4

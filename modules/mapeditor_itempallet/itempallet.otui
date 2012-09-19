@@ -2,12 +2,10 @@ PalletItem < Item
   __class: UIPalletItem
 
 PalletCreature < Creature
-  dragable: true
   __class: UIPalletCreature
 
 MiniWindow
   text: Item Pallete
-  height: 600
 
   MiniWindowContents
     padding-right: 3
@@ -17,7 +15,7 @@ MiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
 
-    Panel
+    ScrollablePanel
       id: palletList
       anchors.top: palletComboBox.bottom
       anchors.left: parent.left
@@ -26,6 +24,6 @@ MiniWindow
         type: grid
         fit-children: true
         flow: true
-        cell-size: 34 34
+        cell-size: 32 32
       margin-right: 4
       margin-top: 4
