@@ -95,7 +95,6 @@ function Interface.init()
       self:setCameraPosition(pos)
     end
   , nil, MouseMidButton)
-  Interface.sync()
 end
 
 function Interface.sync()

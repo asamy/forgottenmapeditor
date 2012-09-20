@@ -22,14 +22,7 @@ function UIEditableMap:resolve(pos)
 
   local thing = _G["currentThing"]
   if type(thing) == 'string' then
-    -- this won't function correctly, i'll leave it as a TODO.
-    local spawn = g_creatures.getSpawn(pos)
-    if not spawn then
-      spawn = Spawn.create()
-      spawn:setRadius(5)
-      spawn:setCenterPos(pos)
-      g_creatures.addSpawn(spawn)
-    end
+    local spawn = g_creatures.addSpawn(pos, 5)
     spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
     return true
   elseif type(thing) == 'number' then
