@@ -147,7 +147,7 @@ function FileBrowser.init()
   fileEdit        = fileWindow:recursiveGetChildById('fileEdit')
   versionComboBox = fileWindow:recursiveGetChildById('versionComboBox')
 
-  _G["currentMa["] = guess() -- Presume current map..
+  _G["currentMap"] = guess() -- Presume current map..
   for _, proto in ipairs(supportedVersions) do
     versionComboBox:addOption(proto)
   end
