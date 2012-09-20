@@ -127,7 +127,7 @@ function UIScrollArea:onChildFocusChange(focusedChild, oldFocused, reason)
       if deltaY > 0 then
         self.verticalScrollBar:increment(deltaY)
       end
-    else
+    elseif self.horizontalScrollBar then
       local deltaX = paddingRect.x - focusedChild:getX()
       if deltaX > 0 then
         self.horizontalScrollBar:decrement(deltaX)
