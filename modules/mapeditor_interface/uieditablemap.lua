@@ -7,8 +7,6 @@ function UIEditableMap:doRender(thing, pos)
 
   if g_keyboard.isShiftPressed() then
     g_map.removeThing(thing)
-  else
-    if thing:isItem() then thing = thing:clone() end
   end
 
   g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
