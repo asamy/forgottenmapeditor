@@ -4,6 +4,8 @@ FileBrowser = {}
 local fileWindow
 local fileList
 local fileEdit
+local saveHouses
+local saveSpawns
 local versionComboBox
 local root = "/data/"
 local fsCache = {}
@@ -23,6 +25,18 @@ function endsWith(sbig, slittle)
     return false
   end
   return string.sub(sbig, string.len(sbig) - string.len(slittle) + 1) == slittle
+end
+
+function startsWith(sbig, slittle)
+  if type(slittle) == "table" then
+    for k,v in ipairs(slittle) do
+      if string.sub(sbig, 1, string.len(v)) == v then 
+        return true
+      end
+    end
+    return false
+  end
+  return string.sub(sbig, 1, string.len(slittle)) == slittle
 end
 
 function loadDat(f)
@@ -77,27 +91,35 @@ function add(filename)
   table.insert(fsCache, file)
 end
 
-function saveCurrent()
-  local current = _G["selection"] or _G["currentMap"]
-  if current and current:len() == 0 then current = guess() end
+function saveMap()
+  local current = _G["currentFile"] or _G["currentMap"]
+  if not current then return end
+  if current:len() == 0 then current = guess() end
+
+  current = current:gsub("^%s*(.-)%s*$", "%1")
+  if startsWith(current, "/data") then
+   current = current:gsub("/data", "") 
+  end
+
   g_map.setHouseFile(current .. "-houses.xml")
   g_map.setSpawnFile(current .. "-spawns.xml")
   g_map.saveOtbm(current)
 
-  g_houses.save(current .. "-houses.xml")
-  g_creatures.saveSpawns(current .. "-spawns.xml")
+  if saveHouses:isChecked() then g_houses.save(current .. "-houses.xml")          end
+  if saveSpawns:isChecked() then g_creatures.saveSpawns(current .. "-spawns.xml") end
 end
 
 function checks()
   local current = _G["currentMap"]
   if current and current:len() ~= 0 then
     local defaultCallback = function() mbox:destroy() end
-    local mbox = displayGeneralBox('New File', 'You have unsaved changes, would you like to proceed?',
+    local mbox = displayGeneralBox('New Map', 'Warning! You\'re about to close the current map but it seems that \
+                                                you have unsaved changes, would you like to proceed?',
                                                 {
-                                                    { text='Continue', function() _G["currentMap"] = _G["selection"] or guess() end },
-                                                    { text='Save', callback=function() g_map.saveOtbm(current) end },
-                                                    defaultCallback,
-                                                    defaultCallback
+                                                    { text='Proceed', callback=function() _G["currentMap"] = _G["selection"] or guess() end },
+                                                    { text='Save', callback=function() g_map.saveOtbm(current) end }, 
+                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) _G["currentMap"] = "" end},
+                                                    defaultCallback, defaultCallback
                                                 }
                                   )
   else
@@ -114,6 +136,18 @@ function openMap()
     g_houses.load(g_map.getHouseFile())
     g_creatures.loadSpawns(g_map.getSpawnFile())
     Interface.sync()
+  end
+end
+
+function newMap()
+  checks()
+
+  local currentMap  = _G["currentMap"]
+  if currentMap and currentMap:len() > 0 then
+    local currentFile = _G["currentFile"]
+    if currentFile then
+      _G["currentMap"] = currentFile;
+    end
   end
 end
 
@@ -146,8 +180,10 @@ function FileBrowser.init()
   fileWindow      = g_ui.loadUI('filebrowser.otui', rootWidget:recursiveGetChildById('rightPanel'))
   fileList        = fileWindow:recursiveGetChildById('fileList')
   fileEdit        = fileWindow:recursiveGetChildById('fileEdit')
+  saveHouses      = fileWindow:recursiveGetChildById('saveHouses')
+  saveSpawns      = fileWindow:recursiveGetChildById('saveSpawns')
   versionComboBox = fileWindow:recursiveGetChildById('versionComboBox')
-
+ 
   for _, proto in ipairs(supportedVersions) do
     versionComboBox:addOption(proto)
   end
@@ -160,14 +196,16 @@ function FileBrowser.init()
         break
       end
     end
+    _G["currentFile"] = newText
     return true
   end
 
   loadDir(root)
   g_keyboard.bindKeyPress('Ctrl+P', openFile)
-  g_keyboard.bindKeyPress('Ctrl+S', saveCurrent)
+  g_keyboard.bindKeyPress('Ctrl+S', saveMap)
 end
 
 function FileBrowser.terminate()
   fileWindow:destroy()
 end
+

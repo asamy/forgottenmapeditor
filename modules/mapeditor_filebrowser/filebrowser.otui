@@ -42,9 +42,40 @@ MiniWindow
       anchors.right: parent.right
       @onClick: g_modules.discoverModules()
 
+    Button
+      id: newButton
+      !text: 'New Map'
+      anchors.top: reloadButton.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      @onClick: newMap()
+    Button
+      id: saveButton
+      !text: 'Save Map'
+      anchors.top: newButton.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      @onClick: saveMap()
+
+    CheckBox
+      id: saveHouses
+      !text: 'Save Houses'
+      !tooltip: 'Save houses when saving OTBM'
+      anchors.top: saveButton.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+    CheckBox
+      id: saveSpawns
+      !text: 'Save Spawns'
+      !tooltip: 'Save spawns when saving OTBM'
+      anchors.top: saveHouses.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+
     TextList
       id: fileList
-      anchors.top: reloadButton.bottom
+      anchors.top: saveSpawns.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       layout:
