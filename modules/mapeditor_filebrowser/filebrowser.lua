@@ -72,7 +72,7 @@ function add(filename)
   file:setText(filename)
 
   file.onDoubleClick = function() openFile(filename) end
-  file.onMousePress = function() _G["selection"] = filename end
+  file.onMousePress  = function() _G["selection"] = filename end
 
   table.insert(fsCache, file)
 end
@@ -91,14 +91,15 @@ end
 function checks()
   local current = _G["currentMap"]
   if current and current:len() ~= 0 then
-    -- i'm not sure what kind of naming is this...
+    local defaultCallback = function() mbox:destroy() end
     local mbox = displayGeneralBox('New File', 'You have unsaved changes, would you like to proceed?',
                                                 {
                                                     { text='Continue', function() _G["currentMap"] = _G["selection"] or guess() end },
-                                                    { text='Save', callback=function() g_map.saveOtbm(current) end }
+                                                    { text='Save', callback=function() g_map.saveOtbm(current) end },
+                                                    defaultCallback,
+                                                    defaultCallback
                                                 }
                                   )
-    mbox:destroy()
   else
     _G["currentMap"] = _G["selection"]
   end
@@ -147,7 +148,6 @@ function FileBrowser.init()
   fileEdit        = fileWindow:recursiveGetChildById('fileEdit')
   versionComboBox = fileWindow:recursiveGetChildById('versionComboBox')
 
-  _G["currentMap"] = guess() -- Presume current map..
   for _, proto in ipairs(supportedVersions) do
     versionComboBox:addOption(proto)
   end
@@ -171,4 +171,3 @@ end
 function FileBrowser.terminate()
   fileWindow:destroy()
 end
-

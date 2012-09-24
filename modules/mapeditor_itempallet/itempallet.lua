@@ -56,6 +56,7 @@ local function onMousePress(self, mousePos, button)
   if not next then
     deselectChild(nil)
     _G["currentWidget"] = nil
+    _G["currentThing"] = nil
   elseif next ~= previous then
     next:setBorderWidth(1)
     g_mouse.setTargetCursor()

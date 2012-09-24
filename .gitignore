@@ -13,5 +13,7 @@ Makefile
 *.dat
 *.kdev*
 *.cbp
+*.swp
+*~
 CMakeLists.txt.user*
 !.gitignore

@@ -94,7 +94,7 @@ function reset()
 end
 
 function center()
-  local firstTown = g_map.getTown(1)
+  local firstTown = g_towns.getTown(1)
   if firstTown then
     syncOn(firstTown:getTemplePos())
   end

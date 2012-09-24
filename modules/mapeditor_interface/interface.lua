@@ -64,7 +64,10 @@ function Interface.init()
       return true
     end
     if mouseButton == MouseMidButton then
-      self:setCameraPosition(self:getPosition(mousePos))
+      local pos = self:getPosition(mousePos)
+      if pos then
+        self:setCameraPosition(pos)
+      end
       return true
     end
     return false
@@ -72,7 +75,7 @@ function Interface.init()
 
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
-      if elapsed < 300 then return end
+      if elapsed < 150 then return end
 
       navigating = true
       local px = mousePos.x - self:getX()
@@ -95,6 +98,10 @@ function Interface.init()
       self:setCameraPosition(pos)
     end
   , nil, MouseMidButton)
+
+  local newRect = {x = 500, y = 500, width = 1000, height = 1000}
+  mapWidget:setRect(newRect)
+  mapWidget:setCameraPosition({x = 500, y = 500, z = 7})
 end
 
 function Interface.sync()
@@ -105,7 +112,11 @@ function Interface.sync()
       mapWidget:setCameraPosition(templePos)
     end
   end
+
+  local mapSize = g_map.getSize()
+  mapWidget:setRect({x = 0, y = 0, width = mapSize.x, height = mapSize.y})
 end
 
 function Interface.terminate()
 end
+
