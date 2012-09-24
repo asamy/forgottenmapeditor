@@ -22,7 +22,7 @@ MiniWindow
   MiniWindowContents
     FileEdit
       id: fileEdit
-      !text: 'Search...'
+      !text: 'Search/Open...'
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
@@ -44,14 +44,14 @@ MiniWindow
 
     Button
       id: newButton
-      !text: 'New Map'
+      !text: 'New Map (CTRN+N)'
       anchors.top: reloadButton.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       @onClick: newMap()
     Button
       id: saveButton
-      !text: 'Save Map'
+      !text: 'Save Map (CTRL+S)'
       anchors.top: newButton.bottom
       anchors.left: parent.left
       anchors.right: parent.right

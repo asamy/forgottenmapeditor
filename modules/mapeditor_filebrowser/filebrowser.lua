@@ -203,6 +203,7 @@ function FileBrowser.init()
   loadDir(root)
   g_keyboard.bindKeyPress('Ctrl+P', openFile)
   g_keyboard.bindKeyPress('Ctrl+S', saveMap)
+  g_keyboard.bindKeyPress('CTRL+N', newMap)
 end
 
 function FileBrowser.terminate()
