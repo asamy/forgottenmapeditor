@@ -118,7 +118,7 @@ function checks()
                                                 {
                                                     { text='Proceed', callback=function() g_map.clean() _G["currentMap"] = _G["selection"] or guess() defaultCallback() end },
                                                     { text='Save', callback=function() g_map.saveOtbm(current) defaultCallback() end }, 
-                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) _G["currentMap"] = "" defaultCallback() end}
+                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) g_map.clean() _G["currentMap"] = "" defaultCallback() end}
                                                 },
                                                 defaultCallback, defaultCallback
                                   )
