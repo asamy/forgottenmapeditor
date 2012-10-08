@@ -9,19 +9,21 @@ A Map editor written using otclient's framework with modifications for reading a
 Please read the wiki if you would like to try it out or have a problem.  If your problem has no workaround written in the wiki, consider using the bug-tracker system in github (Issues).
 
 =head1 AUTHORS
-  fallen E<lt>f.fallen45@gmail.comE<gt>
-  edubart E<lt>edub4rt@gmail.comE<gt>
-  and others.
+
+fallen E<lt>f.fallen45@gmail.comE<gt>
+edubart E<lt>edub4rt@gmail.comE<gt> and others.
 
 =head1 LICENSE
-  OTClient is licensed under MIT which makes it possible to sublicense
-  it.
-  See LICENSE for more information.
+
+OTClient is licensed under MIT which makes it possible to sublicense it.
+See LICENSE for more information.
 
 =head1 SCREENSHOTS
-  Here's a screenshot as of Monday, Sep 24, 2012.
-  ![Screenshot](http://i.imgur.com/CZVqM.jpg)
+
+Here's a screenshot as of Monday, Sep 24, 2012.
+C<LE<lt>http://i.imgur.com/CZVqM.jpg/E<gt>>
 
 =head1 SEE ALSO
-  [otclient](https://github.com/edubart/otclient/)
+
+C<LE<lt>OTClient|https://github.com/edubart/otclient/E<gt>>
 
