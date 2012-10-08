@@ -112,15 +112,15 @@ end
 function checks()
   local current = _G["currentMap"]
   if current and current:len() ~= 0 then
+    local mbox
     local defaultCallback = function() mbox:destroy() end
-    local mbox = displayGeneralBox('New Map', 'Warning! You\'re about to close the current map but it seems that \
-                                                you have unsaved changes, would you like to proceed?',
+    mbox = displayGeneralBox('New Map', 'Warning! You\'re about to close the current map but it seems that you have unsaved changes, would you like to proceed?',
                                                 {
-                                                    { text='Proceed', callback=function() _G["currentMap"] = _G["selection"] or guess() end },
-                                                    { text='Save', callback=function() g_map.saveOtbm(current) end }, 
-                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) _G["currentMap"] = "" end},
-                                                    defaultCallback, defaultCallback
-                                                }
+                                                    { text='Proceed', callback=function() g_map.clean() _G["currentMap"] = _G["selection"] or guess() defaultCallback() end },
+                                                    { text='Save', callback=function() g_map.saveOtbm(current) defaultCallback() end }, 
+                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) _G["currentMap"] = "" defaultCallback() end}
+                                                },
+                                                defaultCallback, defaultCallback
                                   )
   else
     _G["currentMap"] = _G["selection"]
