@@ -1,4 +1,4 @@
 [submodule "otclient"]
-    path = otclient
-    url = https://github.com/edubart/otclient
+	path = otclient
+	url = https://github.com/edubart/otclient.git
 
