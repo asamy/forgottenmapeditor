@@ -35,7 +35,6 @@ local skin = {
   },
 
   particles = {
-    'shiny.otps'
   }
 }
 

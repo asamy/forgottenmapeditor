@@ -20,7 +20,7 @@ function g_mouse.bindPressMove(widget, callback)
   connect(widget, { onMouseMove = function(widget, mousePos, mouseMoved)
     if widget:isPressed() then
       callback(mousePos, mouseMoved)
+      return true
     end
-    return true
   end })
 end

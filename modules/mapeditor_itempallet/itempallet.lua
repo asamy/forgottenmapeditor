@@ -1,5 +1,3 @@
-dofile 'const.lua'
-
 ItemPallet = {}
 
 local palletWindow
