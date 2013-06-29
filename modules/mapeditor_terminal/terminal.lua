@@ -128,7 +128,7 @@ function Terminal.init()
     end
   end
 
-  terminalButton = TopMenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + T)', 'terminal.png', Terminal.toggle)
+  terminalButton = modules.mapeditor_topmenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + T)', '/images/topbuttons/terminal', Terminal.toggle)
   g_keyboard.bindKeyDown('Ctrl+T', Terminal.toggle)
 
   commandHistory = g_settings.getList('terminal-history')

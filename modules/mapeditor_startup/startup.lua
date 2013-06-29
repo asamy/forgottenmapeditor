@@ -4,13 +4,13 @@
 --  various ditros and Tibia versions.
 
 
-OTB_FILE   = "/data/items.otb"
-XML_FILE   = "/data/items.xml"
-MON_FILE   = "/data/monster/monsters.xml"
-NPC_FOLDER = "/data/npcs"
-OTBM_FILE  = "/data/map.otbm"
-DAT_FILE   = "/data/Tibia.dat"
-SPR_FILE   = "/data/Tibia.spr"
+OTB_FILE   = "/data/materials/items.otb"
+XML_FILE   = "/data/materials/items.xml"
+MON_FILE   = "/data/materials/monster/monsters.xml"
+NPC_FOLDER = "/data/materials/npcs"
+OTBM_FILE  = "/data/materials/map.otbm"
+DAT_FILE   = "/data/materials/Tibia.dat"
+SPR_FILE   = "/data/materials/Tibia.spr"
 VERSION    = 870  -- Most important for loading Tibia files correctly.
 
 -- Nothing beyond here is useful to people who can't code

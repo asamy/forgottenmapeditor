@@ -11,7 +11,7 @@ UIWidget
 
   UIMiniWindowContainer
     id: leftPanel
-    image-source: /images/sidepanel.png
+    image-source: /images/ui/panel_side
     image-border: 4
     padding: 4
     width: 198
@@ -23,7 +23,7 @@ UIWidget
 
   UIMiniWindowContainer
     id: rightPanel
-    image-source: /images/sidepanel.png
+    image-source: /images/ui/panel_side
     image-border: 4
     padding: 4
     width: 198
@@ -49,7 +49,7 @@ UIWidget
     anchors.right: rightPanel.left
     anchors.bottom: parent.bottom
     height: 25
-    image-source: /images/container_bg.png
+    image-source: /images/ui/panel_content
     image-border: 4
     focusable: false
     

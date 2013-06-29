@@ -38,7 +38,7 @@ function UIMiniWindowContainer:fitAll(noRemoveChild)
     end
   end
 
-  local selfHeight = self:getHeight() - (self:getMarginTop() + self:getMarginBottom() + self:getPaddingTop() + self:getPaddingBottom())
+  local selfHeight = self:getHeight() - (self:getPaddingTop() + self:getPaddingBottom())
   if sumHeight <= selfHeight then
     return
   end
@@ -115,8 +115,10 @@ function UIMiniWindowContainer:swapInsert(widget, index)
 
   if oldParent == self and oldIndex ~= index then
     local oldWidget = self:getChildByIndex(index)
-    self:removeChild(oldWidget)
-    self:insertChild(oldIndex, oldWidget)
+    if oldWidget then
+      self:removeChild(oldWidget)
+      self:insertChild(oldIndex, oldWidget)
+    end
     self:removeChild(widget)
     self:insertChild(index, widget)
   end
@@ -125,7 +127,7 @@ end
 function UIMiniWindowContainer:scheduleInsert(widget, index)
   if index - 1 > self:getChildCount() then
     if self.scheduledWidgets[index] then
-      pwarning('replacing scheduled widget id ' .. widget:getId())
+      pdebug('replacing scheduled widget id ' .. widget:getId())
     end
     self.scheduledWidgets[index] = widget
   else

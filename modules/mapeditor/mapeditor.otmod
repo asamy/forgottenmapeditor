@@ -7,7 +7,7 @@ Module
   load-later:
     - lib
     - mapeditor_startup
-    - mapeditor_skins
+    - mapeditor_styles
     - mapeditor_topmenu
     - mapeditor_terminal
     - mapeditor_modulemanager

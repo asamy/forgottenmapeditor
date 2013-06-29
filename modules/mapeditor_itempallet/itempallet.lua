@@ -39,25 +39,25 @@ end
 
 local function deselectChild(child)
   palletList:focusChild(nil)
-  g_mouse.restoreCursor()
-
   if child then
+    g_mouse.popCursor('target')
     child:setBorderWidth(0)
   end
 end
 
 local function onMousePress(self, mousePos, button)
   local previous = _G["currentWidget"]
-  deselectChild(previous)
+  --deselectChild(previous)
 
   local next = self:getChildByPos(mousePos)
   if not next then
-    deselectChild(nil)
+    deselectChild(previous)
     _G["currentWidget"] = nil
     _G["currentThing"] = nil
   elseif next ~= previous then
+    deselectChild(previous)
     next:setBorderWidth(1)
-    g_mouse.setTargetCursor()
+    g_mouse.pushCursor('target')
     palletList:focusChild(next)
     _G["currentWidget"] = next
   end

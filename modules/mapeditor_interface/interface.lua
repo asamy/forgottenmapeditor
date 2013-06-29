@@ -22,19 +22,20 @@ local zoomLevels = {
 }
 local navigating = false
 
-function updateZoom(delta)
-  if delta then
-    zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
-  end
-  mapWidget:setZoom(zoomLevels[zoomLevel])
-end
-
 function updatePositionDisplay(pos)
   local pos = mapWidget:getPosition(g_window.getMousePosition()) or pos
   if pos then
     positionLabel:setText(string.format('X: %d Y: %d Z: %d', pos.x, pos.y, pos.z))  
   end
 end  
+
+function updateZoom(delta)
+  if delta then
+    zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
+  end
+  mapWidget:setZoom(zoomLevels[zoomLevel])
+  updatePositionDisplay(pos)
+end
 
 function moveCameraByDirection(dir, amount)
   local amount = amount or 1
@@ -56,6 +57,7 @@ function updateFloor(value)
     local pos = mapWidget:getCameraPosition()
     pos.z = math.min(math.max(pos.z + value, 0), 15)
     mapWidget:setCameraPosition(pos)
+    updatePositionDisplay(pos)
 end
   
 function Interface.init()
@@ -130,6 +132,10 @@ function Interface.init()
       updatePositionDisplay()
     end
   , nil, MouseMidButton)
+  
+  g_mouse.bindAutoPress(mapWidget,
+    handlerMousePress
+  , 50, MouseLeftButton)
 
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
   local startPos = {x = 500, y = 500, z = 7}
