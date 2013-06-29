@@ -19,6 +19,10 @@ KeyboardFocusReason = 1
 ActiveFocusReason = 2
 OtherFocusReason = 3
 
+AutoFocusNone = 0
+AutoFocusFirst = 1
+AutoFocusLast = 2
+
 KeyboardNoModifier = 0
 KeyboardCtrlModifier = 1
 KeyboardAltModifier = 2
@@ -171,6 +175,9 @@ KeyNumpad7 = 148
 KeyNumpad8 = 149
 KeyNumpad9 = 150
 
+FirstKey = KeyUnknown
+LastKey = KeyNumpad9
+
 ExtendedActivate = 0
 ExtendedLocales = 1
 ExtendedParticles = 2
@@ -293,12 +300,22 @@ KeyCodeDescs = {
   [KeyNumpad6] = 'Numpad6',
   [KeyNumpad7] = 'Numpad7',
   [KeyNumpad8] = 'Numpad8',
-  [KeyNumpad9] = 'Numpad9'
+  [KeyNumpad9] = 'Numpad9',
 }
 
 NetworkMessageTypes = {
   Boolean = 1,
-  Number = 2,
-  String = 3,
-  Table = 4
+  U8 = 2,
+  U16 = 3,
+  U32 = 4,
+  U64 = 5,
+  NumberString = 6,
+  String = 7,
+  Table = 8,
+}
+
+SoundChannels = {
+  Music = 1,
+  Ambient = 2,
+  Effect = 3,
 }
