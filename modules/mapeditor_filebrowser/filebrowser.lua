@@ -41,6 +41,7 @@ end
 
 function loadDat(f)
   local currentVersion = versionComboBox:getCurrentOption()
+  g_game.setProtocolVersion(tonumber(currentVersion.text))
   g_game.setClientVersion(tonumber(currentVersion.text))
   g_things.loadDat(f)
 end
@@ -59,7 +60,7 @@ local ext, valid_xml_types, supportedVersions = {
 }, {
   810, 853, 854, 860, 861, 862, 870,
   910, 940, 944, 953, 954, 960, 961,
-  963
+  963, 1010
 }
 
 function openFile(f)

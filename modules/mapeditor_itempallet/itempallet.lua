@@ -41,7 +41,7 @@ end
 
 local function deselectChild(child)
   palletList:focusChild(nil)
-  g_mouse.restoreCursor()
+  g_mouse.popCursor()
 
   if child then
     child:setBorderWidth(0)
@@ -59,7 +59,7 @@ local function onMousePress(self, mousePos, button)
     _G["currentThing"] = nil
   elseif next ~= previous then
     next:setBorderWidth(1)
-    g_mouse.setTargetCursor()
+    g_mouse.addCursor()
     palletList:focusChild(next)
     _G["currentWidget"] = next
   end

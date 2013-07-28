@@ -9,16 +9,19 @@ XML_FILE   = "/data/items.xml"
 MON_FILE   = "/data/monster/monsters.xml"
 NPC_FOLDER = "/data/npcs"
 OTBM_FILE  = "/data/forgotten.otbm"
-DAT_FILE   = "/data/Tibia.dat"
-SPR_FILE   = "/data/Tibia.spr"
-VERSION    = 860  -- Most important for loading Tibia files correctly.
+DAT_FILE   = resolvepath('Tibia')
+SPR_FILE   = resolvepath('Tibia')
+VERSION    = 1010  -- Most important for loading Tibia files correctly.
 
 -- Nothing beyond here is useful to people who can't code
 function startup()
   print("Starting up...")
   -- All of the functions below throw exceptions on failure
   -- not in terms of terminaing the applications, though.
-  g_game.setClientVersion(VERSION)
+  g_game.setProtocolVersion(VERSION)
+  if #clientVersions > 0 then
+    g_game.setClientVersion(VERSION)
+  end
   -- Load up dat.
   g_things.loadDat(DAT_FILE)
   -- Load up SPR.
