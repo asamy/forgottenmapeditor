@@ -23,3 +23,7 @@ Here's a screenshot as of Monday, Sep 24, 2012.
 ## See to Build
 
 [OTClient](https://github.com/edubart/otclient)
+
+## Need
+- Add minimap
+- Fix bugs
