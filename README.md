@@ -20,41 +20,6 @@ Here's a screenshot as of Monday, Sep 24, 2012.
 
 ![Screenshot](http://i.imgur.com/CZVqM.jpg)
 
-## See Also
+## See to Build
 
 [OTClient](https://github.com/edubart/otclient)
-
-## Building
-
-Linux:
-
-```sh
-git clone git://github.com/otfallen/forgottenmapeditor
-git submodule init && git submodule update
-cd otclient
-mkdir -p build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DPCH=ON
-make
-```
-
-Windows:
-    1. Install Git from the Gitscm website
-    2. Fire up Git bash
-    3. Type out the following commands:
-        ```sh
-        git clone git://github.com/otfallen/forgottenmapeditor
-        git submodule init && git submodule update
-        cd otclient
-        mkdir -p build && cd build
-        ```
-    4. Follow otclient build guide.
-
-## Running
-
-```sh
-cd .. # get back the root dir
-mv otclient/build/otclient .
-./otclient
-```
-For windows, just remove the prepended ./
-
