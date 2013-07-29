@@ -14,11 +14,17 @@ function UIScrollArea:onStyleApply(styleName, styleNode)
   for name,value in pairs(styleNode) do
     if name == 'vertical-scrollbar' then
       addEvent(function()
-        self:setVerticalScrollBar(self:getParent():getChildById(value))
+        local parent = self:getParent()
+        if parent then
+          self:setVerticalScrollBar(parent:getChildById(value))
+        end
       end)
     elseif name == 'horizontal-scrollbar' then
       addEvent(function()
-        self:setHorizontalScrollBar(self:getParent():getChildById(value))
+        local parent = self:getParent()
+        if parent then
+          self:setHorizontalScrollBar(self:getParent():getChildById(value))
+        end
       end)
     elseif name == 'inverted-scroll' then
       self:setInverted(value)
@@ -67,21 +73,23 @@ end
 
 function UIScrollArea:setVerticalScrollBar(scrollbar)
   self.verticalScrollBar = scrollbar
-  self.verticalScrollBar.onValueChange = function(scrollbar, value)
+  connect(self.verticalScrollBar, 'onValueChange', function(scrollbar, value)
     local virtualOffset = self:getVirtualOffset()
     virtualOffset.y = value
     self:setVirtualOffset(virtualOffset)
-  end
+    signalcall(self.onScrollChange, self, virtualOffset)
+  end)
   self:updateScrollBars()
 end
 
 function UIScrollArea:setHorizontalScrollBar(scrollbar)
   self.horizontalScrollBar = scrollbar
-  self.horizontalScrollBar.onValueChange = function(scrollbar, value)
+  connect(self.horizontalScrollBar, 'onValueChange', function(scrollbar, value)
     local virtualOffset = self:getVirtualOffset()
     virtualOffset.x = value
     self:setVirtualOffset(virtualOffset)
-  end
+    signalcall(self.onScrollChange, self, virtualOffset)
+  end)
   self:updateScrollBars()
 end
 
@@ -114,30 +122,36 @@ function UIScrollArea:onMouseWheel(mousePos, mouseWheel)
   return true
 end
 
-function UIScrollArea:onChildFocusChange(focusedChild, oldFocused, reason)
-  if focusedChild and (reason == MouseFocusReason or reason == KeyboardFocusReason) then
+function UIScrollArea:ensureChildVisible(child)
+  if child then
     local paddingRect = self:getPaddingRect()
     if self.verticalScrollBar then
-      local deltaY = paddingRect.y - focusedChild:getY()
+      local deltaY = paddingRect.y - child:getY()
       if deltaY > 0 then
         self.verticalScrollBar:decrement(deltaY)
       end
 
-      deltaY = (focusedChild:getY() + focusedChild:getHeight()) - (paddingRect.y + paddingRect.height)
+      deltaY = (child:getY() + child:getHeight()) - (paddingRect.y + paddingRect.height)
       if deltaY > 0 then
         self.verticalScrollBar:increment(deltaY)
       end
-    else
-      local deltaX = paddingRect.x - focusedChild:getX()
+    elseif self.horizontalScrollBar then
+      local deltaX = paddingRect.x - child:getX()
       if deltaX > 0 then
         self.horizontalScrollBar:decrement(deltaX)
       end
 
-      deltaX = (focusedChild:getX() + focusedChild:getWidth()) - (paddingRect.x + paddingRect.width)
+      deltaX = (child:getX() + child:getWidth()) - (paddingRect.x + paddingRect.width)
       if deltaX > 0 then
         self.horizontalScrollBar:increment(deltaX)
       end
     end
+  end
+end
+
+function UIScrollArea:onChildFocusChange(focusedChild, oldFocused, reason)
+  if focusedChild and (reason == MouseFocusReason or reason == KeyboardFocusReason) then
+    self:ensureChildVisible(focusedChild)
   end
 end
 

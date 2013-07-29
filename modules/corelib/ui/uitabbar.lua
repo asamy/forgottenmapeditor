@@ -6,10 +6,10 @@ local function onTabClick(tab)
   tab.tabBar:selectTab(tab)
 end
 
-local function tabBlink(tab)
-  if not tab.blinking then return end
-  tab:setOn(not tab:isOn())
-  tab.blinkEvent = scheduleEvent(function() tabBlink(tab) end, 500)
+local function onTabMouseRelease(tab, mousePos, mouseButton)
+  if mouseButton == MouseRightButton and tab:containsPoint(mousePos) then
+    signalcall(tab.tabBar.onTabLeftClick, tab.tabBar, tab)
+  end
 end
 
 -- public functions
@@ -20,6 +20,10 @@ function UITabBar.create()
   return tabbar
 end
 
+function UITabBar:onSetup()
+  self.buttonsPanel = self:getChildById('buttonsPanel')
+end
+
 function UITabBar:setContentWidget(widget)
   self.contentWidget = widget
   if #self.tabs > 0 then
@@ -27,13 +31,13 @@ function UITabBar:setContentWidget(widget)
   end
 end
 
-function UITabBar:addTab(text, panel)
+function UITabBar:addTab(text, panel, icon)
   if panel == nil then
     panel = g_ui.createWidget(self:getStyleName() .. 'Panel')
     panel:setId('tabPanel')
   end
 
-  local tab = g_ui.createWidget(self:getStyleName() .. 'Button', self)
+  local tab = g_ui.createWidget(self:getStyleName() .. 'Button', self.buttonsPanel)
   panel.isTab = true
   tab.tabPanel = panel
   tab.tabBar = self
@@ -41,6 +45,7 @@ function UITabBar:addTab(text, panel)
   tab:setText(text)
   tab:setWidth(tab:getTextSize().width + tab:getPaddingLeft() + tab:getPaddingRight())
   tab.onClick = onTabClick
+  tab.onMouseRelease = onTabMouseRelease
   tab.onDestroy = function() tab.tabPanel:destroy() end
 
   table.insert(self.tabs, tab)
@@ -48,7 +53,23 @@ function UITabBar:addTab(text, panel)
     self:selectTab(tab)
   end
 
+  local tabStyle = {}
+  tabStyle['icon-source'] = icon
+  tab:mergeStyle(tabStyle)
+
   return tab
+end
+
+function UITabBar:addButton(text, func, icon)
+  local button = g_ui.createWidget(self:getStyleName() .. 'Button', self.buttonsPanel)
+  button:setText(text)
+
+  local style = {}
+  style['icon-source'] = icon
+  button:mergeStyle(style)
+
+  button.onClick = func
+  return button
 end
 
 function UITabBar:removeTab(tab)
@@ -58,9 +79,6 @@ function UITabBar:removeTab(tab)
     self:selectPrevTab()
   end
   table.remove(self.tabs, index)
-  if tab.blinkEvent then
-    removeEvent(tab.blinkEvent)
-  end
   tab:destroy()
 end
 
@@ -90,7 +108,11 @@ function UITabBar:selectTab(tab)
   self.currentTab = tab
   tab:setChecked(true)
   tab:setOn(false)
-  tab.blinking = false
+
+  local parent = tab:getParent()
+  if parent then
+    parent:focusChild(tab, MouseFocusReason)
+  end
 end
 
 function UITabBar:selectNextTab()
@@ -111,12 +133,6 @@ function UITabBar:selectPrevTab()
   self:selectTab(prevTab)
 end
 
-function UITabBar:blinkTab(tab)
-  if tab:isChecked() or tab.blinking then return end
-  tab.blinking = true
-  tabBlink(tab)
-end
-
 function UITabBar:getTabPanel(tab)
   return tab.tabPanel
 end
@@ -129,4 +145,12 @@ end
 
 function UITabBar:getCurrentTab()
   return self.currentTab
+end
+
+function UITabBar:getTabs()
+  return self.tabs
+end
+
+function UITabBar:getTabsPanel()
+  return table.collect(self.tabs, function(_,tab) return tab.tabPanel end)
 end

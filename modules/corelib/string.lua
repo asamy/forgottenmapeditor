@@ -20,12 +20,16 @@ function string:starts(start)
   return string.sub(self, 1, #start) == start
 end
 
+function string:ends(test)
+   return test =='' or string.sub(self,-string.len(test)) == test
+end
+
 function string:trim()
   return string.match(self, '^%s*(.*%S)') or ''
 end
 
 function string:explode(sep, limit)
-  if(type(sep) ~= 'string' or tostring(self):len() == 0 or sep:len() == 0) then
+  if type(sep) ~= 'string' or tostring(self):len() == 0 or sep:len() == 0 then
     return {}
   end
 
@@ -36,7 +40,7 @@ function string:explode(sep, limit)
     pos = e + 1
 
     i = i + 1
-    if(limit ~= nil and i == limit) then
+    if limit ~= nil and i == limit then
       break
     end
   end

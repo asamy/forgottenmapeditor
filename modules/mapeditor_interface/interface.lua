@@ -20,7 +20,7 @@ local zoomLevels = {
    3072,
    4096
 }
-local navigating = false
+local navigating = true
 
 function updateZoom(delta)
   if delta then
@@ -92,6 +92,11 @@ function Interface.init()
       if dx < -0.5 then movex = -1 end
       if dy > 0.5 then movey = -1 end
       if dy < -0.5 then movey = 1 end
+
+      g_keyboard.bindKeyPress("Up", function() if dx > 0.5 then movex = 1 end end, gameRootPanel)
+      g_keyboard.bindKeyPress("Down", function() if dx < -0.5 then movex = -1 end end, gameRootPanel)
+      g_keyboard.bindKeyPress("Right", function() if dy > 0.5 then movey = -1 end end, gameRootPanel)
+      g_keyboard.bindKeyPress("Left", function() if dy < -0.5 then movey = 1 end end, gameRootPanel)
 
       local cameraPos = self:getCameraPosition()
       local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}

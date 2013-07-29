@@ -3,8 +3,10 @@ UIComboBox = extends(UIWidget)
 
 function UIComboBox.create()
   local combobox = UIComboBox.internalCreate()
+  combobox:setFocusable(false)
   combobox.options = {}
   combobox.currentIndex = -1
+  combobox.mouseScroll = true
   return combobox
 end
 
@@ -14,13 +16,34 @@ function UIComboBox:clearOptions()
   self:clearText()
 end
 
+function UIComboBox:getOption(text)
+  if not self.options then return nil end
+  for i,v in ipairs(self.options) do
+    if v.text == text then
+      return nil
+    end
+  end
+end
+
 function UIComboBox:setCurrentOption(text)
   if not self.options then return end
   for i,v in ipairs(self.options) do
     if v.text == text and self.currentIndex ~= i then
       self.currentIndex = i
       self:setText(text)
-      self:onOptionChange(text, v.data)
+      signalcall(self.onOptionChange, self, text, v.data)
+      return
+    end
+  end
+end
+
+function UIComboBox:setCurrentOptionByData(data)
+  if not self.options then return end
+  for i,v in ipairs(self.options) do
+    if v.data == data and self.currentIndex ~= i then
+      self.currentIndex = i
+      self:setText(v.text)
+      signalcall(self.onOptionChange, self, v.text, v.data)
       return
     end
   end
@@ -31,12 +54,12 @@ function UIComboBox:setCurrentIndex(index)
     local v = self.options[index]
     self.currentIndex = index
     self:setText(v.text)
-    self:onOptionChange(v.text, v.data)
+    signalcall(self.onOptionChange, self, v.text, v.data)
   end
 end
 
 function UIComboBox:getCurrentOption()
-  if table.hasKey(self.options, self.currentIndex) then
+  if table.haskey(self.options, self.currentIndex) then
     return self.options[self.currentIndex]
   end
 end
@@ -76,6 +99,9 @@ function UIComboBox:onMousePress(mousePos, mouseButton)
 end
 
 function UIComboBox:onMouseWheel(mousePos, direction)
+  if not self.mouseScroll then
+    return false
+  end
   if direction == MouseWheelUp and self.currentIndex > 1 then
     self:setCurrentIndex(self.currentIndex - 1)
   elseif direction == MouseWheelDown and self.currentIndex < #self.options then
@@ -90,8 +116,27 @@ function UIComboBox:onStyleApply(styleName, styleNode)
       self:addOption(option)
     end
   end
+
+  if styleNode.data then
+    for k,data in pairs(styleNode.data) do
+      local option = self.options[k]
+      if option then
+        option.data = data
+      end
+    end
+  end
+
+  for name,value in pairs(styleNode) do
+    if name == 'mouse-scroll' then
+      self.mouseScroll = value
+    end
+  end
 end
 
-function UIComboBox:onOptionChange(optionText, optionData)
-  -- nothing todo
+function UIComboBox:setMouseScroll(scroll)
+  self.mouseScroll = scroll
+end
+
+function UIComboBox:canMouseScroll()
+  return self.mouseScroll
 end

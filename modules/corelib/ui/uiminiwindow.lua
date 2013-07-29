@@ -81,6 +81,15 @@ function UIMiniWindow:setup()
         self:minimize()
       end
     end
+    
+  self:getChildById('miniwindowTopBar').onDoubleClick =
+    function()
+      if self:isOn() then
+        self:maximize()
+      else
+        self:minimize()
+      end
+    end
 
   local oldParent = self:getParent()
 
@@ -95,9 +104,8 @@ function UIMiniWindow:setup()
             self.miniIndex = selfSettings.index
             parent:scheduleInsert(self, selfSettings.index)
           elseif selfSettings.position then
-            self:setParent(parent)
+            self:setParent(parent, true)
             self:setPosition(topoint(selfSettings.position))
-            addEvent(function() self:bindRectToParent() end)
           end
         end
       end
@@ -158,9 +166,10 @@ end
 
 function UIMiniWindow:onDragLeave(droppedWidget, mousePos)
   if self.movedWidget then
-    self.setMovedChildMargin(0)
+    self.setMovedChildMargin(self.movedOldMargin or 0)
     self.movedWidget = nil
     self.setMovedChildMargin = nil
+    self.movedOldMargin = nil
     self.movedIndex = nil
   end
 
@@ -182,14 +191,16 @@ function UIMiniWindow:onDragMove(mousePos, mouseMoved)
       end
 
       if self.movedWidget then
-        self.setMovedChildMargin(0)
+        self.setMovedChildMargin(self.movedOldMargin or 0)
         self.setMovedChildMargin = nil
       end
 
       if mousePos.y < childCenterY then
+        self.movedOldMargin = child:getMarginTop()
         self.setMovedChildMargin = function(v) child:setMarginTop(v) end
         self.movedIndex = 0
       else
+        self.movedOldMargin = child:getMarginBottom()
         self.setMovedChildMargin = function(v) child:setMarginBottom(v) end
         self.movedIndex = 1
       end
@@ -201,7 +212,7 @@ function UIMiniWindow:onDragMove(mousePos, mouseMoved)
   end
 
   if not overAnyWidget and self.movedWidget then
-    self.setMovedChildMargin(0)
+    self.setMovedChildMargin(self.movedOldMargin or 0)
     self.movedWidget = nil
   end
 
@@ -325,9 +336,11 @@ function UIMiniWindow:fitOnParent()
   end
 end
 
-function UIMiniWindow:setParent(parent)
+function UIMiniWindow:setParent(parent, dontsave)
   UIWidget.setParent(self, parent)
-  self:saveParent(parent)
+  if not dontsave then
+    self:saveParent(parent)
+  end
   self:fitOnParent()
 end
 

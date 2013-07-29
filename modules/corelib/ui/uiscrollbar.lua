@@ -51,6 +51,14 @@ local function calcValues(self)
   return range, pxrange, px, offset, center
 end
 
+local function updateValueDisplay(widget)
+  if widget == nil then return end
+
+  if widget:getShowValue() then
+    widget:setText(widget:getValue() .. (widget:getSymbol() or ''))
+  end
+end
+
 local function updateSlider(self)
   local slider = self:getChildById('sliderButton')
   if slider == nil then return end
@@ -63,6 +71,7 @@ local function updateSlider(self)
     slider:setWidth(px)
     slider:setMarginLeft(offset)
   end
+  updateValueDisplay(self)
 
   local status = (self.maximum ~= self.minimum)
 
@@ -72,18 +81,30 @@ local function updateSlider(self)
   end
 end
 
-local function parseSliderPos(self, pos, move)
-  local point, delta
+local function parseSliderPos(self, slider, pos, move)
+  local delta, hotDistance
   if self.orientation == 'vertical' then
-    point = pos.y
     delta = move.y
+    hotDistance = pos.y - slider:getY()
   else
-    point = pos.x
     delta = move.x
+    hotDistance = pos.x - slider:getX()
   end
-  local range, pxrange, px, offset, center = calcValues(self)
-  local newvalue = self.value + delta * (range / (pxrange - px))
-  self:setValue(newvalue)
+
+  if (delta > 0 and hotDistance + delta > self.hotDistance) or
+     (delta < 0 and hotDistance + delta < self.hotDistance) then
+    local range, pxrange, px, offset, center = calcValues(self)
+    local newvalue = self.value + delta * (range / (pxrange - px))
+    self:setValue(newvalue)
+  end
+end
+
+local function parseSliderPress(self, slider, pos, button)
+  if self.orientation == 'vertical' then
+    self.hotDistance = pos.y - slider:getY()
+  else
+    self.hotDistance = pos.x - slider:getX()
+  end
 end
 
 -- public functions
@@ -96,15 +117,20 @@ function UIScrollBar.create()
   scrollbar.step = 1
   scrollbar.orientation = 'vertical'
   scrollbar.pixelsScroll = false
+  scrollbar.showValue = false
+  scrollbar.symbol = nil
+  scrollbar.mouseScroll = true
   return scrollbar
 end
 
 function UIScrollBar:onSetup()
   self.setupDone = true
-  --signalcall(self.onValueChange, self, self.value)
+  local sliderButton = self:getChildById('sliderButton')
   g_mouse.bindAutoPress(self:getChildById('decrementButton'), function() self:decrement() end, 300)
   g_mouse.bindAutoPress(self:getChildById('incrementButton'), function() self:increment() end, 300)
-  g_mouse.bindPressMove(self:getChildById('sliderButton'), function(mousePos, mouseMoved) parseSliderPos(self, mousePos, mouseMoved) end)
+  g_mouse.bindPressMove(sliderButton, function(mousePos, mouseMoved) parseSliderPos(self, sliderButton, mousePos, mouseMoved) end)
+  g_mouse.bindPress(sliderButton, function(mousePos, mouseButton) parseSliderPress(self, sliderButton, mousePos, mouseButton) end)
+
   updateSlider(self)
 end
 
@@ -122,6 +148,12 @@ function UIScrollBar:onStyleApply(styleName, styleNode)
       self:setValue(value)
     elseif name == 'pixels-scroll' then
       self.pixelsScroll = true
+    elseif name == 'show-value' then
+      self.showValue = true
+    elseif name == 'symbol' then
+      self.symbol = value
+    elseif name == 'mouse-scroll' then
+      self.mouseScroll = value
     end
   end
 end
@@ -138,7 +170,10 @@ end
 
 function UIScrollBar:setMaximum(maximum)
   if maximum == self.maximum then return end
-  self.maximum  = maximum
+  self.maximum = maximum
+  if self.minimum > maximum then
+    self:setMinimum(maximum)
+  end
   if self.value > maximum then
     self:setValue(maximum)
   else
@@ -149,6 +184,9 @@ end
 function UIScrollBar:setMinimum(minimum)
   if minimum == self.minimum then return end
   self.minimum = minimum
+  if self.maximum < minimum then
+    self:setMaximum(minimum)
+  end
   if self.value < minimum then
     self:setValue(minimum)
   else
@@ -172,6 +210,10 @@ function UIScrollBar:setValue(value)
   end
 end
 
+function UIScrollBar:setMouseScroll(scroll)
+  self.mouseScroll = scroll
+end
+
 function UIScrollBar:setStep(step)
   self.step = step
 end
@@ -180,11 +222,21 @@ function UIScrollBar:setOrientation(orientation)
   self.orientation = orientation
 end
 
+function UIScrollBar:setText(text)
+  local valueLabel = self:getChildById('valueLabel')
+  if valueLabel then
+    valueLabel:setText(text)
+  end
+end
+
 function UIScrollBar:onGeometryChange()
   updateSlider(self)
 end
 
 function UIScrollBar:onMouseWheel(mousePos, mouseWheel)
+  if not self.mouseScroll then
+    return false
+  end
   if mouseWheel == MouseWheelUp then
     if self.orientation == 'vertical' then
       self:decrement()
@@ -206,3 +258,6 @@ function UIScrollBar:getMinimum() return self.minimum end
 function UIScrollBar:getValue() return math.round(self.value) end
 function UIScrollBar:getStep() return self.step end
 function UIScrollBar:getOrientation() return self.orientation end
+function UIScrollBar:getShowValue() return self.showValue end
+function UIScrollBar:getSymbol() return self.symbol end
+function UIScrollBar:getMouseScroll() return self.mouseScroll end

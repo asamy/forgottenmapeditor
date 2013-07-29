@@ -6,3 +6,7 @@ function UIButton.create()
   button:setFocusable(false)
   return button
 end
+
+function UIButton:onMouseRelease(pos, button)
+  return self:isPressed()
+end

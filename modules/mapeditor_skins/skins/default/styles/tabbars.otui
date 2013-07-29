@@ -1,12 +1,15 @@
 TabBar < UITabBar
   size: 80 20
+  Panel
+    id: buttonsPanel
+    anchors.fill: parent
 TabBarPanel < Panel
 TabBarButton < UIButton
   size: 20 20
-  image-source: /images/tabbutton_square.png
+  image-source: /images/ui/tabbutton_square
   image-color: white
   image-clip: 0 0 20 20
-  image-border: 2
+  image-border: 3
   icon-color: white
   color: #aaaaaa
   anchors.top: parent.top

@@ -59,7 +59,7 @@ local function onMousePress(self, mousePos, button)
     _G["currentThing"] = nil
   elseif next ~= previous then
     next:setBorderWidth(1)
-    g_mouse.addCursor()
+    g_mouse.pushCursor()
     palletList:focusChild(next)
     _G["currentWidget"] = next
   end
@@ -94,6 +94,8 @@ function ItemPallet.initData()
   comboBox:addOption("Splashs",      ItemCategorySplash)
   comboBox:addOption("Fluids",       ItemCategoryFluid)
   comboBox:addOption("Doors",        ItemCategoryDoor)
+  --comboBox:addOption("Others",       ItemCategoryInvalid)
+  --comboBox:addOption("None",         ItemCategoryLast)
   comboBox:addOption("Creatures",    ThingCategoryCreature)
 
   comboBox:setCurrentIndex(1)
