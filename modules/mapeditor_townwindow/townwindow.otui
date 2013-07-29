@@ -109,6 +109,11 @@ MainWindow
       id: newTownName
 
     TownInfoLabel
+      !text: tr('New Town ID')
+    TextEdit
+      id: newTownID
+
+    TownInfoLabel
       !text: tr('Temple X Coordinate')
     TextEdit
       id: newTownX
@@ -122,11 +127,6 @@ MainWindow
       !text: tr('Temple Z Coordinate')
     TextEdit
       id: newTownZ
-
-    TownInfoLabel
-      !text: tr('New Town ID')
-    TextEdit
-      id: newTownID
 
   Button
     id: townAddButton
