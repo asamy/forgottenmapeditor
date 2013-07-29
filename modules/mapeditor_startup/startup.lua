@@ -19,6 +19,7 @@ function startup()
   -- All of the functions below throw exceptions on failure
   -- not in terms of terminaing the applications, though.
   g_game.setClientVersion(VERSION)
+  g_game.setProtocolVersion(VERSION)
   -- Load up dat.
   g_things.loadDat(DAT_FILE)
   -- Load up SPR.
