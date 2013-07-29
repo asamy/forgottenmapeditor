@@ -1,0 +1,144 @@
+TownListLabel < Label
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+  color: #cccccc
+
+  $focus:
+    color: #ffffff
+
+  $on:
+    background-color: #006600
+  $!on:
+    background-color: #660000
+
+  $on focus:
+    background-color: #004400
+  $!on focus:
+    background-color: #440000
+
+TownInfoLabel < Label
+  $!first:
+    margin-top: 5
+  margin-bottom: 2
+
+TownValueLabel < FlatLabel
+  font: verdana-11px-antialised
+  color: #aaaaaa
+  text-offset: 2 3
+  padding-bottom: 5
+  height: 20
+
+StatusLabel < Label
+  margin-top: 5
+  color: white
+  anchors.top: parent.top
+  margin-left: 20
+
+MainWindow
+  id: townWindow
+  size: 450 450
+  !text: tr('Town Window')
+
+  @onEscape: TownWindow.hide()
+
+  TextList
+    id: townList
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    width: 180
+    padding: 1
+    focusable: false
+    margin-bottom: 30
+    vertical-scrollbar: townListScrollBar
+
+  VerticalScrollBar
+    id: townListScrollBar
+    anchors.top: townList.top
+    anchors.bottom: townList.bottom
+    anchors.left: townList.right
+    step: 14
+    pixels-scroll: true
+
+  Button
+    id: readTowns
+    anchors.top: townListScrollBar.bottom
+    anchors.right: townListScrollBar.right
+    !text: tr('Read Towns From Memory')
+    text-auto-resize: true
+    @onClick: TownWindow.readTowns()
+
+  Panel
+    id: townInfo
+    anchors.left: townListScrollBar.right
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin: 0 5 5 15
+    layout:
+      type: verticalBox
+      fit-children: true
+    height: 265
+
+    TownInfoLabel
+      !text: tr('Town name')
+    TownValueLabel
+      id: townName
+
+    TownInfoLabel
+      !text: tr('Town ID')
+    TownValueLabel
+      id: townID
+
+    TownInfoLabel
+      !text: tr('Town Position')
+    TownValueLabel
+      id: townPosition
+
+    Button
+      !text: tr('Goto town')
+      @onClick: TownWindow.gotoTown()
+
+    TownInfoLabel
+      !text: tr('Add New Town')
+
+    TownInfoLabel
+      !text: tr('New Town Name')
+    TextEdit
+      id: newTownName
+
+    TownInfoLabel
+      !text: tr('Temple X Coordinate')
+    TextEdit
+      id: newTownX
+
+    TownInfoLabel
+      !text: tr('Temple Y Coordinate')
+    TextEdit
+      id: newTownY
+
+    TownInfoLabel
+      !text: tr('Temple Z Coordinate')
+    TextEdit
+      id: newTownZ
+
+    TownInfoLabel
+      !text: tr('New Town ID')
+    TextEdit
+      id: newTownID
+
+  Button
+    id: townAddButton
+    anchors.top: townInfo.bottom
+    anchors.left: townInfo.left
+    !text: tr('Add Town')
+    enabled: true
+    @onClick: TownWindow.addTown()
+
+  StatusLabel
+    id: statusLabel
+    anchors.top: townInfo.bottom
+    anchors.right: townInfo.right
+    text: Nothing yet
+    text-wrap: true

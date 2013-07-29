@@ -61,6 +61,6 @@ UIWidget
       
     StatusLabel
       id: statusLabel
-      anchors.left: prev. right
+      anchors.left: prev.right
       width: 120
       text: 'Test'

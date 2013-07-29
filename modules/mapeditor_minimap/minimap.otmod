@@ -1,10 +1,13 @@
 Module
   name: mapeditor_minimap
-  description: The funky little map
-  author: fallen, edubart
-  website: https://github.com/otfallen/forgottenmapeditor/
+  description: Manage minimap
   sandboxed: true
-  scripts: [minimap.lua]
-  @onLoad: init()
-  @onUnload: terminate()
+  author: edubart
+  website: www.otclient.info
 
+  @onLoad: |
+    dofile 'minimap'
+    init()
+
+  @onUnload: |
+    terminate()

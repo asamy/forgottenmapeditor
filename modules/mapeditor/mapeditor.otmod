@@ -11,7 +11,9 @@ Module
     - mapeditor_topmenu
     - mapeditor_terminal
     - mapeditor_modulemanager
+    - mapeditor_townwindow
     - mapeditor_interface
+    - mapeditor_minimap
     - mapeditor_options
 
   @onLoad: |

@@ -31,8 +31,7 @@ function startup()
   --g_creatures.loadMonsters(MON_FILE)
   -- uncomment this if  you wanna load NPCs
   -- g_map.loadNpcs(NPC_FOLDER)
-  -- Map time
-  g_map.loadOtbm(OTBM_FILE)
+  -- g_map.loadOtbm(OTBM_FILE)
 end
 
 function shutdown()
