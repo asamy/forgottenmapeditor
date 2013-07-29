@@ -47,9 +47,8 @@ end
 
 local function onMousePress(self, mousePos, button)
   local previous = _G["currentWidget"]
-  --deselectChild(previous)
-
   local next = self:getChildByPos(mousePos)
+
   if not next then
     deselectChild(previous)
     _G["currentWidget"] = nil
@@ -60,6 +59,8 @@ local function onMousePress(self, mousePos, button)
     g_mouse.pushCursor('target')
     palletList:focusChild(next)
     _G["currentWidget"] = next
+  else
+    deselectChild(previous)
   end
 end
 
