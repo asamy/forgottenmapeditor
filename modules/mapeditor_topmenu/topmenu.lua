@@ -1,5 +1,3 @@
-TopMenu = {}
-
 -- private variables
 local topMenu
 local leftButtonsPanel
@@ -8,7 +6,7 @@ local leftGameButtonsPanel
 local rightGameButtonsPanel
 
 -- private functions
-local function addButton(id, description, icon, callback, panel, toggle)
+local function addButton(id, description, icon, callback, panel, toggle, front)
   local class
   if toggle then
     class = 'TopToggleButton'
@@ -16,91 +14,117 @@ local function addButton(id, description, icon, callback, panel, toggle)
     class = 'TopButton'
   end
 
-  local button = g_ui.createWidget(class, panel)
+  local button = panel:getChildById(id)
+  if not button then
+    button = g_ui.createWidget(class)
+    if front then
+      panel:insertChild(1, button)
+    else
+      panel:addChild(button)
+    end
+  end
   button:setId(id)
   button:setTooltip(description)
   button:setIcon(resolvepath(icon, 3))
-  button.onClick = callback
+  button.onMouseRelease = function(widget, mousePos, mouseButton)
+    if widget:containsPoint(mousePos) and mouseButton ~= MouseMiddleButton then
+      callback()
+      return true
+    end
+  end
   return button
 end
 
 -- public functions
-function TopMenu.init()
-  connect(g_game, { onGameStart = TopMenu.showGameButtons,
-                    onGameEnd = TopMenu.hideGameButtons })
+function init()
+  connect(g_game, { onGameStart = online,
+                    onGameEnd = offline })
+  connect(g_app, { onFps = updateFps })
 
-  topMenu = g_ui.displayUI('topmenu.otui')
+  topMenu = g_ui.displayUI('topmenu')
 
   leftButtonsPanel = topMenu:getChildById('leftButtonsPanel')
   rightButtonsPanel = topMenu:getChildById('rightButtonsPanel')
   leftGameButtonsPanel = topMenu:getChildById('leftGameButtonsPanel')
   rightGameButtonsPanel = topMenu:getChildById('rightGameButtonsPanel')
+  fpsLabel = topMenu:getChildById('fpsLabel')
 
   if g_game.isOnline() then
-    leftGameButtonsPanel:show()
-    rightGameButtonsPanel:show()
+    online()
   end
 end
 
-function TopMenu.terminate()
-  disconnect(g_game, { onGameStart = TopMenu.showGameButtons,
-                       onGameEnd = TopMenu.hideGameButtons })
-
-  leftButtonsPanel = nil
-  rightButtonsPanel = nil
-  leftGameButtonsPanel = nil
-  rightGameButtonsPanel = nil
+function terminate()
+  disconnect(g_game, { onGameStart = online,
+                       onGameEnd = offline })
+  disconnect(g_app, { onFps = updateFps })
 
   topMenu:destroy()
-  topMenu = nil
-
-  TopMenu = nil
 end
 
-function TopMenu.addLeftButton(id, description, icon, callback)
-  return addButton(id, description, icon, callback, leftButtonsPanel, false)
+function online()
+  showGameButtons()
 end
 
-function TopMenu.addLeftToggleButton(id, description, icon, callback, right)
-  return addButton(id, description, icon, callback, leftButtonsPanel, true)
+function offline()
+  hideGameButtons()
 end
 
-function TopMenu.addRightButton(id, description, icon, callback)
-  return addButton(id, description, icon, callback, rightButtonsPanel, false)
+function updateFps(fps)
+  text = 'FPS: ' .. fps
+  fpsLabel:setText(text)
 end
 
-function TopMenu.addRightToggleButton(id, description, icon, callback, right)
-  return addButton(id, description, icon, callback, rightButtonsPanel, true)
+function setFpsVisible(enable)
+  fpsLabel:setVisible(enable)
 end
 
-function TopMenu.addLeftGameButton(id, description, icon, callback)
-  return addButton(id, description, icon, callback, leftGameButtonsPanel, false)
+function addLeftButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, leftButtonsPanel, false, front)
 end
 
-function TopMenu.addLeftGameToggleButton(id, description, icon, callback, right)
-  return addButton(id, description, icon, callback, leftGameButtonsPanel, true)
+function addLeftToggleButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, leftButtonsPanel, true, front)
 end
 
-function TopMenu.addRightGameButton(id, description, icon, callback)
-  return addButton(id, description, icon, callback, rightGameButtonsPanel, false)
+function addRightButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, rightButtonsPanel, false, front)
 end
 
-function TopMenu.addRightGameToggleButton(id, description, icon, callback, right)
-  return addButton(id, description, icon, callback, rightGameButtonsPanel, true)
+function addRightToggleButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, rightButtonsPanel, true, front)
 end
 
-function TopMenu.hideGameButtons()
-  leftGameButtonsPanel:hide()
-  rightGameButtonsPanel:hide()
+function addLeftGameButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, leftGameButtonsPanel, false, front)
 end
 
-function TopMenu.showGameButtons()
+function addLeftGameToggleButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, leftGameButtonsPanel, true, front)
+end
+
+function addRightGameButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, rightGameButtonsPanel, false, front)
+end
+
+function addRightGameToggleButton(id, description, icon, callback, front)
+  return addButton(id, description, icon, callback, rightGameButtonsPanel, true, front)
+end
+
+function showGameButtons()
   leftGameButtonsPanel:show()
   rightGameButtonsPanel:show()
 end
 
-function TopMenu.getButton(id)
+function hideGameButtons()
+  leftGameButtonsPanel:hide()
+  rightGameButtonsPanel:hide()
+end
+
+function getButton(id)
   return topMenu:recursiveGetChildById(id)
 end
 
-
+function getTopMenu()
+  return topMenu
+end

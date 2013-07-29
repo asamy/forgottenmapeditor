@@ -4,24 +4,21 @@
 --  various ditros and Tibia versions.
 
 
-OTB_FILE   = "/data/items.otb"
-XML_FILE   = "/data/items.xml"
-MON_FILE   = "/data/monster/monsters.xml"
-NPC_FOLDER = "/data/npcs"
-OTBM_FILE  = "/data/forgotten.otbm"
-DAT_FILE   = resolvepath('Tibia')
-SPR_FILE   = resolvepath('Tibia')
-VERSION    = 1010  -- Most important for loading Tibia files correctly.
+OTB_FILE   = "/data/materials/items.otb"
+XML_FILE   = "/data/materials/items.xml"
+MON_FILE   = "/data/materials/monster/monsters.xml"
+NPC_FOLDER = "/data/materials/npcs"
+OTBM_FILE  = "/data/materials/map.otbm"
+DAT_FILE   = "/data/materials/Tibia.dat"
+SPR_FILE   = "/data/materials/Tibia.spr"
+VERSION    = 870  -- Most important for loading Tibia files correctly.
 
 -- Nothing beyond here is useful to people who can't code
 function startup()
   print("Starting up...")
   -- All of the functions below throw exceptions on failure
   -- not in terms of terminaing the applications, though.
-  g_game.setProtocolVersion(VERSION)
-  if #clientVersions > 0 then
-    g_game.setClientVersion(VERSION)
-  end
+  g_game.setClientVersion(VERSION)
   -- Load up dat.
   g_things.loadDat(DAT_FILE)
   -- Load up SPR.
@@ -31,7 +28,7 @@ function startup()
   -- Load up XML
   g_things.loadXml(XML_FILE)
   -- load up monsters
-  g_creatures.loadMonsters(MON_FILE)
+  --g_creatures.loadMonsters(MON_FILE)
   -- uncomment this if  you wanna load NPCs
   -- g_map.loadNpcs(NPC_FOLDER)
   -- Map time

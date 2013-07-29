@@ -1,4 +1,3 @@
--- This file was not made to be readable at all, any code improvements are welcome though.
 FileBrowser = {}
 
 local fileWindow
@@ -41,30 +40,34 @@ end
 
 function loadDat(f)
   local currentVersion = versionComboBox:getCurrentOption()
-  g_game.setProtocolVersion(tonumber(currentVersion.text))
   g_game.setClientVersion(tonumber(currentVersion.text))
   g_things.loadDat(f)
 end
 
-local ext, valid_xml_types, supportedVersions = {
+local extensions = {
   ["otb"]  = g_things.loadOtb,
   ["otbm"] = function(f) openMap() end,
   ["dat"]  = loadDat,
   ["spr"]  = g_sprites.loadSpr,
   ["xml"]  = function(f) openXml(f) end
-}, {
+}
+
+local validXmlTypes = {
   ["house"]   = g_houses.load,
   ["spawn"]   = g_creatures.loadSpawns,
   ["items"]   = g_things.loadXml,
   ["monster"] = g_creatures.loadMonsters
-}, {
+}
+
+local supportedVersions = {
   810, 853, 854, 860, 861, 862, 870,
   910, 940, 944, 953, 954, 960, 961,
-  963, 1010
+  963, 970, 971, 973, 974, 973, 974,
+  975, 976, 977, 978, 979, 980, 1010
 }
 
 function openFile(f)
-  for k, v in pairs(ext) do
+  for k, v in pairs(extensions) do
     if endsWith(f, k) then
       v(f)
       break
@@ -73,7 +76,7 @@ function openFile(f)
 end
 
 function openXml(f)
-  for type, func in pairs(valid_xml_types) do
+  for type, func in pairs(validXmlTypes) do
     if f:find(type) then
       func(f)
     elseif not func then
@@ -153,7 +156,7 @@ function newMap()
 end
 
 function loadMyFile(yourFile)
-  for _ext, _ in pairs(ext) do
+  for _ext, _ in pairs(extensions) do
     if endsWith(yourFile, _ext) then
       add(yourFile)
       break
@@ -210,4 +213,3 @@ end
 function FileBrowser.terminate()
   fileWindow:destroy()
 end
-

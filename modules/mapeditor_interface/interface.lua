@@ -20,40 +20,72 @@ local zoomLevels = {
    3072,
    4096
 }
-local navigating = true
+local navigating = false
+
+function updatePositionDisplay(pos)
+  local pos = mapWidget:getPosition(g_window.getMousePosition()) or pos
+  if pos then
+    positionLabel:setText(string.format('X: %d Y: %d Z: %d', pos.x, pos.y, pos.z))  
+  end
+end  
 
 function updateZoom(delta)
   if delta then
     zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
   end
   mapWidget:setZoom(zoomLevels[zoomLevel])
+  updatePositionDisplay(pos)
 end
 
+function moveCameraByDirection(dir, amount)
+  local amount = amount or 1
+  local pos = mapWidget:getCameraPosition()
+  if dir == North then
+    pos.y = pos.y - amount
+  elseif dir == East then
+    pos.x = pos.x + amount
+  elseif dir == South then
+    pos.y = pos.y + amount
+  elseif dir == West then
+    pos.x = pos.x - amount
+  end
+  mapWidget:setCameraPosition(pos)
+  updatePositionDisplay(pos)
+end
+
+function updateFloor(value)
+    local pos = mapWidget:getCameraPosition()
+    pos.z = math.min(math.max(pos.z + value, 0), 15)
+    mapWidget:setCameraPosition(pos)
+    updatePositionDisplay(pos)
+end
+  
 function Interface.init()
   rootPanel = g_ui.displayUI('interface.otui')
   mapWidget = rootPanel:getChildById('map')
+  positionLabel = rootPanel:recursiveGetChildById('positionLabel')
 
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
   mapWidget:setMaxZoomOut(4096)
   updateZoom()
-
+  
+  mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
+    updatePositionDisplay()
+  end
+  
   mapWidget.onMouseWheel = function(self, mousePos, direction)
     if direction == MouseWheelDown then
       if g_keyboard.isCtrlPressed() then
-        local pos = self:getCameraPosition()
-        pos.z = math.max(pos.z - 1, 0)
-        self:setCameraPosition(pos)
+        updateFloor(-1)
       else
-        updateZoom(-1)
+        updateZoom(1)
       end
     else
       if g_keyboard.isCtrlPressed() then
-        local pos = self:getCameraPosition()
-        pos.z = math.min(pos.z + 1, 15)
-        self:setCameraPosition(pos)
+        updateFloor(1)
       else
-        updateZoom(1)
+        updateZoom(-1)
       end
     end
   end
@@ -67,6 +99,7 @@ function Interface.init()
       local pos = self:getPosition(mousePos)
       if pos then
         self:setCameraPosition(pos)
+        updatePositionDisplay()
       end
       return true
     end
@@ -93,20 +126,36 @@ function Interface.init()
       if dy > 0.5 then movey = -1 end
       if dy < -0.5 then movey = 1 end
 
-      g_keyboard.bindKeyPress("Up", function() if dx > 0.5 then movex = 1 end end, gameRootPanel)
-      g_keyboard.bindKeyPress("Down", function() if dx < -0.5 then movex = -1 end end, gameRootPanel)
-      g_keyboard.bindKeyPress("Right", function() if dy > 0.5 then movey = -1 end end, gameRootPanel)
-      g_keyboard.bindKeyPress("Left", function() if dy < -0.5 then movey = 1 end end, gameRootPanel)
-
       local cameraPos = self:getCameraPosition()
       local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
       self:setCameraPosition(pos)
+      updatePositionDisplay()
     end
   , nil, MouseMidButton)
+  
+  g_mouse.bindAutoPress(mapWidget,
+    handlerMousePress
+  , 50, MouseLeftButton)
 
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
+  local startPos = {x = 500, y = 500, z = 7}
   mapWidget:setRect(newRect)
-  mapWidget:setCameraPosition({x = 500, y = 500, z = 7})
+  mapWidget:setCameraPosition(startPos) 
+  updatePositionDisplay(startPos)
+  
+  g_keyboard.bindKeyPress('Up', function() moveCameraByDirection(North, 2) end, rootPanel)
+  g_keyboard.bindKeyPress('Down', function() moveCameraByDirection(South, 2) end, rootPanel)
+  g_keyboard.bindKeyPress('Left', function() moveCameraByDirection(West, 2) end, rootPanel)
+  g_keyboard.bindKeyPress('Right', function() moveCameraByDirection(East, 2) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+Up', function() moveCameraByDirection(North, 10) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+Down', function() moveCameraByDirection(South, 10) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+Left', function() moveCameraByDirection(West, 10) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+Right', function() moveCameraByDirection(East, 10) end, rootPanel)
+  
+  g_keyboard.bindKeyPress('PageUp', function() updateFloor(-1) end, rootPanel)
+  g_keyboard.bindKeyPress('PageDown', function() updateFloor(1) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+PageUp', function() updateZoom(1) end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+PageDown', function() updateZoom(-1) end, rootPanel)
 end
 
 function Interface.sync()
@@ -124,4 +173,3 @@ end
 
 function Interface.terminate()
 end
-

@@ -1,3 +1,9 @@
+StatusLabel < Label
+  margin-top: 5
+  color: white
+  anchors.top: parent.top
+  margin-left: 20
+
 UIWidget
   id: rootPanel
   anchors.fill: parent
@@ -5,7 +11,7 @@ UIWidget
 
   UIMiniWindowContainer
     id: leftPanel
-    image-source: /images/sidepanel.png
+    image-source: /images/ui/panel_side
     image-border: 4
     padding: 4
     width: 198
@@ -17,7 +23,7 @@ UIWidget
 
   UIMiniWindowContainer
     id: rightPanel
-    image-source: /images/sidepanel.png
+    image-source: /images/ui/panel_side
     image-border: 4
     padding: 4
     width: 198
@@ -33,5 +39,28 @@ UIWidget
     anchors.left: leftPanel.right
     anchors.right: rightPanel.left
     anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    anchors.bottom: informationPanel.top
     focusable: true
+    phantom: false
+
+  Panel
+    id: informationPanel
+    anchors.left: leftPanel.right
+    anchors.right: rightPanel.left
+    anchors.bottom: parent.bottom
+    height: 25
+    image-source: /images/ui/panel_content
+    image-border: 4
+    focusable: false
+    
+    StatusLabel
+      id: positionLabel
+      anchors.left: parent.left
+      width: 120
+      text: X: 1 Y: 1 Z:1
+      
+    StatusLabel
+      id: statusLabel
+      anchors.left: prev. right
+      width: 120
+      text: 'Test'

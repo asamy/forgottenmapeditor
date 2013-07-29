@@ -59,11 +59,10 @@ function Options.init()
   end
 
   g_keyboard.bindKeyDown('Ctrl+F', function() Options.toggleOption('fullscreen') end)
-  g_keyboard.bindKeyDown('Ctrl+D', function() Options.toggleOption('walkBooster') end)
 
   optionsWindow = g_ui.displayUI('options.otui')
   optionsWindow:hide()
-  optionsButton = TopMenu.addLeftButton('optionsButton', tr('Options') .. ' (Ctrl+D)', 'options.png', Options.toggle)
+  optionsButton = modules.mapeditor_topmenu.addLeftButton('optionsButton', tr('Options') .. ' (Ctrl+D)', '/images/topbuttons/options', Options.toggle)
 
   optionsTabBar = optionsWindow:getChildById('optionsTabBar')
   optionsTabBar:setContentWidget(optionsWindow:getChildById('optionsTabContent'))
@@ -75,7 +74,6 @@ function Options.init()
 end
 
 function Options.terminate()
-  g_keyboard.unbindKeyDown('Ctrl+D')
   g_keyboard.unbindKeyDown('Ctrl+F')
   optionsWindow:destroy()
   optionsWindow = nil

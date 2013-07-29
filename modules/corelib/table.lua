@@ -180,4 +180,3 @@ function table.collect(t, func)
   end
   return res
 end
-

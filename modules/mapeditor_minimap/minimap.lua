@@ -20,7 +20,7 @@ function init()
           )
   g_keyboard.bindKeyDown('Ctrl+M', toggle)
 
-  minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', 'minimap.png', toggle)
+  minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
   minimapButton:setOn(true)
 
   minimapWindow = g_ui.loadUI('minimap.otui', rootWidget:recursiveGetChildById('rightPanel'))
@@ -32,11 +32,13 @@ function init()
   g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseLeftButton)
   minimapWidget:setAutoViewMode(false)
   minimapWidget:setViewMode(1) -- mid view
+  minimapWidget:setDrawMinimapColors(true)
   minimapWidget:setMultifloor(false)
   minimapWidget:setKeepAspectRatio(false)
   minimapWidget.onMouseWheel = onMinimapMouseWheel
 
   reset()
+  minimapWindow:setup()
 end
 
 function terminate()
@@ -126,11 +128,6 @@ function compassClick(self, mousePos, mouseButton, elapsed)
   if dx < -0.5 then movex = -1 end
   if dy > 0.5 then movey = -1 end
   if dy < -0.5 then movey = 1 end
-
-  g_keyboard.bindKeyPress("Up", function() if dx > 0.5 then movex = 1 end end)
-  g_keyboard.bindKeyPress("Down", function() if dx < -0.5 then movex = -1 end end)
-  g_keyboard.bindKeyPress("Right", function() if dy > 0.5 then movey = -1 end end)
-  g_keyboard.bindKeyPress("Left", function() if dy < -0.5 then movey = 1 end end)
 
   local cameraPos = minimapWidget:getCameraPosition()
   local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}

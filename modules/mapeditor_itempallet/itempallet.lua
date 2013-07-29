@@ -1,5 +1,3 @@
-dofile 'const.lua'
-
 ItemPallet = {}
 
 local palletWindow
@@ -41,27 +39,28 @@ end
 
 local function deselectChild(child)
   palletList:focusChild(nil)
-  g_mouse.popCursor()
-
   if child then
+    g_mouse.popCursor('target')
     child:setBorderWidth(0)
   end
 end
 
 local function onMousePress(self, mousePos, button)
   local previous = _G["currentWidget"]
-  deselectChild(previous)
-
   local next = self:getChildByPos(mousePos)
+
   if not next then
-    deselectChild(nil)
+    deselectChild(previous)
     _G["currentWidget"] = nil
     _G["currentThing"] = nil
   elseif next ~= previous then
+    deselectChild(previous)
     next:setBorderWidth(1)
-    g_mouse.pushCursor()
+    g_mouse.pushCursor('target')
     palletList:focusChild(next)
     _G["currentWidget"] = next
+  else
+    deselectChild(previous)
   end
 end
 
@@ -94,8 +93,6 @@ function ItemPallet.initData()
   comboBox:addOption("Splashs",      ItemCategorySplash)
   comboBox:addOption("Fluids",       ItemCategoryFluid)
   comboBox:addOption("Doors",        ItemCategoryDoor)
-  --comboBox:addOption("Others",       ItemCategoryInvalid)
-  --comboBox:addOption("None",         ItemCategoryLast)
   comboBox:addOption("Creatures",    ThingCategoryCreature)
 
   comboBox:setCurrentIndex(1)
