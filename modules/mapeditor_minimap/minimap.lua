@@ -1,78 +1,49 @@
-DEFAULT_ZOOM = 60
-MAX_FLOOR_UP = 0
-MAX_FLOOR_DOWN = 15
-
-navigating = false
 minimapWidget = nil
 minimapButton = nil
 minimapWindow = nil
+otmm = true
+preloaded = false
+fullmapView = false
+oldZoom = nil
+oldPos = nil
+rightPanel = nil
 
---[[
-  Known Issue (TODO):
-  If you move the minimap compass directions and
-  you change floor it will not update the minimap.
-]]
 function init()
+  minimapButton = modules.mapeditor_topmenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
+  minimapButton:setOn(true)
+
+  rightPanel = rootWidget:recursiveGetChildById('rightPanel')
+  minimapWindow = g_ui.loadUI('minimap', rightPanel)
+  minimapWindow:setContentMinimumHeight(64)
+
+  minimapWidget = minimapWindow:recursiveGetChildById('minimap')
+
   connect(mapWidget, { onMouseMove = function() 
                                       local pos = mapWidget:getCameraPosition()
                                       if pos ~= nil then minimapWidget:setCameraPosition(pos) end
                                       end }
           )
+
+  g_keyboard.bindKeyPress('Alt+Left', function() minimapWidget:move(1,0) end, rightPanel)
+  g_keyboard.bindKeyPress('Alt+Right', function() minimapWidget:move(-1,0) end, rightPanel)
+  g_keyboard.bindKeyPress('Alt+Up', function() minimapWidget:move(0,1) end, rightPanel)
+  g_keyboard.bindKeyPress('Alt+Down', function() minimapWidget:move(0,-1) end, rightPanel)
   g_keyboard.bindKeyDown('Ctrl+M', toggle)
+  g_keyboard.bindKeyDown('Ctrl+Shift+M', toggleFullMap)
 
-  minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
-  minimapButton:setOn(true)
-
-  minimapWindow = g_ui.loadUI('minimap.otui', rootWidget:recursiveGetChildById('rightPanel'))
-  minimapWindow:setContentMinimumHeight(64)
-  minimapWindow:setContentMaximumHeight(256)
-
-  minimapWidget = minimapWindow:recursiveGetChildById('minimap')
-  g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseMidButton)
-  g_mouse.bindAutoPress(minimapWidget, compassClick, nil, MouseLeftButton)
-  minimapWidget:setAutoViewMode(false)
-  minimapWidget:setViewMode(1) -- mid view
-  minimapWidget:setDrawMinimapColors(true)
-  minimapWidget:setMultifloor(false)
-  minimapWidget:setKeepAspectRatio(false)
-  minimapWidget.onMouseWheel = onMinimapMouseWheel
-
-  reset()
   minimapWindow:setup()
 end
 
 function terminate()
-  disconnect(mapWidget, { onMouseMove = center })
-
-  saveMap()
+  g_keyboard.unbindKeyPress('Alt+Left', rightPanel)
+  g_keyboard.unbindKeyPress('Alt+Right', rightPanel)
+  g_keyboard.unbindKeyPress('Alt+Up', rightPanel)
+  g_keyboard.unbindKeyPress('Alt+Down', rightPanel)
   g_keyboard.unbindKeyDown('Ctrl+M')
+  g_keyboard.unbindKeyDown('Ctrl+Shift+M')
 
-  minimapButton:destroy()
   minimapWindow:destroy()
-end
-
-function online()
-  reset()
-  loadMap()
-end
-
-function offline()
-  saveMap()
-end
-
-function loadMap()
-  local clientVersion = g_game.getClientVersion()
-  local minimapFile = '/minimap_' .. clientVersion .. '.otcm'
-  if g_resources.fileExists(minimapFile) then
-    g_map.clean()
-    g_map.loadOtcm(minimapFile)
-  end
-end
-
-function saveMap()
-  local clientVersion = g_game.getClientVersion()
-  local minimapFile = '/minimap_' .. clientVersion .. '.otcm'
-  g_map.saveOtcm(minimapFile)
+  minimapButton:destroy()
 end
 
 function toggle()
@@ -85,12 +56,21 @@ function toggle()
   end
 end
 
-function isClickInRange(position, fromPosition, toPosition)
-  return (position.x >= fromPosition.x and position.y >= fromPosition.y and position.x <= toPosition.x and position.y <= toPosition.y)
+function onMiniWindowClose()
+  minimapButton:setOn(false)
 end
 
-function reset()
-  minimapWidget:setZoom(DEFAULT_ZOOM)
+function updateCameraPosition()
+  local player = g_game.getLocalPlayer()
+  if not player then return end
+  local pos = player:getPosition()
+  if not pos then return end
+  if not minimapWidget:isDragging() then
+    if not fullmapView then
+      minimapWidget:setCameraPosition(player:getPosition())
+    end
+    minimapWidget:setCrossPosition(player:getPosition())
+  end
 end
 
 function center()
@@ -110,60 +90,25 @@ function syncZoom(zoom)
   mapWidget:setZoom(zoom)
 end
 
-function compassClick(self, mousePos, mouseButton, elapsed)
-  if elapsed < 300 then return end
-
-  navigating = true
-  local px = mousePos.x - self:getX()
-  local py = mousePos.y - self:getY()
-  local dx = px - self:getWidth()/2
-  local dy = -(py - self:getHeight()/2)
-  local radius = math.sqrt(dx*dx+dy*dy)
-  local movex = 0
-  local movey = 0
-  dx = dx/radius
-  dy = dy/radius
-
-  if dx > 0.5 then movex = 1 end
-  if dx < -0.5 then movex = -1 end
-  if dy > 0.5 then movey = -1 end
-  if dy < -0.5 then movey = 1 end
-
-  local cameraPos = minimapWidget:getCameraPosition()
-  local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
-  syncOn(pos)
-end
-
-function onButtonClick(id)
-  if id == "zoomIn" then
-    local zoom = math.max(minimapWidget:getMaxZoomIn(), minimapWidget:getZoom() - 15)
-    syncZoom(zoom)
-  elseif id == "zoomOut" then
-    local zoom = math.min(minimapWidget:getMaxZoomOut(), minimapWidget:getZoom()+15)
-    syncZoom(zoom)
-  elseif id == "floorUp" then
-    local pos = minimapWidget:getCameraPosition()
-    pos.z = pos.z - 1
-    if pos.z > MAX_FLOOR_UP then
-      syncOn(pos)
-    end
-  elseif id == "floorDown" then
-    local pos = minimapWidget:getCameraPosition()
-    pos.z = pos.z + 1
-    if pos.z < MAX_FLOOR_DOWN then
-      syncOn(pos)
-    end
-  end
-end
-
-function onMinimapMouseWheel(self, mousePos, direction)
-  if direction == MouseWheelUp then
-    self:zoomIn()
+function toggleFullMap()
+  if not fullmapView then
+    fullmapView = true
+    minimapWindow:hide()
+    minimapWidget:setParent(rightPanel)
+    minimapWidget:fill('parent')
+    minimapWidget:setAlternativeWidgetsVisible(true)
   else
-    self:zoomOut()
+    fullmapView = false
+    minimapWidget:setParent(minimapWindow:getChildById('contentsPanel'))
+    minimapWidget:fill('parent')
+    minimapWindow:show()
+    minimapWidget:setAlternativeWidgetsVisible(false)
   end
-end
 
-function onMiniWindowClose()
-  minimapButton:setOn(false)
+  local zoom = oldZoom or 0
+  local pos = oldPos or minimapWidget:getCameraPosition()
+  oldZoom = minimapWidget:getZoom()
+  oldPos = minimapWidget:getCameraPosition()
+  minimapWidget:setZoom(zoom)
+  minimapWidget:setCameraPosition(pos)
 end
