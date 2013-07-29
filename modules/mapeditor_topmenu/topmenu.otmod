@@ -1,12 +1,9 @@
 Module
-  name: mapeditor_topmenu
+  name: mapeditor_topmenu  
   description: Create the top menu
   author: edubart
   website: www.otclient.info
-
-  @onLoad: |
-    dofile 'topmenu'
-    TopMenu.init()
-
-  @onUnload: |
-    TopMenu.terminate()
+  scripts: [ topmenu ]
+  sandboxed: true
+  @onLoad: init()
+  @onUnload: terminate()

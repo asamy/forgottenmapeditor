@@ -5,12 +5,13 @@ Module
   reloadable: false
 
   load-later:
-    - mapeditor_skins
+    - lib
+    - mapeditor_startup
+    - mapeditor_styles
     - mapeditor_topmenu
     - mapeditor_terminal
     - mapeditor_modulemanager
     - mapeditor_interface
-    - mapeditor_minimap
     - mapeditor_options
 
   @onLoad: |

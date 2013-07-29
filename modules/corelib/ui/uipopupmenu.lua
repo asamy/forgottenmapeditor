@@ -18,30 +18,58 @@ function UIPopupMenu:display(pos)
     return
   end
 
+  if g_ui.isMouseGrabbed() then
+    self:destroy()
+    return
+  end
+
   if currentMenu then
     currentMenu:destroy()
+  end
+
+  if pos == nil then
+    pos = g_window.getMousePosition()
   end
 
   rootWidget:addChild(self)
   self:setPosition(pos)
   self:grabMouse()
-  self:grabKeyboard()
+  --self:grabKeyboard()
   currentMenu = self
 end
 
-function UIPopupMenu:onGeometryChange()
+function UIPopupMenu:onGeometryChange(oldRect, newRect)
+  local parent = self:getParent()
+  if not parent then return end
+  local ymax = parent:getY() + parent:getHeight()
+  local xmax = parent:getX() + parent:getWidth()
+  if newRect.y + newRect.height > ymax then
+    local newy = newRect.y - newRect.height
+    if newy > 0 and newy + newRect.height < ymax then self:setY(newy) end
+  end
+  if newRect.x + newRect.width > xmax then
+    local newx = newRect.x - newRect.width
+    if newx > 0 and newx + newRect.width < xmax then self:setX(newx) end
+  end
   self:bindRectToParent()
 end
 
-function UIPopupMenu:addOption(optionName, optionCallback)
+function UIPopupMenu:addOption(optionName, optionCallback, shortcut)
   local optionWidget = g_ui.createWidget(self:getStyleName() .. 'Button', self)
   local lastOptionWidget = self:getLastChild()
   optionWidget.onClick = function(self)
-    optionCallback()
     self:getParent():destroy()
+    optionCallback()
   end
   optionWidget:setText(optionName)
-  local width = optionWidget:getTextSize().width + optionWidget:getMarginLeft() + optionWidget:getMarginRight() + 6
+  local width = optionWidget:getTextSize().width + optionWidget:getMarginLeft() + optionWidget:getMarginRight() + 15
+
+  if shortcut then
+    local shortcutLabel = g_ui.createWidget(self:getStyleName() .. 'ShortcutLabel', optionWidget)
+    shortcutLabel:setText(shortcut)
+    width = width + shortcutLabel:getTextSize().width + shortcutLabel:getMarginLeft() + shortcutLabel:getMarginRight()
+  end
+
   self:setWidth(math.max(self:getWidth(), width))
 end
 
@@ -53,6 +81,7 @@ function UIPopupMenu:onDestroy()
   if currentMenu == self then
     currentMenu = nil
   end
+  self:ungrabMouse()
 end
 
 function UIPopupMenu:onMousePress(mousePos, mouseButton)

@@ -30,12 +30,21 @@ function UIEditableMap:resolve(pos)
   return false
 end
 
-function UIEditableMap:onMousePress(mousePos, button)
+function handlerMousePress(self, mousePos, button)
   local pos = self:getPosition(mousePos)
+  if not pos then
+    return false
+  end
+  
   if g_keyboard.isShiftPressed() then
     return g_map.removeThingByPos(pos)
   end
+  
   if button == MouseRightButton or button == MouseLeftButton then
     return self:resolve(pos)
   end
 end
+
+--[[function UIEditableMap:onMousePress(mousePos, button)
+    handlerMousePress(self, mousePos, button)
+end]]

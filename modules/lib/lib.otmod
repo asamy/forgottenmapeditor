@@ -1,0 +1,9 @@
+Module
+  name: lib
+  description: All libs and constants
+  author: Summ
+  website: otland.net
+
+  @onLoad: |
+    dofile 'const'
+    dofile 'functions'

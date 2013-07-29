@@ -20,7 +20,7 @@ function init()
           )
   g_keyboard.bindKeyDown('Ctrl+M', toggle)
 
-  minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', 'minimap.png', toggle)
+  minimapButton = TopMenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
   minimapButton:setOn(true)
 
   minimapWindow = g_ui.loadUI('minimap.otui', rootWidget:recursiveGetChildById('rightPanel'))

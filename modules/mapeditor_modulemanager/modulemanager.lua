@@ -16,7 +16,7 @@ function ModuleManager.init()
   g_keyboard.bindKeyPress('Up', function() moduleList:focusPreviousChild(KeyboardFocusReason) end, moduleManagerWindow)
   g_keyboard.bindKeyPress('Down', function() moduleList:focusNextChild(KeyboardFocusReason) end, moduleManagerWindow)
 
-  moduleManagerButton = TopMenu.addLeftButton('moduleManagerButton', tr('Module Manager'), 'modulemanager.png', ModuleManager.toggle)
+  moduleManagerButton = modules.mapeditor_topmenu.addLeftButton('moduleManagerButton', tr('Module Manager'), '/images/topbuttons/modulemanager', ModuleManager.toggle)
 
   -- refresh modules only after all modules are loaded
   addEvent(ModuleManager.listModules)
