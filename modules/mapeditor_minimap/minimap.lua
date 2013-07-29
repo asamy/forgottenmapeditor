@@ -1,15 +1,13 @@
 minimapWidget = nil
 minimapButton = nil
 minimapWindow = nil
-otmm = true
-preloaded = false
 fullmapView = false
 oldZoom = nil
 oldPos = nil
 rightPanel = nil
 
 function init()
-  minimapButton = modules.mapeditor_topmenu.addRightGameToggleButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
+  minimapButton = modules.mapeditor_topmenu.addRightButton('minimapButton', tr('Minimap') .. ' (Ctrl+M)', '/images/topbuttons/minimap', toggle)
   minimapButton:setOn(true)
 
   rightPanel = rootWidget:recursiveGetChildById('rightPanel')
