@@ -20,7 +20,15 @@ Licensed under MIT,  see LICENSE for more information.
 
 ## Screenshots
 
-Here's a screenshot as of Monday, Sep 24, 2012.
+1. Monday, July 29, 2013. #1
+
+![Screenshot](http://i.imgur.com/M9KGjE0.jpg)
+
+2. Money, July 29, 2013. (Town Dialog Preview)
+
+![Screenshot](http://i.imgur.com/b2lQ8Ft.jpg)
+
+3. Monday, Sep 24, 2012.
 
 ![Screenshot](http://i.imgur.com/CZVqM.jpg)
 
