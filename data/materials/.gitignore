@@ -1,0 +1,7 @@
+*.otml
+*.otb
+*.xml
+*.otbm
+*.dat
+*.spr
+!.gitignore
