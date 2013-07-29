@@ -10,6 +10,10 @@ fallen <f.fallen45@gmail.com>
 
 edubart <edub4rt@gmail.com> and others.
 
+## Thanks to
+
+TheSumm (https://github.com/TheSumm) for his contributions.
+
 ## License
 
 Licensed under MIT,  see LICENSE for more information.
@@ -24,37 +28,11 @@ Here's a screenshot as of Monday, Sep 24, 2012.
 
 [OTClient](https://github.com/edubart/otclient)
 
-## Building
+ForgottenMapEditor depends on OTClient in order to run.
 
-Linux:
+## Short guide for running
 
-```sh
-git clone git://github.com/otfallen/forgottenmapeditor
-git submodule init && git submodule update
-cd otclient
-mkdir -p build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DPCH=ON
-make
-```
+Before reading further, make sure you download OTclient and compile it (if not precompiled).
 
-Windows:
-    1. Install Git from the Gitscm website
-    2. Fire up Git bash
-    3. Type out the following commands:
-        ```sh
-        git clone git://github.com/otfallen/forgottenmapeditor
-        git submodule init && git submodule update
-        cd otclient
-        mkdir -p build && cd build
-        ```
-    4. Follow otclient build guide.
-
-## Running
-
-```sh
-cd .. # get back the root dir
-mv otclient/build/otclient .
-./otclient
-```
-For windows, just remove the prepended ./
+Place the OTClient executable on the root directory of your forgottenmapeditor copy then run the executable.
 
