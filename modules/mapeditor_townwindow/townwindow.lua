@@ -14,8 +14,8 @@ function TownWindow.init()
                           if focusedChild == nil then return end
                           TownWindow.updateTownInfo(focusedChild:getText())
                         end })
-  g_keyboard.bindKeyPress('Up',   function() townList:focusPreviousChild(KeyboardFocusReason) end, moduleManagerWindow)
-  g_keyboard.bindKeyPress('Down', function() townList:focusNextChild(KeyboardFocusReason) end,     moduleManagerWindow)
+  g_keyboard.bindKeyPress('Up',   function() townList:focusPreviousChild(KeyboardFocusReason) end, townWindow)
+  g_keyboard.bindKeyPress('Down', function() townList:focusNextChild(KeyboardFocusReason) end,     townWindow)
 
   statusLabel = townWindow:getChildById('statusLabel')
 
