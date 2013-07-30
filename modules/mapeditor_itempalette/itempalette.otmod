@@ -1,0 +1,11 @@
+Module
+  name: mapeditor_itempalette
+  description: Map editor item pallet window
+  author: edubart, fallen
+
+  @onLoad: |
+    dofile 'itempalette'
+    ItemPalette.init()
+
+  @onUnload: |
+    ItemPalette.terminate()

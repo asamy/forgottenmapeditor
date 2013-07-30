@@ -1,27 +1,27 @@
-ItemPallet = {}
+ItemPalette = {}
 
-local palletWindow
-local palletList
+local paletteWindow
+local paletteList
 local comboBox
 
-UIPalletCreature = extends(UICreature)
-function UIPalletCreature:onMousePress(mousePos, button)
+UIPaletteCreature = extends(UICreature)
+function UIPaletteCreature:onMousePress(mousePos, button)
   -- TODO: Could optimize this by outfit id?...
   _G["currentThing"] = self:getCreature():getName()
 end
 
-UIPalletItem = extends(UIItem)
-function UIPalletItem:onMousePress(mousePos, button)
+UIPaletteItem = extends(UIItem)
+function UIPaletteItem:onMousePress(mousePos, button)
   _G["currentThing"] = self:getItemId()
 end
 
 local function onOptionChange(widget, optText, optData)
-  palletList:destroyChildren()
+  paletteList:destroyChildren()
 
   if optData ~= ThingCategoryCreature then
     local items = g_things.findItemTypeByCategory(optData)
     for i = 1, #items do
-      local widget = g_ui.createWidget('PalletItem', palletList)
+      local widget = g_ui.createWidget('PaletteItem', paletteList)
       widget:setItemId(items[i]:getClientId())
     end
   else
@@ -31,14 +31,14 @@ local function onOptionChange(widget, optText, optData)
 
     local creatures = g_creatures.getCreatures()
     for i = 1, #creatures do
-      local widget = g_ui.createWidget('PalletCreature', palletList)
+      local widget = g_ui.createWidget('PaletteCreature', paletteList)
       widget:setCreature(creatures[i]:cast())
     end
   end
 end
 
 local function deselectChild(child)
-  palletList:focusChild(nil)
+  paletteList:focusChild(nil)
   if child then
     g_mouse.popCursor('target')
     child:setBorderWidth(0)
@@ -57,27 +57,27 @@ local function onMousePress(self, mousePos, button)
     deselectChild(previous)
     next:setBorderWidth(1)
     g_mouse.pushCursor('target')
-    palletList:focusChild(next)
+    paletteList:focusChild(next)
     _G["currentWidget"] = next
   else
     deselectChild(previous)
   end
 end
 
-function ItemPallet.init()
-  palletWindow = g_ui.loadUI('itempallet.otui', rootWidget:recursiveGetChildById('leftPanel'))
-  palletList   = palletWindow:recursiveGetChildById('palletList')
-  comboBox     = palletWindow:recursiveGetChildById('palletComboBox')
+function ItemPalette.init()
+  paletteWindow = g_ui.loadUI('itempalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
+  paletteList   = paletteWindow:recursiveGetChildById('paletteList')
+  comboBox     = paletteWindow:recursiveGetChildById('paletteComboBox')
 
-  connect(palletList, { onMousePress = onMousePress })
+  connect(paletteList, { onMousePress = onMousePress })
   comboBox.onOptionChange = onOptionChange
 
   _G["currentWidget"] = nil
-  ItemPallet.initData()
+  ItemPalette.initData()
 end
 
-function ItemPallet.initData()
-  palletList:destroyChildren()
+function ItemPalette.initData()
+  paletteList:destroyChildren()
   comboBox:clearOptions()
 
   comboBox:addOption("Grounds",      ItemCategoryGround)
@@ -98,10 +98,10 @@ function ItemPallet.initData()
   comboBox:setCurrentIndex(1)
 end
 
-function ItemPallet.terminate()
+function ItemPalette.terminate()
   comboBox.onOptionChange = nil
-  disconnect(palletList, { onMousePress = onMousePress })
+  disconnect(paletteList, { onMousePress = onMousePress })
 
-  palletWindow:destroy()
-  palletWindow = nil
+  paletteWindow:destroy()
+  paletteWindow = nil
 end

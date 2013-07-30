@@ -1,23 +1,24 @@
-PalletItem < Item
-  __class: UIPalletItem
+PaletteItem < Item
+  __class: UIPaletteItem
+  //show-id: true
 
-PalletCreature < Creature
-  __class: UIPalletCreature
+PaletteCreature < Creature
+  __class: UIPaletteCreature
 
 MiniWindow
-  text: Item Pallete
+  text: Item Palette
 
   MiniWindowContents
     padding-right: 3
     ComboBox
-      id: palletComboBox
+      id: paletteComboBox
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
 
     ScrollablePanel
-      id: palletList
-      anchors.top: palletComboBox.bottom
+      id: paletteList
+      anchors.top: paletteComboBox.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       layout:

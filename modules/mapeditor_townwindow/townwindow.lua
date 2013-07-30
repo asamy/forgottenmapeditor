@@ -50,9 +50,9 @@ function TownWindow.toggle()
 end
 
 function TownWindow.addTownToList(town)
-    local label = g_ui.createWidget('TownListLabel', townList)
-    label:setText(town:getName())
-    label:setOn(true)
+  local label = g_ui.createWidget('TownListLabel', townList)
+  label:setText(town:getName())
+  label:setOn(true)
 end
 
 function TownWindow.readTowns()
