@@ -10,15 +10,16 @@ fallen <f.fallen45@gmail.com>
 
 edubart <edub4rt@gmail.com> and others.
 
+## Thanks to
+
+TheSumm (https://github.com/TheSumm) for his contributions.
+
 ## License
 
 Licensed under MIT,  see LICENSE for more information.
 
 ## Screenshots
 
-<<<<<<< HEAD
-Here's a screenshot as of Monday, Sep 24, 2012.
-=======
 Monday, July 29, 2013. #1
 
 ![Screenshot](http://i.imgur.com/M9KGjE0.jpg)
@@ -28,11 +29,10 @@ Monday, July 29, 2013. (Town Dialog Preview)
 ![Screenshot](http://i.imgur.com/b2lQ8Ft.jpg)
 
 Monday, Sep 24, 2012.
->>>>>>> f434742e312aaa30bb8f0e2c8d3df9b85388887e
 
 ![Screenshot](http://i.imgur.com/CZVqM.jpg)
 
-## See to Build
+## See Also
 
 [OTClient](https://github.com/edubart/otclient)
 
