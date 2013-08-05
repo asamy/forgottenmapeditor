@@ -37,5 +37,7 @@ Monday, Sep 24, 2012.
 [OTClient](https://github.com/edubart/otclient)
 
 ## Need
-- Add minimap
-- Fix bugs
+- Fix creature put on map (otclient bug)
+- Fix old towns save (otclient bug)
+- Fix spawns and houses saves on old maps (otclient bug?)
+- Fix houses saves dir (confirmed, remove "if(version > 1) {" on house file from mapio.cpp of sources)
