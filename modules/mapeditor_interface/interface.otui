@@ -62,5 +62,5 @@ UIWidget
     StatusLabel
       id: statusLabel
       anchors.left: prev.right
-      width: 120
-      text: 'Test'
+      width: 140
+      text: 'Forgotten Map Editor'
