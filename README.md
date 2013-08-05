@@ -36,6 +36,14 @@ Monday, Sep 24, 2012.
 
 [OTClient](https://github.com/edubart/otclient)
 
+ForgottenMapEditor depends on OTClient in order to run.
+
+## Short guide for running
+
+Before reading further, make sure you download OTclient and compile it (if not precompiled).
+
+Place the OTClient executable on the root directory of your forgottenmapeditor copy then run the executable.
+
 ## Need
 - Fix creature put on map (otclient bug)
 - Fix old towns save (otclient bug)
