@@ -18,12 +18,8 @@ function UIEditableMap:resolve(pos)
 
   local thing = _G["currentThing"]
   if type(thing) == 'string' then
-    if spawn = g_creatures.getSpawn(pos) then
-      spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
-    else
-      local spawn = g_creatures.addSpawn(pos, 5)
-      spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
-    end
+    local spawn = g_creatures.addSpawn(pos, 5)
+    spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
     return true
   elseif type(thing) == 'number' then
     local itemType = g_things.findItemTypeByClientId(thing)
