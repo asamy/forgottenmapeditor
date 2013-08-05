@@ -7,11 +7,11 @@
 OTB_FILE   = "/data/materials/items.otb"
 XML_FILE   = "/data/materials/items.xml"
 MON_FILE   = "/data/materials/monster/monsters.xml"
-NPC_FOLDER = "/data/materials/npcs"
+NPC_FOLDER = "/data/materials/npc"
 OTBM_FILE  = "/data/materials/map.otbm"
 DAT_FILE   = "/data/materials/Tibia.dat"
 SPR_FILE   = "/data/materials/Tibia.spr"
-VERSION    = 870  -- Most important for loading Tibia files correctly.
+VERSION    = 1010  -- Most important for loading Tibia files correctly.
 
 -- Nothing beyond here is useful to people who can't code
 function startup()
@@ -29,9 +29,9 @@ function startup()
   -- Load up XML
   g_things.loadXml(XML_FILE)
   -- load up monsters
-  --g_creatures.loadMonsters(MON_FILE)
+  g_creatures.loadMonsters(MON_FILE)
   -- uncomment this if  you wanna load NPCs
-  -- g_map.loadNpcs(NPC_FOLDER)
+  g_creatures.loadNpcs(NPC_FOLDER)
   -- g_map.loadOtbm(OTBM_FILE)
 end
 
