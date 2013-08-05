@@ -105,13 +105,22 @@ function saveMap()
   if startsWith(current, "/data") then
    current = current:gsub("/data", "") 
   end
+  
+  local currentFile = _G["currentFile"]
+  if currentFile then
+    g_map.setHouseFile(current .. "-houses.xml")
+    g_map.setSpawnFile(current .. "-spawns.xml")
 
-  g_map.setHouseFile(current .. "-houses.xml")
-  g_map.setSpawnFile(current .. "-spawns.xml")
+    if saveHouses:isChecked() then g_houses.save(current .. "-houses.xml")          end
+    if saveSpawns:isChecked() then g_creatures.saveSpawns(current .. "-spawns.xml") end
+  else
+    g_map.setHouseFile(g_map.getHouseFile())
+    g_map.setSpawnFile(g_map.getSpawnFile())
+  
+    if saveHouses:isChecked() then g_houses.save(g_map.getHouseFile())          end
+    if saveSpawns:isChecked() then g_creatures.saveSpawns(g_map.getSpawnFile()) end
+  end
   g_map.saveOtbm(current)
-
-  if saveHouses:isChecked() then g_houses.save(current .. "-houses.xml")          end
-  if saveSpawns:isChecked() then g_creatures.saveSpawns(current .. "-spawns.xml") end
 end
 
 function checks()
