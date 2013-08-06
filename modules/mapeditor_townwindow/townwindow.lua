@@ -121,6 +121,7 @@ function TownWindow.gotoTown()
   local currentTownName = townWindow:recursiveGetChildById('townName'):getText()
   local currentTown = g_towns.getTownByName(currentTownName)
   if currentTown then
-    mapWidget:setCameraPosition(currentTown:getPos())
+    MapEditor.setCameraPosition(currentTown:getPos())
   end
 end
+

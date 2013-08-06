@@ -33,3 +33,8 @@ function MapEditor.terminate()
   g_settings.set('window-maximized', g_window.isMaximized())
   MapEditor = nil
 end
+
+function MapEditor.setCameraPosition(pos)
+  mapWidget:setCameraPosition(pos)
+  minimapWidget:setCameraPosition(pos)
+end
