@@ -1,7 +1,6 @@
 Module
   name: mapeditor_minimap
   description: Manage minimap
-  sandboxed: true
   author: edubart
   website: www.otclient.info
 

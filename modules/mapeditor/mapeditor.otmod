@@ -12,10 +12,8 @@ Module
     - mapeditor_terminal
     - mapeditor_modulemanager
     - mapeditor_townwindow
-    - mapeditor_housewindow
     - mapeditor_interface
     - mapeditor_itempalette
-    - mapeditor_brushpalette
     - mapeditor_minimap
     - mapeditor_options
 
