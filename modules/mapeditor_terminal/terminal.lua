@@ -128,8 +128,8 @@ function Terminal.init()
     end
   end
 
-  terminalButton = modules.mapeditor_topmenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + T)', '/images/topbuttons/terminal', Terminal.toggle)
-  g_keyboard.bindKeyDown('Ctrl+T', Terminal.toggle)
+  terminalButton = modules.mapeditor_topmenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + ~)', '/images/topbuttons/terminal', Terminal.toggle)
+  g_keyboard.bindKeyDown('Ctrl+`', Terminal.toggle)
 
   commandHistory = g_settings.getList('terminal-history')
 
@@ -147,7 +147,7 @@ end
 
 function Terminal.terminate()
   g_settings.setList('terminal-history', commandHistory)
-  g_keyboard.unbindKeyDown('Ctrl+T')
+  g_keyboard.unbindKeyDown('Ctrl+`')
   g_logger.setOnLog(nil)
   terminalButton:destroy()
   terminalButton = nil

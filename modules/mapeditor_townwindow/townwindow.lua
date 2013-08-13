@@ -19,10 +19,12 @@ function TownWindow.init()
 
   statusLabel = townWindow:getChildById('statusLabel')
 
-  townWindowButton = modules.mapeditor_topmenu.addLeftButton('townWindowButton', tr('Town Window'), '', TownWindow.toggle)
+  townWindowButton = modules.mapeditor_topmenu.addLeftButton('townWindowButton', tr('Town Window') .. ' (Ctrl+T)', '/images/topbuttons/towns', TownWindow.toggle)
+  g_keyboard.bindKeyDown('Ctrl+T', TownWindow.toggle)
 end
 
 function TownWindow.terminate()
+  g_keyboard.unbindKeyDown('Ctrl+T')
   townWindow:destroy()
   townWindow = nil
   townWindowButton:destroy()
