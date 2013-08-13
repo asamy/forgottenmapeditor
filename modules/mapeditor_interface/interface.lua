@@ -29,6 +29,12 @@ function updatePositionDisplay(pos)
   end
 end  
 
+function resetZoom()
+  mapWidget:setZoom(zoomLevels[3])
+  updatePositionDisplay(pos)
+  zoomLevel = 3
+end
+
 function updateZoom(delta)
   if delta then
     zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
@@ -108,6 +114,11 @@ function Interface.init()
 
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
+      if g_keyboard.isCtrlPressed() then
+        resetZoom()
+        return
+      end
+      
       if elapsed < 150 then return end
 
       navigating = true
