@@ -5,7 +5,7 @@ function UIEditableMap:doRender(thing, pos)
     return false
   end
 
-  if g_keyboard.isShiftPressed() then
+  if g_keyboard.isCtrlPressed() then
     g_map.removeThing(thing)
   end
 
@@ -41,7 +41,7 @@ function handlerMousePress(self, mousePos, button)
     return false
   end
   
-  if g_keyboard.isShiftPressed() then
+  if g_keyboard.isCtrlPressed() then
     return g_map.removeThingByPos(pos)
   end
   
