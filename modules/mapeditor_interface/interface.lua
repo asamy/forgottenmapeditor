@@ -22,6 +22,24 @@ local zoomLevels = {
 }
 local navigating = false
 
+local isPushed = false
+function updateCursor(pos)
+  local actualTool = tools[_G["currentTool"].id]
+  if actualTool.disableCursor then return end
+
+  if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX()) and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
+    if not isPushed then
+      isPushed = true
+      g_mouse.pushCursor('target')
+    end
+  else
+    if isPushed then
+        g_mouse.popCursor('target')
+        isPushed = false
+    end
+  end
+end
+
 function updatePositionDisplay(pos)
   local pos = mapWidget:getPosition(g_window.getMousePosition()) or pos
   if pos then
@@ -78,6 +96,7 @@ function Interface.init()
   
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updatePositionDisplay()
+    updateCursor(mousePos)
   end
   
   mapWidget.onMouseWheel = function(self, mousePos, direction)
@@ -146,7 +165,7 @@ function Interface.init()
   
   g_mouse.bindAutoPress(mapWidget,
     handlerMousePress
-  , 50, MouseLeftButton)
+  , 25, MouseLeftButton)
 
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
   local startPos = {x = 500, y = 500, z = 7}
