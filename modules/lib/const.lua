@@ -24,3 +24,6 @@ NorthEast    = 4
 SouthEast   = 5
 SouthWest  = 6
 NorthWest   = 7
+
+ToolMouse = 1
+ToolPencil = 2

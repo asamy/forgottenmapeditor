@@ -1,0 +1,11 @@
+Module
+  name: mapeditor_toolpalette
+  description: Map editor tool pallete window
+  author: Crypton
+
+  @onLoad: |
+    dofile 'toolpalette'
+    ToolPalette.init()
+
+  @onUnload: |
+    ToolPalette.terminate()

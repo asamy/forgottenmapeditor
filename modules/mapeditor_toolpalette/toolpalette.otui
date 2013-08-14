@@ -1,0 +1,67 @@
+PaletteItem < Item
+SecondItem < Item
+ActualItem < Item
+  
+InfoLabel < Label
+ToolLabel < Label
+
+tool < Button
+  size: 32 32
+  icon-clip: 0 0 24 24
+  border-color: #ffff00
+
+tool1 < tool
+  icon-source: /images/tools/mouse
+  
+tool2 < tool
+  icon-source: /images/tools/pencil
+
+MiniWindow
+  text: Tool Palette
+  height: 153
+
+  MiniWindowContents
+    padding-right: 3
+    
+    InfoLabel
+      id: infoLabel
+      margin-top: 5
+      color: white
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 55
+      
+    SecondItem
+      id: SecondItem
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 82
+      margin-top: 35   
+    
+    ActualItem
+      id: ActualItem
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 62
+      margin-top: 25
+      
+    ToolLabel
+      id: toolLabel
+      color: white
+      anchors.top: SecondItem.bottom
+      anchors.left: parent.left
+      margin-left: 75
+      margin-top: 10     
+      
+    ScrollablePanel
+      id: toolList
+      anchors.top: toolLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      layout:
+        type: grid
+        fit-children: true
+        flow: true
+        cell-size: 32 32
+      margin-right: 4
+      margin-top: 5
