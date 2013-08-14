@@ -12,7 +12,11 @@ edubart <edub4rt@gmail.com> and others.
 
 ## Thanks to
 
-TheSumm (https://github.com/TheSumm) for his contributions.
+[TheSumm](https://github.com/TheSumm)
+[Crypton33](https://github.com/Crypton33
+[BrunoDCC](https://github.com/BrunoDCC)
+
+for their contributions.
 
 ## License
 
