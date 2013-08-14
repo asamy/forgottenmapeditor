@@ -8,11 +8,13 @@ UIPaletteCreature = extends(UICreature)
 function UIPaletteCreature:onMousePress(mousePos, button)
   -- TODO: Could optimize this by outfit id?...
   _G["currentThing"] = self:getCreature():getName()
+   ToolPalette.update()
 end
 
 UIPaletteItem = extends(UIItem)
 function UIPaletteItem:onMousePress(mousePos, button)
   _G["currentThing"] = self:getItemId()
+  ToolPalette.update()
 end
 
 local function onOptionChange(widget, optText, optData)
@@ -40,7 +42,6 @@ end
 local function deselectChild(child)
   paletteList:focusChild(nil)
   if child then
-    g_mouse.popCursor('target')
     child:setBorderWidth(0)
   end
 end
@@ -56,12 +57,13 @@ local function onMousePress(self, mousePos, button)
   elseif next ~= previous then
     deselectChild(previous)
     next:setBorderWidth(1)
-    g_mouse.pushCursor('target')
     paletteList:focusChild(next)
     _G["currentWidget"] = next
   else
     deselectChild(previous)
   end
+
+  ToolPalette.update()
 end
 
 function ItemPalette.init()
@@ -72,7 +74,11 @@ function ItemPalette.init()
   connect(paletteList, { onMousePress = onMousePress })
   comboBox.onOptionChange = onOptionChange
 
+  _G["currentThing"] = 4526
+  _G["secondThing"] = 106
   _G["currentWidget"] = nil
+  
+  ToolPalette.update()
   ItemPalette.initData()
 end
 

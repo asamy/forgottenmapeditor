@@ -1,6 +1,7 @@
 UIEditableMap = extends(UIMap)
 
 function UIEditableMap:doRender(thing, pos)
+  -- TODO: Return false if there's already that item on top stackpos
   if not thing then
     return false
   end
@@ -14,10 +15,10 @@ function UIEditableMap:doRender(thing, pos)
 end
 
 function UIEditableMap:resolve(pos)
-  if not _G["currentWidget"] then return false end
+  -- if not _G["currentWidget"] then return false end
 
   local thing = _G["currentThing"]
-  if type(thing) == 'string' then
+  if type(thing) == 'string' then -- Creatures
     local spawn = g_creatures.getSpawn(pos)
     if spawn then
       spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
@@ -26,9 +27,13 @@ function UIEditableMap:resolve(pos)
       spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
     end
     return true
-  elseif type(thing) == 'number' then
+  elseif type(thing) == 'number' then -- Items
+    local actualTool = _G["currentTool"].id
     local itemType = g_things.findItemTypeByClientId(thing)
-    if itemType then
+    if not itemType then return false end
+    
+    if actualTool == ToolMouse then return false
+    elseif actualTool == ToolPencil then
       return self:doRender(Item.createOtb(itemType:getServerId()), pos)
     end
   end
