@@ -13,7 +13,9 @@ edubart <edub4rt@gmail.com> and others.
 ## Thanks to
 
 [Sam](https://github.com/TheSumm)
+
 [Mateusz Pawlica33](https://github.com/Crypton33)
+
 [BrunoDCC](https://github.com/BrunoDCC)
 
 for their contributions.
