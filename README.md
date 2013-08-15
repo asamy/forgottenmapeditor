@@ -1,4 +1,4 @@
-### Forgotten Map Editor
+# Forgotten Map Editor
 
 A Map editor written using otclient's framework with modifications for reading and writing OT binary files and XML files.
 
@@ -16,7 +16,7 @@ edubart <edub4rt@gmail.com> and others.
 
 [Mateusz Pawlica33](https://github.com/Crypton33)
 
-[BrunoDCC](https://github.com/BrunoDCC)
+[Bruno Carvalho](https://github.com/BrunoDCC)
 
 for their contributions.
 
