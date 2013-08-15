@@ -1,7 +1,7 @@
 PaletteItem < Item
 SecondItem < Item
 ActualItem < Item
-  
+
 InfoLabel < Label
 ToolLabel < Label
 
@@ -12,12 +12,16 @@ tool < Button
 
 tool1 < tool
   icon-source: /images/tools/mouse
-  
+
 tool2 < tool
   icon-source: /images/tools/pencil
 
+tool3 < tool
+  icon-source: /images/tools/paint
+
 MiniWindow
   text: Tool Palette
+  icon: /images/topbuttons/tools
   height: 153
 
   MiniWindowContents

@@ -1,7 +1,8 @@
 ToolPalette = {}
 tools = {
   [ToolMouse] = {disableCursor = true},
-  [ToolPencil] = {}
+  [ToolPencil] = {},
+  [ToolPaint] = {},
 }
 
 local toolsWindow
