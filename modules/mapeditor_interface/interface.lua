@@ -54,10 +54,55 @@ function resetZoom()
 end
 
 function updateZoom(delta)
+  local zoomedTile = mapWidget:getPosition(g_window.getMousePosition())
+  if zoomedTile == nil then return false end
+  
   if delta then
     zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
   end
   mapWidget:setZoom(zoomLevels[zoomLevel])
+  
+  if delta then
+    mapWidget:setCameraPosition(zoomedTile)
+    local tmp = mapWidget:getPosition(g_window.getMousePosition())
+    local i = 1
+
+    repeat
+      local pos = mapWidget:getPosition(g_window.getMousePosition())
+      if pos == nil then return false end
+
+      if pos.x ~= zoomedTile.x then
+        local change = 1
+        if math.abs(pos.x - zoomedTile.x) > 10 then
+          change = math.ceil(math.abs(pos.x - zoomedTile.x))
+        end
+
+        if pos.x > zoomedTile.x then
+          tmp.x = tmp.x - change
+        elseif pos.x < zoomedTile.x then
+          tmp.x = tmp.x + change
+        end
+      end
+
+      if pos.y ~= zoomedTile.y then
+        local change = 1
+        if math.abs(pos.y - zoomedTile.y) > 10 then
+          change = math.ceil(math.abs(pos.y - zoomedTile.y))
+        end      
+      
+        if pos.y > zoomedTile.y then
+          tmp.y = tmp.y - change
+        elseif pos.y < zoomedTile.y then
+          tmp.y = tmp.y + change
+        end
+      end
+      i = i + 1
+      if i == 5000 then break end
+      
+      mapWidget:setCameraPosition(tmp)
+    until mapWidget:getPosition(g_window.getMousePosition()).x == zoomedTile.x and mapWidget:getPosition(g_window.getMousePosition()).y == zoomedTile.y
+  end
+  
   updatePositionDisplay(pos)
 end
 
