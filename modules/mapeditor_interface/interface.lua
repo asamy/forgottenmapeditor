@@ -25,8 +25,9 @@ local navigating = false
 local isPushed = false
 function updateCursor(pos)
   local actualTool = tools[_G["currentTool"].id]
+  if actualTool.disableCursor and isPushed then g_mouse.popCursor('target') end
   if actualTool.disableCursor then return end
-
+  
   if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX()) and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
     if not isPushed then
       isPushed = true
@@ -40,16 +41,24 @@ function updateCursor(pos)
   end
 end
 
-function updatePositionDisplay(pos)
+function updateBottomBar(pos)
   local pos = mapWidget:getPosition(g_window.getMousePosition()) or pos
   if pos then
     positionLabel:setText(string.format('X: %d Y: %d Z: %d', pos.x, pos.y, pos.z))  
+  
+    local tile = g_map.getTile(pos)
+    if tile and tile:getTopThing() then
+      local topThing = tile:getTopThing()
+      itemLabel:setText('Actual Item: ' .. topThing:getId()) -- TODO: Showing item name
+    else
+      itemLabel:setText('Actual Item: None')  
+    end
   end
 end  
 
 function resetZoom()
   mapWidget:setZoom(zoomLevels[3])
-  updatePositionDisplay(pos)
+  updateBottomBar(pos)
   zoomLevel = 3
 end
 
@@ -103,7 +112,7 @@ function updateZoom(delta)
     until mapWidget:getPosition(g_window.getMousePosition()).x == zoomedTile.x and mapWidget:getPosition(g_window.getMousePosition()).y == zoomedTile.y
   end
   
-  updatePositionDisplay(pos)
+  updateBottomBar(pos)
 end
 
 function moveCameraByDirection(dir, amount)
@@ -119,20 +128,21 @@ function moveCameraByDirection(dir, amount)
     pos.x = pos.x - amount
   end
   mapWidget:setCameraPosition(pos)
-  updatePositionDisplay(pos)
+  updateBottomBar(pos)
 end
 
 function updateFloor(value)
     local pos = mapWidget:getCameraPosition()
     pos.z = math.min(math.max(pos.z + value, 0), 15)
     mapWidget:setCameraPosition(pos)
-    updatePositionDisplay(pos)
+    updateBottomBar(pos)
 end
   
 function Interface.init()
   rootPanel = g_ui.displayUI('interface.otui')
   mapWidget = rootPanel:getChildById('map')
   positionLabel = rootPanel:recursiveGetChildById('positionLabel')
+  itemLabel = rootPanel:recursiveGetChildById('itemLabel')
 
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
@@ -140,7 +150,7 @@ function Interface.init()
   updateZoom()
   
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
-    updatePositionDisplay()
+    updateBottomBar()
     updateCursor(mousePos)
   end
   
@@ -169,7 +179,7 @@ function Interface.init()
       local pos = self:getPosition(mousePos)
       if pos then
         self:setCameraPosition(pos)
-        updatePositionDisplay()
+        updateBottomBar()
       end
       return true
     end
@@ -204,19 +214,21 @@ function Interface.init()
       local cameraPos = self:getCameraPosition()
       local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
       self:setCameraPosition(pos)
-      updatePositionDisplay()
+      updateBottomBar()
     end
   , nil, MouseMidButton)
   
   g_mouse.bindAutoPress(mapWidget,
     handlerMousePress
-  , 25, MouseLeftButton)
+  , 50, MouseLeftButton)
 
+  g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
+  
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
   local startPos = {x = 500, y = 500, z = 7}
   mapWidget:setRect(newRect)
   mapWidget:setCameraPosition(startPos) 
-  updatePositionDisplay(startPos)
+  updateBottomBar(startPos)
   
   g_keyboard.bindKeyPress('Up', function() moveCameraByDirection(North, 2) end, rootPanel)
   g_keyboard.bindKeyPress('Down', function() moveCameraByDirection(South, 2) end, rootPanel)

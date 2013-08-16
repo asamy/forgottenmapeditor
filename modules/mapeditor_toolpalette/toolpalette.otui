@@ -20,7 +20,7 @@ tool2 < tool
 
 tool3 < tool
   icon-source: /images/tools/paint
-  !tooltip: tr('Paint')
+  !tooltip: tr('Paint Bucket')
 
 MiniWindow
   text: Tool Palette
@@ -36,7 +36,7 @@ MiniWindow
       color: white
       anchors.top: parent.top
       anchors.left: parent.left
-      margin-left: 55
+      margin-left: 48
       
     SecondItem
       id: SecondItem

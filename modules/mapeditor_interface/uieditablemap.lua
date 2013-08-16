@@ -1,13 +1,20 @@
 UIEditableMap = extends(UIMap)
 
 function UIEditableMap:doRender(thing, pos)
-  -- TODO: Return false if there's already that item on top stackpos
   if not thing then
     return false
   end
-
+  
   if g_keyboard.isCtrlPressed() then
     g_map.removeThing(thing)
+  end
+
+  local tile = g_map.getTile(pos)
+  if tile then
+    local topThing = tile:getTopThing()
+    if topThing and (topThing:getId() == thing:getId()) then
+      return false
+    end
   end
 
   g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
@@ -16,6 +23,7 @@ end
 
 -- Flood Fill Algorithm: http://en.wikipedia.org/wiki/Flood_fill
 local function paint(from, to, pos)
+  if from == to then return false end
   local tiles = {}
   local p = {
     {x = 0, y = -1},
@@ -38,17 +46,18 @@ local function paint(from, to, pos)
           g_map.removeThing(things[i])
           UIEditableMap:doRender(Item.createOtb(to), actualPos)
           found = true
-          break      
+          break
         end
       end
     end
-    
+
     if found and tile then
       for i = 1, #p do
         table.insert(tiles, {x = actualPos.x + p[i].x, y = actualPos.y + p[i].y, z = pos.z})
       end
     end
     table.remove(tiles, 1)
+    if #tiles > 1000 then break end
   end
 end
 
@@ -77,7 +86,7 @@ function UIEditableMap:resolve(pos)
       local tile = g_map.getTile(pos)
       if not tile then return false end
       local itemId = tile:getTopThing():getId()
-      if itemId == itemType:getServerId() then return false end
+      if itemId and itemId == itemType:getServerId() then return false end
 
       return paint(itemId, itemType:getServerId(), pos)
     end

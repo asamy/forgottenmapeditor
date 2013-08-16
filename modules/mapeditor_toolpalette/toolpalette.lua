@@ -20,6 +20,20 @@ function ToolPalette.update()
   secondItem:setItemId(_G["secondThing"])
 end
 
+local function deselectChild(child)
+  toolList:focusChild(nil)
+  if child then
+    child:setBorderWidth(0)
+  end
+end
+
+function ToolPalette.setTool(id)
+  deselectChild(_G["currentTool"])
+  toolList:focusChild(tools[id].widget)
+  _G["currentTool"] = tools[id].widget
+  tools[id].widget:setBorderWidth(1)
+end
+
 function ToolPalette.switchItems()
   local tmp = _G["currentThing"]
   _G["currentThing"] = _G["secondThing"]
@@ -28,19 +42,11 @@ function ToolPalette.switchItems()
   ToolPalette.update()
 end
 
-local function deselectChild(child)
-  toolList:focusChild(nil)
-  if child then
-    child:setBorderWidth(0)
-  end
-end
-
 local function onMousePress(self, mousePos, button)
   local previous = _G["currentTool"]
   local next = self:getChildByPos(mousePos)
   
   if not next then return end
-
   if next ~= previous then
     deselectChild(previous)
     next:setBorderWidth(1)
@@ -64,14 +70,10 @@ function ToolPalette.init()
   for i = 1, #tools do
       local widget = g_ui.createWidget('tool' .. i, toolList)
       widget.id = i
-      
-      -- Pencil should be default tool
-      if i == 2 then
-        toolList:focusChild(widget)
-        _G["currentTool"] = widget
-        widget:setBorderWidth(1)
-      end
+      tools[i].widget = widget
   end
+  _G["currentTool"] = tools[1].widget
+  ToolPalette.setTool(ToolPencil)
   
   g_keyboard.bindKeyPress('x', function() ToolPalette.switchItems() end)
   connect(toolList, { onMousePress = onMousePress })
