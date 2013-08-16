@@ -64,3 +64,9 @@ UIWidget
       anchors.left: prev.right
       width: 140
       text: 'Forgotten Map Editor'
+      
+    StatusLabel
+      id: itemLabel
+      anchors.left: prev.right
+      width: 160
+      text: Actual Item: None
