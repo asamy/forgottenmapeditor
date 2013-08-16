@@ -12,12 +12,15 @@ tool < Button
 
 tool1 < tool
   icon-source: /images/tools/mouse
+  !tooltip: tr('Mouse')
 
 tool2 < tool
   icon-source: /images/tools/pencil
+  !tooltip: tr('Pencil')
 
 tool3 < tool
   icon-source: /images/tools/paint
+  !tooltip: tr('Paint')
 
 MiniWindow
   text: Tool Palette
