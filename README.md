@@ -6,9 +6,9 @@ Please read the wiki if you would like to try it out or have a problem.  If your
 
 ## Authors
 
-fallen <f.fallen45@gmail.com>
+- Ahmed "[Fallen](https://github.com/allanference)" Samy <f.fallen45@gmail.com>
 
-edubart <edub4rt@gmail.com> and others.
+- Eduardo "[edubart](https://github.com/edubart/)" Bart <edub4rt@gmail.com>
 
 ## Thanks to
 
@@ -23,6 +23,19 @@ for their contributions.
 ## License
 
 Licensed under MIT,  see LICENSE for more information.
+
+## Contribute!
+
+Contributions are always welcome.  You're welcome to contribute anything, whether documentation or code.
+
+If you're kind of lost on how to contribute, here is a short guide:
+
+1. Make a GitHub account (if you don't have one) -
+    GitHub have guidelines for newbies, so make sure to read them if you're lost.
+2. Fork the repository
+3. Commit your changes to YOUR repository.
+4. Create a pull request (Click the pull request button on top of your fork) or
+    notify me via e-mail <f.fallen45@gmail.com>
 
 ## Screenshots
 
