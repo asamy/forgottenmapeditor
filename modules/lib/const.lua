@@ -15,16 +15,31 @@ ItemCategoryDoor         = 13
 ItemCategoryLast         = 14
 ThingCategoryCreature    = 15
 
+-- tileflags_t (src/client/tile.h)
+TILESTATE_NONE = 0 		-- 0
+TILESTATE_PROTECTIONZONE = 1 	-- 1<<0
+TILESTATE_TRASHED = 2 		-- 1<<1
+TILESTATE_OPTIONALZONE = 4 	-- 1<<2
+TILESTATE_NOLOGOUT = 8 		-- 1<<3
+TILESTATE_HARDCOREZONE = 16	-- 1<<4
+TILESTATE_REFRESH = 32		-- 1<<5
+TILESTATE_HOUSE = 64 		-- 1<<6
 
-North          = 0
-East           = 1
-South         = 2
-West          = 3 
-NorthEast    = 4
-SouthEast   = 5
-SouthWest  = 6
-NorthWest   = 7
+defaultZoneFlags = {
+	-- zone = color (string, rgba)
+	[TILESTATE_PROTECTIONZONE] = "green",
+	[TILESTATE_HOUSE]          = "blue"
+}
 
-ToolMouse = 1
+North     = 0
+East      = 1
+South     = 2
+West      = 3
+NorthEast = 4
+SouthEast = 5
+SouthWest = 6
+NorthWest = 7
+
+ToolMouse  = 1
 ToolPencil = 2
-ToolPaint = 3
+ToolPaint  = 3

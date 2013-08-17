@@ -137,7 +137,20 @@ function updateFloor(value)
     mapWidget:setCameraPosition(pos)
     updateBottomBar(pos)
 end
-  
+
+function Interface.initDefaultZoneOptions()
+  local showZones = g_settings.getBoolean("show-zones", true)
+
+  g_map.setShowZones(showZones)
+  g_map.setZoneOpacity(0.5)
+  for i, v in pairs(defaultZoneFlags) do
+    if showZones then  -- only enable if showing is enabled
+      g_map.setShowZone(i, true)
+    end
+    g_map.setZoneColor(i, type(v) == "string" and tocolor(v) or v)
+  end
+end
+
 function Interface.init()
   rootPanel = g_ui.displayUI('interface.otui')
   mapWidget = rootPanel:getChildById('map')
@@ -148,7 +161,8 @@ function Interface.init()
   mapWidget:setZoom(30)
   mapWidget:setMaxZoomOut(4096)
   updateZoom()
-  
+
+  Interface.initDefaultZoneOptions()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updateBottomBar()
     updateCursor(mousePos)
