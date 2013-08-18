@@ -4,7 +4,7 @@ function UIEditableMap:doRender(thing, pos)
   if not thing then
     return false
   end
-  
+
   if g_keyboard.isCtrlPressed() then
     g_map.removeThing(thing)
   end
@@ -12,7 +12,7 @@ function UIEditableMap:doRender(thing, pos)
   local tile = g_map.getTile(pos)
   if tile then
     local topThing = tile:getTopThing()
-    if topThing and (topThing:getId() == thing:getId()) then
+    if topThing and topThing:getId() == thing:getId() then
       return false
     end
   end
@@ -23,7 +23,9 @@ end
 
 -- Flood Fill Algorithm: http://en.wikipedia.org/wiki/Flood_fill
 local function paint(from, to, pos)
-  if from == to then return false end
+  if from == to then
+    return false
+  end
   local tiles = {}
   local p = {
     {x = 0, y = -1},
@@ -77,16 +79,24 @@ function UIEditableMap:resolve(pos)
   elseif type(thing) == 'number' then -- Items
     local actualTool = _G["currentTool"].id
     local itemType = g_things.findItemTypeByClientId(thing)
-    if not itemType then return false end
+    if not itemType then
+      return false
+    end
     
-    if actualTool == ToolMouse then return false
+    if actualTool == ToolMouse then
+      return false
     elseif actualTool == ToolPencil then
       return self:doRender(Item.createOtb(itemType:getServerId()), pos)
     elseif actualTool == ToolPaint then
       local tile = g_map.getTile(pos)
-      if not tile then return false end
+      if not tile then
+        return false
+      end
+
       local itemId = tile:getTopThing():getId()
-      if itemId and itemId == itemType:getServerId() then return false end
+      if itemId and itemId == itemType:getServerId() then
+        return false
+      end
 
       return paint(itemId, itemType:getServerId(), pos)
     end
@@ -94,7 +104,7 @@ function UIEditableMap:resolve(pos)
   return false
 end
 
-function handlerMousePress(self, mousePos, button)
+function handleMousePress(self, mousePos, button)
   local pos = self:getPosition(mousePos)
   if not pos then
     return false
@@ -109,6 +119,3 @@ function handlerMousePress(self, mousePos, button)
   end
 end
 
---[[function UIEditableMap:onMousePress(mousePos, button)
-    handlerMousePress(self, mousePos, button)
-end]]

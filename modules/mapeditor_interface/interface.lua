@@ -237,7 +237,7 @@ function Interface.init()
   , nil, MouseMidButton)
   
   g_mouse.bindAutoPress(mapWidget,
-    handlerMousePress
+    handleMousePress
   , 50, MouseLeftButton)
 
   g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
