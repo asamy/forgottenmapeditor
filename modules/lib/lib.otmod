@@ -1,8 +1,8 @@
 Module
   name: lib
   description: All libs and constants
-  author: Summ
-  website: otland.net
+  author: Fallen
+  website: https://github.com/allanference/forgottenmapeditor/
 
   @onLoad: |
     dofile 'const'

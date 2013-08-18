@@ -8,7 +8,7 @@ UIPaletteCreature = extends(UICreature)
 function UIPaletteCreature:onMousePress(mousePos, button)
   -- TODO: Could optimize this by outfit id?...
   _G["currentThing"] = self:getCreature():getName()
-   ToolPalette.update()
+  ToolPalette.update()
 end
 
 UIPaletteItem = extends(UIItem)

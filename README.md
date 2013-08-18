@@ -1,8 +1,8 @@
 # Forgotten Map Editor
 
-A Map editor written using otclient's framework with modifications for reading and writing OT binary files and XML files.
+ForgottenMapEditor is an otclient module, therefore it depends on OTClient.
 
-Please read the wiki if you would like to try it out or have a problem.  If your problem has no workaround written in the wiki, consider using the bug-tracker system in github (Issues).
+ForgottenMapEditor is written using otclient's framework with modifications for reading and writing OT binary files and XML files.
 
 ## Authors
 
@@ -20,9 +20,13 @@ Please read the wiki if you would like to try it out or have a problem.  If your
 
 for their contributions.
 
+## Special thanks to
+
+[Red](http://otland,net/members/Red)
+
 ## License
 
-Licensed under MIT,  see LICENSE for more information.
+Licensed under MIT (Also known as "The Expat License"),  see LICENSE for more information.
 
 ## Contribute!
 
@@ -43,7 +47,7 @@ Monday, July 29, 2013. #1
 
 ![Screenshot](http://i.imgur.com/M9KGjE0.jpg)
 
-Monday, July 29, 2013. (Town Dialog Preview)
+Monday, July 29, 2013. #2 (Town Dialog Preview)
 
 ![Screenshot](http://i.imgur.com/b2lQ8Ft.jpg)
 
@@ -55,11 +59,14 @@ Monday, Sep 24, 2012.
 
 [OTClient](https://github.com/edubart/otclient)
 
-ForgottenMapEditor depends on OTClient in order to run.
+ForgottenMapEditor depends on OTClient.
 
 ## Short guide for running
 
-Before reading further, make sure you download OTclient and compile it (if not precompiled).
+Before reading further, make sure you have a copy of OTClient.
 
-Place the OTClient executable on the root directory of your forgottenmapeditor copy then run the executable.
+Warning: OTClient precompiled binaries may not be up-to-date (They're not updated frequently)!
+So some of the new features may not work at all.
+
+Place the OTClient executable in the root directory of your forgottenmapeditor copy then run the executable.
 
