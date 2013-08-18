@@ -68,5 +68,5 @@ UIWidget
     StatusLabel
       id: itemLabel
       anchors.left: prev.right
-      width: 160
+      width: 250
       text: Actual Item: None

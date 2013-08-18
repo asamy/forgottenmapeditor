@@ -49,7 +49,11 @@ function updateBottomBar(pos)
     local tile = g_map.getTile(pos)
     if tile and tile:getTopThing() then
       local topThing = tile:getTopThing()
-      itemLabel:setText('Actual Item: ' .. topThing:getId()) -- TODO: Showing item name
+      local text = "Actual Item: " .. topThing:getId()
+      if topThing:isItem() or topThing:isCreature() then
+        text = text .. " Name: " .. topThing:getName()
+      end
+      itemLabel:setText(text)
     else
       itemLabel:setText('Actual Item: None')  
     end
