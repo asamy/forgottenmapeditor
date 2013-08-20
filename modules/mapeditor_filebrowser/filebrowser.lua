@@ -82,7 +82,7 @@ function saveMap()
   end
   
   local currentFile = _G["currentFile"]
-  if currentFile then
+  if not currentFile then
     g_map.setHouseFile("data/" .. current .. "-houses.xml")
     g_map.setSpawnFile("data/" .. current .. "-spawns.xml")
   end
