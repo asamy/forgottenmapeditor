@@ -71,18 +71,29 @@ function add(filename)
   table.insert(fsCache, file)
 end
 
+function mapExists(mapFile, spawnFile, houseFile)
+  return not(
+        g_resources.fileExists(mapFile) or
+        g_resources.fileExists(spawnFile) or
+        g_resources.fileExists(houseFile)
+  )
+end
+
 function saveMap()
   local current = _G["currentFile"] or _G["currentMap"]
-  if not current then return end
-  if current:len() == 0 then current = guess() end
+  if not current then
+    return
+  end
+  if current:len() == 0 then
+    current = guess()
+  end
 
   current = current:gsub("^%s*(.-)%s*$", "%1")
   if startsWith(current, "/data") then
    current = current:gsub("/data", "") 
   end
-  
-  local currentFile = _G["currentFile"]
-  if not currentFile then
+
+  if mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
     g_map.setHouseFile("data/" .. current .. "-houses.xml")
     g_map.setSpawnFile("data/" .. current .. "-spawns.xml")
   end
