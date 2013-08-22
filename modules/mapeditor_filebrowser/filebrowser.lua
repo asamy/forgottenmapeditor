@@ -72,9 +72,9 @@ function add(filename)
 end
 
 function mapExists(mapFile, spawnFile, houseFile)
-  return not(
-        g_resources.fileExists(mapFile) or
-        g_resources.fileExists(spawnFile) or
+  return (
+        g_resources.fileExists(mapFile) and
+        g_resources.fileExists(spawnFile) and
         g_resources.fileExists(houseFile)
   )
 end
@@ -90,10 +90,10 @@ function saveMap()
 
   current = current:gsub("^%s*(.-)%s*$", "%1")
   if startsWith(current, "/data") then
-   current = current:gsub("/data", "") 
+    current = current:gsub("/data", "") 
   end
 
-  if mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
+  if not mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
     g_map.setHouseFile("data/" .. current .. "-houses.xml")
     g_map.setSpawnFile("data/" .. current .. "-spawns.xml")
   end
