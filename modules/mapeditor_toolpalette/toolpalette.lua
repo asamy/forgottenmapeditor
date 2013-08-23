@@ -16,8 +16,16 @@ local secondItem
 local toolList
 
 function ToolPalette.update()
-  actualItem:setItemId(_G["currentThing"])
-  secondItem:setItemId(_G["secondThing"])
+  if type(_G["currentThing"]) == 'string' then
+    actualItem:setItemId()
+  else
+    actualItem:setItemId(_G["currentThing"])
+  end
+  if type(_G["secondThing"]) == 'string' then
+    secondItem:setItemId()
+  else
+    secondItem:setItemId(_G["secondThing"])
+  end
 end
 
 local function deselectChild(child)
