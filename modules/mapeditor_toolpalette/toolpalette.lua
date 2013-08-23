@@ -16,6 +16,9 @@ local secondItem
 local toolList
 
 function ToolPalette.update()
+  if type(_G["currentThing"]) == 'string' or type(_G["secondThing"] == 'string') then
+    return
+  end
   actualItem:setItemId(_G["currentThing"])
   secondItem:setItemId(_G["secondThing"])
 end
