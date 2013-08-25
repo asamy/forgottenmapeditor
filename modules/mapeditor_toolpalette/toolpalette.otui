@@ -1,10 +1,3 @@
-PaletteItem < Item
-SecondItem < Item
-ActualItem < Item
-
-InfoLabel < Label
-ToolLabel < Label
-
 tool < Button
   size: 32 32
   icon-clip: 0 0 24 24
@@ -30,7 +23,7 @@ MiniWindow
   MiniWindowContents
     padding-right: 3
     
-    InfoLabel
+    Label
       id: infoLabel
       margin-top: 5
       color: white
@@ -38,21 +31,21 @@ MiniWindow
       anchors.left: parent.left
       margin-left: 48
       
-    SecondItem
+    Item
       id: SecondItem
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 82
       margin-top: 35   
     
-    ActualItem
+    Item
       id: ActualItem
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 62
       margin-top: 25
       
-    ToolLabel
+    Label
       id: toolLabel
       color: white
       anchors.top: SecondItem.bottom
