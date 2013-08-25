@@ -142,6 +142,36 @@ function updateFloor(value)
     updateBottomBar(pos)
 end
 
+local showZones  = g_settings.getBoolean("show-zones", true)
+local showHouses = g_settings.getBoolean("show-zones", true
+function toggleZones()
+  if showZones then
+    g_map.setShowZones(false)
+    showZones = false
+    showHouses = false
+  else
+    g_map.setShowZones(true)
+    showZones = true
+    showHouses = true
+  end
+  
+  -- Workaround - Map widget isn't updating when you toggle showing zones (it's updating only on first 2 zoom levels)
+  mapWidget:setCameraPosition(mapWidget:getCameraPosition())
+end
+
+function toggleHouses()
+  if showHouses then
+    g_map.setShowZone(TILESTATE_HOUSE, false)
+    showHouses = false
+  else
+    showHouses = true
+    g_map.setShowZone(TILESTATE_HOUSE, true)
+  end
+  
+  -- Workaround - Map widget isn't updating when you toggle showing zones (it's updating only on first 2 zoom levels)
+  mapWidget:setCameraPosition(mapWidget:getCameraPosition())
+end
+
 function Interface.initDefaultZoneOptions()
   local showZones = g_settings.getBoolean("show-zones", true)
 
@@ -261,6 +291,9 @@ function Interface.init()
   g_keyboard.bindKeyPress('PageDown', function() updateFloor(1) end, rootPanel)
   g_keyboard.bindKeyPress('Ctrl+PageUp', function() updateZoom(1) end, rootPanel)
   g_keyboard.bindKeyPress('Ctrl+PageDown', function() updateZoom(-1) end, rootPanel)
+  
+  g_keyboard.bindKeyPress('Ctrl+e', function() toggleZones() end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+h', function() toggleHouses() end, rootPanel)
 end
 
 function Interface.sync()
