@@ -26,7 +26,9 @@ local isPushed = false
 function updateCursor(pos)
   local actualTool = tools[_G["currentTool"].id]
   if actualTool.disableCursor and isPushed then g_mouse.popCursor('target') end
-  if actualTool.disableCursor then return end
+  if actualTool.disableCursor then
+    return
+  end
   
   if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX()) and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
     if not isPushed then
@@ -68,7 +70,9 @@ end
 
 function updateZoom(delta)
   local zoomedTile = mapWidget:getPosition(g_window.getMousePosition())
-  if zoomedTile == nil then return false end
+  if zoomedTile == nil then
+    return false
+  end
   
   if delta then
     zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
@@ -82,7 +86,9 @@ function updateZoom(delta)
 
     repeat
       local pos = mapWidget:getPosition(g_window.getMousePosition())
-      if pos == nil then return false end
+      if pos == nil then 
+        return false 
+      end
 
       if pos.x ~= zoomedTile.x then
         local change = 1
@@ -110,7 +116,9 @@ function updateZoom(delta)
         end
       end
       i = i + 1
-      if i == 5000 then break end
+      if i == 5000 then
+        break
+      end
       
       mapWidget:setCameraPosition(tmp)
     until mapWidget:getPosition(g_window.getMousePosition()).x == zoomedTile.x and mapWidget:getPosition(g_window.getMousePosition()).y == zoomedTile.y
@@ -234,6 +242,7 @@ function Interface.init()
     return false
   end
 
+  -- TODO: Make it more RME-like
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
       if g_keyboard.isCtrlPressed() then
@@ -241,7 +250,9 @@ function Interface.init()
         return
       end
       
-      if elapsed < 150 then return end
+      if elapsed < 150 then
+        return
+      end
 
       navigating = true
       local px = mousePos.x - self:getX()
@@ -266,9 +277,7 @@ function Interface.init()
     end
   , nil, MouseMidButton)
   
-  g_mouse.bindAutoPress(mapWidget,
-    handleMousePress
-  , 50, MouseLeftButton)
+  g_mouse.bindAutoPress(mapWidget, handleMousePress, 50, MouseLeftButton)
 
   g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
   
