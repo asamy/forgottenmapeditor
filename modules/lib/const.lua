@@ -26,9 +26,12 @@ TILESTATE_REFRESH = 32		-- 1<<5
 TILESTATE_HOUSE = 64 		-- 1<<6
 
 defaultZoneFlags = {
-	-- zone = color (string, rgba)
-	[TILESTATE_PROTECTIONZONE] = "green",
-	[TILESTATE_HOUSE]          = "blue"
+  -- zone = color (string, rgba)
+  [TILESTATE_PROTECTIONZONE] = "green",
+  [TILESTATE_HOUSE]          = "blue",
+  [TILESTATE_OPTIONALZONE]   = "orange",
+  [TILESTATE_HARDCOREZONE]   = "red",
+  [TILESTATE_NOLOGOUT]       = "yellow"
 }
 
 North     = 0
