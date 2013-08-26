@@ -110,9 +110,9 @@ function checks()
     local defaultCallback = function() mbox:destroy() end
     mbox = displayGeneralBox('New Map', 'Warning! You\'re about to close the current map but it seems that you have unsaved changes, would you like to proceed?',
                                                 {
-                                                    { text='Proceed', callback=function() g_map.clean() _G["currentMap"] = _G["selection"] or guess() defaultCallback() end },
+                                                    { text='Proceed', callback=function() g_map.clean() g_minimap.clean() _G["currentMap"] = _G["selection"] or guess() defaultCallback() end },
                                                     { text='Save', callback=function() g_map.saveOtbm(current) defaultCallback() end }, 
-                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) g_map.clean() _G["currentMap"] = "" defaultCallback() end}
+                                                    { text='Save & Close', callback=function() g_map.saveOtbm(current) g_map.clean() g_minimap.clean() _G["currentMap"] = "" defaultCallback() end}
                                                 },
                                                 defaultCallback, defaultCallback
                                   )
@@ -126,6 +126,7 @@ function openMap()
   local filename = _G["currentMap"]
   if g_resources.fileExists(filename) then
     g_map.clean()
+    g_minimap.clean()
     g_map.loadOtbm(filename)
     g_houses.load(g_map.getHouseFile())
     g_creatures.loadSpawns(g_map.getSpawnFile())
