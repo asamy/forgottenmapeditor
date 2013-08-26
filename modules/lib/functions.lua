@@ -1,5 +1,5 @@
 -- Ripped off from http://lua-users.org/wiki/SciteIndentation
-function endsWith(sbig, slittle)
+function string.endsWith(sbig, slittle)
   if type(slittle) == "table" then
     for k,v in ipairs(slittle) do
       if string.sub(sbig, string.len(sbig) - string.len(v) + 1) == v then
@@ -11,7 +11,7 @@ function endsWith(sbig, slittle)
   return string.sub(sbig, string.len(sbig) - string.len(slittle) + 1) == slittle
 end
 
-function startsWith(sbig, slittle)
+function string.startsWith(sbig, slittle)
   if type(slittle) == "table" then
     for k,v in ipairs(slittle) do
       if string.sub(sbig, 1, string.len(v)) == v then

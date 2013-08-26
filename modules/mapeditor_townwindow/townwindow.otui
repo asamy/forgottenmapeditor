@@ -135,10 +135,3 @@ MainWindow
     !text: tr('Add Town')
     enabled: true
     @onClick: TownWindow.addTown()
-
-  StatusLabel
-    id: statusLabel
-    anchors.top: townInfo.bottom
-    anchors.right: townInfo.right
-    text: Nothing yet
-    text-wrap: true

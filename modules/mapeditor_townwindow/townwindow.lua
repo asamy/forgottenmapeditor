@@ -3,7 +3,6 @@ TownWindow = {}
 local townWindow
 local townList
 local townWindowButton
-local statusLabel
 
 function TownWindow.init()
   townWindow = g_ui.displayUI("townwindow.otui")
@@ -16,8 +15,6 @@ function TownWindow.init()
                         end })
   g_keyboard.bindKeyPress('Up',   function() townList:focusPreviousChild(KeyboardFocusReason) end, townWindow)
   g_keyboard.bindKeyPress('Down', function() townList:focusNextChild(KeyboardFocusReason) end,     townWindow)
-
-  statusLabel = townWindow:getChildById('statusLabel')
 
   townWindowButton = modules.mapeditor_topmenu.addLeftButton('townWindowButton', tr('Town Window') .. ' (Ctrl+T)', '/images/topbuttons/towns', TownWindow.toggle)
   g_keyboard.bindKeyDown('Ctrl+T', TownWindow.toggle)
@@ -81,7 +78,6 @@ function TownWindow.updateTownInfo(townName)
   townWindow:recursiveGetChildById('townID'):setText(tostring(town:getId()))
   townWindow:recursiveGetChildById('townPosition'):setText(string.format("{ x: %d y: %d z: %d }",
                                                             townPos.x, townPos.y, townPos.z))
-  statusLabel:setText('Updated town info')
 end
 
 function TownWindow.addTown()
@@ -98,15 +94,16 @@ function TownWindow.addTown()
     for i = 1, 100 do
       if not g_towns.getTown(i) then
         id = i
+        break
       end
     end
   elseif g_towns.getTown(id) then
-    statusLabel:setText('Town ID exists! Set to 0 for auto')
+    print ('Town ID exists! Set to 0 for auto')
     return
   end
 
   if not g_map.getTile(position) then
-    statusLabel:setText('Unable to find tile at that position.')
+    print ('Unable to find tile at that position.')
     return
   end
 

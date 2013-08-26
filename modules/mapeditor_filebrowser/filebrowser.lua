@@ -44,7 +44,7 @@ local supportedVersions = {
 
 function openFile(f)
   for k, v in pairs(extensions) do
-    if endsWith(f, k) then
+    if f:endsWith(k) then
       v(f)
       break
     end
@@ -89,7 +89,7 @@ function saveMap()
   end
 
   current = current:gsub("^%s*(.-)%s*$", "%1")
-  if startsWith(current, "/data") then
+  if current:startsWith("/data") then
     current = current:gsub("/data", "") 
   end
 
@@ -148,7 +148,7 @@ end
 
 function loadMyFile(yourFile)
   for _ext, _ in pairs(extensions) do
-    if endsWith(yourFile, _ext) then
+    if yourFile:endsWith(_ext) then
       add(yourFile)
       break
     end
@@ -156,7 +156,7 @@ function loadMyFile(yourFile)
 end
 
 function loadDir(dir)
-  if not endsWith(dir, "/") then dir = dir.."/" end
+  if not dir:endsWith("/") then dir = dir.."/" end
 
   local list = g_resources.listDirectoryFiles(dir)
   for i = 1, #list do
