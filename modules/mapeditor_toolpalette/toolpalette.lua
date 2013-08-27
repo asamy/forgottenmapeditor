@@ -16,11 +16,18 @@ local secondItem
 local toolList
 
 function ToolPalette.update()
-  if type(_G["currentThing"]) == 'string' or type(_G["secondThing"]) == 'string' then
-    return
+  -- TODO: Showing look of monster instead of seal item :-)
+  if isNumber(_G["currentThing"]) then
+    actualItem:setItemId(_G["currentThing"])
+  else
+    actualItem:setItemId(7184)
   end
-  actualItem:setItemId(_G["currentThing"])
-  secondItem:setItemId(_G["secondThing"])
+  
+  if isNumber(_G["secondThing"]) then
+    secondItem:setItemId(_G["secondThing"])
+  else
+    secondItem:setItemId(7184)
+  end
 end
 
 local function deselectChild(child)

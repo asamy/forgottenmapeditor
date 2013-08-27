@@ -23,3 +23,6 @@ function string.startsWith(sbig, slittle)
   return string.sub(sbig, 1, string.len(slittle)) == slittle
 end
 
+function isNumber(str)
+	return tonumber(str) ~= nil
+end
