@@ -49,6 +49,7 @@ MiniWindow
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 48
+      !text: tr('Actual item (X)')
       
     Item
       id: SecondItem
@@ -70,7 +71,8 @@ MiniWindow
       anchors.top: SecondItem.bottom
       anchors.left: parent.left
       margin-left: 75
-      margin-top: 10     
+      margin-top: 10  
+      !text: tr('Tools:')
       
     ScrollablePanel
       id: toolList

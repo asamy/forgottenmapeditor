@@ -2,8 +2,6 @@ ToolPalette = {}
 
 local toolsWindow
 local paletteList
-local infoLabel
-local toolLabel
 
 local actualItem
 local secondItem
@@ -136,12 +134,7 @@ end
 function ToolPalette.init()
   toolsWindow = g_ui.loadUI('toolpalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
   ToolPalette.initOptions()
-  
-  toolLabel = toolsWindow:recursiveGetChildById('toolLabel')
-  toolLabel:setText('Tools:')
-  infoLabel = toolsWindow:recursiveGetChildById('infoLabel')
-  infoLabel:setText('Actual item (X)')
-  
+
   actualItem = toolsWindow:recursiveGetChildById('ActualItem')
   secondItem = toolsWindow:recursiveGetChildById('SecondItem')
 
