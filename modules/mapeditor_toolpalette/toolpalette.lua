@@ -1,9 +1,4 @@
 ToolPalette = {}
-tools = {
-  [ToolMouse] = {disableCursor = true},
-  [ToolPencil] = {},
-  [ToolPaint] = {},
-}
 
 local toolsWindow
 local paletteList
@@ -15,12 +10,94 @@ local secondItem
 
 local toolList
 
-function ToolPalette.update()
-  if type(_G["currentThing"]) == 'string' or type(_G["secondThing"]) == 'string' then
+-- -- - Tool Options - -- --
+local options
+
+local sizeLabel
+local sizePanel
+
+tools = {
+  [ToolMouse] = {
+    disableCursor = true,
+  },
+  [ToolPencil] = {
+    sizes = {1, 3, 5, 7, 9},
+    size = 1
+  },
+  [ToolPaint] = {
+
+  },
+}
+
+local function onSizeChange(self, mousePos, button)
+  local next = self:getChildByPos(mousePos)
+  if not next then
     return
   end
-  actualItem:setItemId(_G["currentThing"])
-  secondItem:setItemId(_G["secondThing"])
+  
+  self:getFocusedChild():setBorderWidth(0)
+  self:focusChild(nil)
+  
+  self:focusChild(next)
+  next:setBorderWidth(1)
+  tools[_G["currentTool"].id].size = next.value
+end
+
+function ToolPalette.initOptions()  
+  options = toolsWindow:recursiveGetChildById('options')
+  
+  sizeLabel = g_ui.createWidget('optionLabel', options)
+  sizeLabel:setText('Brush size:')
+  sizeLabel:hide()
+
+  sizePanel = g_ui.createWidget('optionPanel', options)
+  connect(sizePanel, { onMousePress = onSizeChange })
+  sizePanel:hide()
+end
+
+function ToolPalette.updateOptions()
+  local tool = tools[_G["currentTool"].id]
+  
+  -- Size options
+  if tool.size and tool.sizes then
+    sizeLabel:show()
+    sizePanel:show()
+    sizePanel:destroyChildren()
+    
+    for i = 1, #tool.sizes do
+      local widget = g_ui.createWidget('optionButton', sizePanel)
+      widget:setText(tool.sizes[i])
+      widget.value = tool.sizes[i]
+      
+      if widget.value == tool.size then
+        sizePanel:focusChild(widget)
+        widget:setBorderWidth(1)      
+      end
+    end
+  else
+    sizeLabel:hide()
+    sizePanel:hide()
+  end
+end
+
+function ToolPalette.terminateOptions()
+  disconnect(toolList, { onMousePress = onSizeChange })
+end
+-- -- -- -- ---- -- -- -- -- 
+
+function ToolPalette.update()
+  -- TODO: Showing look of monster instead of seal item :-)
+  if isNumber(_G["currentThing"]) then
+    actualItem:setItemId(_G["currentThing"])
+  else
+    actualItem:setItemId(7184)
+  end
+  
+  if isNumber(_G["secondThing"]) then
+    secondItem:setItemId(_G["secondThing"])
+  else
+    secondItem:setItemId(7184)
+  end
 end
 
 local function deselectChild(child)
@@ -35,6 +112,7 @@ function ToolPalette.setTool(id)
   toolList:focusChild(tools[id].widget)
   _G["currentTool"] = tools[id].widget
   tools[id].widget:setBorderWidth(1)
+  ToolPalette.updateOptions()
 end
 
 function ToolPalette.switchItems()
@@ -51,15 +129,13 @@ local function onMousePress(self, mousePos, button)
   
   if not next then return end
   if next ~= previous then
-    deselectChild(previous)
-    next:setBorderWidth(1)
-    toolList:focusChild(next)
-    _G["currentTool"] = next
+    ToolPalette.setTool(next.id)
   end
 end
 
 function ToolPalette.init()
   toolsWindow = g_ui.loadUI('toolpalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
+  ToolPalette.initOptions()
   
   toolLabel = toolsWindow:recursiveGetChildById('toolLabel')
   toolLabel:setText('Tools:')
@@ -80,13 +156,15 @@ function ToolPalette.init()
   
   g_keyboard.bindKeyPress('x', function() ToolPalette.switchItems() end)
   connect(toolList, { onMousePress = onMousePress })
-  
+
+  ToolPalette.updateOptions()
   ToolPalette.update()
 end
 
 function ToolPalette.terminate()
   g_keyboard.unbindKeyPress('x')
   disconnect(toolList, { onMousePress = onMousePress })
+  ToolPalette.terminateOptions()
   
   toolsWindow:destroy()
   toolsWindow = nil

@@ -15,10 +15,29 @@ tool3 < tool
   icon-source: /images/tools/paint
   !tooltip: tr('Paint Bucket')
 
+optionLabel < Label
+  color: white
+  margin-left: 6
+  
+optionButton < Button
+  size: 32 32
+  border-color: #ffff00
+  margin-left: 1
+  margin-top: 1
+  
+optionPanel < ScrollablePanel
+  layout:
+    type: grid
+    fit-children: true
+    flow: true
+    cell-size: 32 32
+  margin-right: 4
+  margin-top: 3
+
 MiniWindow
   text: Tool Palette
   icon: /images/topbuttons/tools
-  height: 153
+  height: 210
 
   MiniWindowContents
     padding-right: 3
@@ -63,5 +82,16 @@ MiniWindow
         fit-children: true
         flow: true
         cell-size: 32 32
+      margin-right: 4
+      margin-top: 5
+      
+    ScrollablePanel
+      id: options
+      anchors.top: toolList.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      layout:
+        type: verticalBox
+        fit-children: true
       margin-right: 4
       margin-top: 5

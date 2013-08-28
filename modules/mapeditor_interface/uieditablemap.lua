@@ -86,7 +86,21 @@ function UIEditableMap:resolve(pos)
     if actualTool == ToolMouse then
       return false
     elseif actualTool == ToolPencil then
-      return self:doRender(Item.createOtb(itemType:getServerId()), pos)
+      local size = tools[_G["currentTool"].id].size
+      if size == 1 then      
+        return self:doRender(Item.createOtb(itemType:getServerId()), pos)
+      else
+        pos.x = pos.x - (size - 1) / 2
+        pos.y = pos.y - (size - 1) / 2
+        for x = 0, size - 1 do
+          for y = 0, size - 1 do
+            self:doRender(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
+          end
+        end
+        
+        return true
+      end
+      
     elseif actualTool == ToolPaint then
       local tile = g_map.getTile(pos)
       if not tile then
