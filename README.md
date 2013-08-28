@@ -22,7 +22,7 @@ for their contributions.
 
 ## Special thanks to
 
-[Red](http://otland,net/members/Red)
+[Red](http://otland.net/members/red.13708/)
 
 ## License
 

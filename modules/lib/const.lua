@@ -46,3 +46,4 @@ NorthWest = 7
 ToolMouse  = 1
 ToolPencil = 2
 ToolPaint  = 3
+ToolZone   = 4

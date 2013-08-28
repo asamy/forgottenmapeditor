@@ -14,9 +14,14 @@ tool2 < tool
 tool3 < tool
   icon-source: /images/tools/paint
   !tooltip: tr('Paint Bucket')
+  
+tool4 < tool
+  icon-source: /images/tools/zone
+  !tooltip: tr('Zone Tool')
 
 optionLabel < Label
   color: white
+  margin-top: 3
   margin-left: 6
   
 optionButton < Button
@@ -33,6 +38,30 @@ optionPanel < ScrollablePanel
     cell-size: 32 32
   margin-right: 4
   margin-top: 3
+  
+optionList < TextList
+  margin-top: 5
+  size: 200 83
+  padding: 1
+  focusable: false
+  
+optionListLabel < Label
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 4 2
+  focusable: true
+  height: 20
+  color: #ffffff
+
+  $on:
+    background-color: #006600
+  $!on:
+    background-color: #660000
+
+  $on focus:
+    background-color: #004400
+  $!on focus:
+    background-color: #440000
 
 MiniWindow
   text: Tool Palette
@@ -49,6 +78,7 @@ MiniWindow
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 48
+      !text: tr('Actual item (X)')
       
     Item
       id: SecondItem
@@ -70,7 +100,8 @@ MiniWindow
       anchors.top: SecondItem.bottom
       anchors.left: parent.left
       margin-left: 75
-      margin-top: 10     
+      margin-top: 10  
+      !text: tr('Tools:')
       
     ScrollablePanel
       id: toolList

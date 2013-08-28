@@ -18,6 +18,7 @@ function TownWindow.init()
 
   townWindowButton = modules.mapeditor_topmenu.addLeftButton('townWindowButton', tr('Town Window') .. ' (Ctrl+T)', '/images/topbuttons/towns', TownWindow.toggle)
   g_keyboard.bindKeyDown('Ctrl+T', TownWindow.toggle)
+  TownWindow.readTowns()
 end
 
 function TownWindow.terminate()
