@@ -4,12 +4,23 @@ function UIEditableMap:doRender(thing, pos)
   if not thing then
     return false
   end
-
-  if g_keyboard.isCtrlPressed() then
-    g_map.removeThing(thing)
-  end
-
+  
   local tile = g_map.getTile(pos)
+  if g_keyboard.isCtrlPressed() then
+    if not tile then
+      return false
+    end
+    
+    local things = tile:getThings()
+    for i = 1, #things do
+      if things[i]:getId() == thing:getId() then
+        g_map.removeThing(things[i])
+        return true
+      end
+    end
+    return false
+  end
+  
   if tile then
     local topThing = tile:getTopThing()
     if topThing and topThing:getId() == thing:getId() then
@@ -19,6 +30,29 @@ function UIEditableMap:doRender(thing, pos)
 
   g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
   return true
+end
+
+function UIEditableMap:addZone(zone, pos)
+  local tile = g_map.getTile(pos)
+  if not tile then
+    return false
+  end
+  
+  tile:setFlag(zone)
+end
+
+function UIEditableMap:deleteZone(zone, pos)
+  local tile = g_map.getTile(pos)
+  if not tile then
+    return false
+  end
+  
+  if not tile:hasFlag(zone) then
+    return false
+  end
+  
+  local flags = tile:getFlags()
+  tile:setFlags(bit32.bxor(flags, zone))
 end
 
 -- Flood Fill Algorithm: http://en.wikipedia.org/wiki/Flood_fill
@@ -83,25 +117,37 @@ function UIEditableMap:resolve(pos)
       return false
     end
     
+    -- Selection Tool --
     if actualTool == ToolMouse then
-      return false
-    elseif actualTool == ToolPencil then
-      local size = tools[_G["currentTool"].id].size
-      if size == 1 then      
-        return self:doRender(Item.createOtb(itemType:getServerId()), pos)
-      else
-        pos.x = pos.x - (size - 1) / 2
-        pos.y = pos.y - (size - 1) / 2
-        for x = 0, size - 1 do
-          for y = 0, size - 1 do
-            self:doRender(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
+      if g_keyboard.isCtrlPressed() then
+        local tile = g_map.getTile(pos)
+        if tile then
+          local topThing = tile:getTopThing()
+          if topThing then
+            g_map.removeThing(topThing)
+            return true
           end
         end
-        
-        return true
+      end
+      return false
+    -- Pencil Tool --
+    elseif actualTool == ToolPencil then
+      local size = tools[_G["currentTool"].id].size
+      pos.x = pos.x - (size - 1) / 2
+      pos.y = pos.y - (size - 1) / 2
+      for x = 0, size - 1 do
+        for y = 0, size - 1 do
+          self:doRender(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
+        end
       end
       
+      return true
+    -- Paint Bucket Tool --
     elseif actualTool == ToolPaint then
+      if g_keyboard.isCtrlPressed() then
+        return false
+      end
+      
       local tile = g_map.getTile(pos)
       if not tile then
         return false
@@ -113,6 +159,22 @@ function UIEditableMap:resolve(pos)
       end
 
       return paint(itemId, itemType:getServerId(), pos)
+    -- Zone Tool --
+    elseif actualTool == ToolZone then
+      local size = tools[_G["currentTool"].id].size
+      pos.x = pos.x - (size - 1) / 2
+      pos.y = pos.y - (size - 1) / 2
+      for x = 0, size - 1 do
+        for y = 0, size - 1 do
+          if not g_keyboard.isCtrlPressed() then
+            self:addZone(tools[_G["currentTool"].id].zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
+          else
+            self:deleteZone(tools[_G["currentTool"].id].zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
+          end
+        end
+      end
+      
+      return true
     end
   end
   return false
@@ -123,11 +185,7 @@ function handleMousePress(self, mousePos, button)
   if not pos then
     return false
   end
-  
-  if g_keyboard.isCtrlPressed() then
-    return g_map.removeThingByPos(pos)
-  end
-  
+
   if button == MouseRightButton or button == MouseLeftButton then
     return self:resolve(pos)
   end

@@ -14,6 +14,9 @@ local options
 local sizeLabel
 local sizePanel
 
+local zoneLabel
+local zoneList
+
 tools = {
   [ToolMouse] = {
     disableCursor = true,
@@ -22,8 +25,11 @@ tools = {
     sizes = {1, 3, 5, 7, 9},
     size = 1
   },
-  [ToolPaint] = {
-
+  [ToolPaint] = {},
+  [ToolZone] = {
+    sizes = {1, 3, 5, 7, 9},
+    size = 1,
+    zone = TILESTATE_PROTECTIONZONE
   },
 }
 
@@ -51,6 +57,35 @@ function ToolPalette.initOptions()
   sizePanel = g_ui.createWidget('optionPanel', options)
   connect(sizePanel, { onMousePress = onSizeChange })
   sizePanel:hide()
+  
+  zoneLabel = g_ui.createWidget('optionLabel', options)
+  zoneLabel:setText('Select zone:')
+  zoneLabel:hide()
+  
+  zoneList = g_ui.createWidget('optionList', options)
+  local zoneLabels = {
+    {name = 'Protection Zone', id = TILESTATE_PROTECTIONZONE},
+    {name = 'No-PvP zone', id = TILESTATE_OPTIONALZONE},
+    {name = 'PvP zone', id = TILESTATE_HARDCOREZONE},
+    {name = 'No Logout zone', id = TILESTATE_NOLOGOUT}
+  }
+  for i = 1, #zoneLabels do
+    local widget = g_ui.createWidget('optionListLabel', zoneList)
+    widget:setText(zoneLabels[i].name)
+    widget.zone = zoneLabels[i].id
+    widget.name = zoneLabels[i].name
+    connect(widget, { onMousePress = 
+      function(self, mousePos, button)
+        tools[_G["currentTool"].id].zone = self.zone
+      end
+    })
+    widget:setOn(true)
+    
+    if i == 1 then
+      widget:focus()
+    end
+  end
+  zoneList:hide()
 end
 
 function ToolPalette.updateOptions()
@@ -75,6 +110,15 @@ function ToolPalette.updateOptions()
   else
     sizeLabel:hide()
     sizePanel:hide()
+  end
+  
+  -- Zone
+  if tool.zone then
+    zoneLabel:show()
+    zoneList:show()
+  else
+    zoneLabel:hide()
+    zoneList:hide()
   end
 end
 
