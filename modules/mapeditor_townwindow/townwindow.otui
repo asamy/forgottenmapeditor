@@ -38,7 +38,7 @@ StatusLabel < Label
 
 MainWindow
   id: townWindow
-  size: 450 450
+  size: 450 430
   !text: tr('Town Window')
 
   @onEscape: TownWindow.hide()
@@ -51,7 +51,6 @@ MainWindow
     width: 180
     padding: 1
     focusable: false
-    margin-bottom: 30
     vertical-scrollbar: townListScrollBar
 
   VerticalScrollBar
@@ -61,14 +60,6 @@ MainWindow
     anchors.left: townList.right
     step: 14
     pixels-scroll: true
-
-  Button
-    id: readTowns
-    anchors.top: townListScrollBar.bottom
-    anchors.right: townListScrollBar.right
-    !text: tr('Read Towns From Memory')
-    text-auto-resize: true
-    @onClick: TownWindow.readTowns()
 
   Panel
     id: townInfo
