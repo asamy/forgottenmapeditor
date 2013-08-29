@@ -130,6 +130,7 @@ function openMap()
     g_map.loadOtbm(filename)
     g_houses.load(g_map.getHouseFile())
     g_creatures.loadSpawns(g_map.getSpawnFile())
+    TownWindow.readTowns()
     Interface.sync()
   end
 end
