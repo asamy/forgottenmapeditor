@@ -1,0 +1,41 @@
+SearchOnMapResult < Label
+  color: white
+  margin-bottom: 1
+  margin-left: 4
+  background: #2f3847
+  focusable: true
+  height: 18
+  layout:
+    type: horizontalBox
+    
+  $focus:
+    background: red
+
+MiniWindow
+  text: Search results
+  icon: /images/topbuttons/search
+  height: 210
+  @onClose: SearchModule.hideWidget()
+
+  MiniWindowContents
+    ScrollablePanel
+      id: foundItemsList
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-right: 12
+      padding: 1
+      focusable: false
+      background: #222833
+      layout:
+        type: verticalBox
+      vertical-scrollbar: foundItemsListScrollbar
+
+    VerticalScrollBar
+      id: foundItemsListScrollbar
+      anchors.top: foundItemsList.top
+      anchors.bottom: foundItemsList.bottom
+      anchors.left: foundItemsList.right
+      step: 14
+      pixels-scroll: true

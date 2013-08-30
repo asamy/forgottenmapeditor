@@ -1,0 +1,81 @@
+SearchResult < ScrollablePanel
+  margin-bottom: 1
+  margin-left: 1
+  background: #2f3847
+  focusable: true
+  height: 36
+  layout:
+    type: horizontalBox
+    
+  $focus:
+    background: red
+    
+SearchResultLabel < Label
+  color: white
+  margin-top: 20
+  margin-left: 5
+
+MainWindow
+  id: searchWindow
+  size: 450 450
+  !text: tr('Search for Item')
+  @onEscape: SearchModule.hideWindow()
+  
+  Label
+    anchors.top: parent.top
+    anchors.left: parent.left
+    color: white
+    !text: tr('Search for item by ID or name (minimum 2 characters):')
+    
+  TextEdit
+    id: searchText
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    height: 20
+    
+  Button
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    !text: tr('Search')
+    @onClick: SearchModule.search()
+
+  Label
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    color: white
+    margin-top: 10
+    !text: tr('Search results:')
+    
+  ScrollablePanel
+    id: searchList
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 12
+    margin-bottom: 20
+    padding: 1
+    focusable: false
+    background: #222833
+    layout:
+      type: verticalBox
+    vertical-scrollbar: searchListScrollbar
+
+  VerticalScrollBar
+    id: searchListScrollbar
+    anchors.top: searchList.top
+    anchors.bottom: searchList.bottom
+    anchors.left: searchList.right
+    step: 14
+    pixels-scroll: true
+    
+  Button
+    anchors.top: searchList.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    !text: tr('Search (only first 500 results will be shown)')
+    @onClick: SearchModule.searchOnMap()
