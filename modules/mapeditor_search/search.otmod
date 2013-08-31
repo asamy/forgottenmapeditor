@@ -1,0 +1,12 @@
+Module
+  name: mapeditor_search
+  description: Search module
+  author: Crypton
+  website: https://github.com/allanference/forgottenmapeditor
+
+  @onLoad: |
+    dofile 'search'
+    SearchModule.init()
+
+  @onUnload: |
+    SearchModule.terminate()

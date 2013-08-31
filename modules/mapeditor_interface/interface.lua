@@ -1,7 +1,9 @@
 Interface = {}
 
-local zoomLevel = 3
+local zoomLevel = 4
+local defaultZoom = 4
 local zoomLevels = {
+   8,
    16,
    24,
    32,
@@ -18,7 +20,8 @@ local zoomLevels = {
    1536,
    2048,
    3072,
-   4096
+   4096,
+   8192
 }
 local navigating = false
 
@@ -63,9 +66,9 @@ function updateBottomBar(pos)
 end  
 
 function resetZoom()
-  mapWidget:setZoom(zoomLevels[3])
+  mapWidget:setZoom(zoomLevels[defaultZoom])
   updateBottomBar(pos)
-  zoomLevel = 3
+  zoomLevel = defaultZoom
 end
 
 function updateZoom(delta)

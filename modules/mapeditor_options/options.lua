@@ -58,8 +58,6 @@ function Options.init()
     end
   end
 
-  g_keyboard.bindKeyDown('Ctrl+F', function() Options.toggleOption('fullscreen') end)
-
   optionsWindow = g_ui.displayUI('options.otui')
   optionsWindow:hide()
   optionsButton = modules.mapeditor_topmenu.addLeftButton('optionsButton', tr('Options') .. ' (Ctrl+D)', '/images/topbuttons/options', Options.toggle)
@@ -74,7 +72,6 @@ function Options.init()
 end
 
 function Options.terminate()
-  g_keyboard.unbindKeyDown('Ctrl+F')
   optionsWindow:destroy()
   optionsWindow = nil
   optionsButton:destroy()
