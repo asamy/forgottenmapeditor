@@ -43,6 +43,10 @@ If you're kind of lost on how to contribute, here is a short guide:
 
 ## Screenshots
 
+Monday, September 02, 2013.
+
+![Screenshot](http://i.imgur.com/zcUeAyH.jpg)
+
 Monday, July 29, 2013. #1
 
 ![Screenshot](http://i.imgur.com/M9KGjE0.jpg)

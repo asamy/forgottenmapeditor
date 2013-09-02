@@ -107,8 +107,7 @@ function SearchModule.searchOnMap()
   if not focus then
     return false
   end
-  local results = 0
-  
+
   SearchModule.hideWindow()
   SearchModule.showWidget()
 
