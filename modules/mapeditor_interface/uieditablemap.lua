@@ -29,6 +29,9 @@ function UIEditableMap:doRender(thing, pos)
   end
 
   g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
+  if not _G["unsavedChanges"] then
+    _G["unsavedChanges"] = true
+  end
   return true
 end
 
