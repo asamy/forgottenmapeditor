@@ -53,7 +53,7 @@ function loadCoreFiles()
   for _, f in ipairs(fsCache) do
     local v = f:getText()
     if v:find(currentVersion) then
-      local extension = v:match("%.([^%.]+)$")
+      local extension = v:extension()
       if extension ~= "otbm" then
         extensions[extension] (v)
       end
@@ -65,7 +65,7 @@ end
 
 local function openFile(f)
   for k, v in pairs(extensions) do
-    if f:endsWith(k) then
+    if f:extension() == k then
       v(f)
       break
     end
