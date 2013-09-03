@@ -28,20 +28,23 @@ local navigating = false
 local isPushed = false
 function updateCursor(pos)
   local actualTool = tools[_G["currentTool"].id]
-  if actualTool.disableCursor and isPushed then g_mouse.popCursor('target') end
+  if actualTool.disableCursor and isPushed then
+    g_mouse.popCursor('target')
+  end
   if actualTool.disableCursor then
     return
   end
   
-  if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX()) and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
+  if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX())
+      and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
     if not isPushed then
       isPushed = true
       g_mouse.pushCursor('target')
     end
   else
     if isPushed then
-        g_mouse.popCursor('target')
-        isPushed = false
+      g_mouse.popCursor('target')
+      isPushed = false
     end
   end
 end
@@ -282,7 +285,6 @@ function Interface.init()
   , nil, MouseMidButton)
   
   g_mouse.bindAutoPress(mapWidget, handleMousePress, 50, MouseLeftButton)
-
   g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
   
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}

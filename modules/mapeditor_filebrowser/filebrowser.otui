@@ -73,9 +73,18 @@ MiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
 
+    Button
+      id: loadCoreFiles
+      !text: 'Load Core Files'
+      !tooltip: 'Find & Load DAT, SPR and XML files to load from the version selected.'
+      anchors.top: saveSpawns.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      @onClick: loadCoreFiles()
+
     TextList
       id: fileList
-      anchors.top: saveSpawns.bottom
+      anchors.top: loadCoreFiles.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       layout:
@@ -83,3 +92,4 @@ MiniWindow
         fit-children: true
       margin-top: 4
       margin-bottom: 4
+

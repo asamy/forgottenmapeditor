@@ -6,7 +6,7 @@ local fileEdit
 local saveHouses
 local saveSpawns
 local versionComboBox
-local root = "/data/"
+local root = "/data/materials/"
 local fsCache = {}
 
 local function guess()
@@ -42,7 +42,28 @@ local supportedVersions = {
   975, 976, 977, 978, 979, 980, 1010
 }
 
-function openFile(f)
+function loadCoreFiles()
+  local currentOption = versionComboBox:getCurrentOption()
+  local currentVersion = tostring(currentOption.text)
+  if not currentVersion then
+    g_logger.debug("Invalid version specified, cannot load core files")
+    return
+  end
+
+  for _, f in ipairs(fsCache) do
+    local v = f:getText()
+    if v:find(currentVersion) then
+      local extension = v:match("%.([^%.]+)$")
+      if extension ~= "otbm" then
+        extensions[extension] (v)
+      end
+    end
+  end
+
+  ItemPalette.initData()
+end
+
+local function openFile(f)
   for k, v in pairs(extensions) do
     if f:endsWith(k) then
       v(f)
@@ -61,7 +82,7 @@ function openXml(f)
   end
 end
 
-function add(filename)
+local function add(filename)
   local file  = g_ui.createWidget('FileLabel', fileList)
   file:setText(filename)
 
@@ -71,7 +92,7 @@ function add(filename)
   table.insert(fsCache, file)
 end
 
-function mapExists(mapFile, spawnFile, houseFile)
+local function mapExists(mapFile, spawnFile, houseFile)
   return (
         g_resources.fileExists(mapFile) and
         g_resources.fileExists(spawnFile) and
@@ -103,7 +124,7 @@ function saveMap()
   g_map.saveOtbm(current)
 end
 
-function checks()
+local function checks()
   local current = _G["currentMap"]
   if current and current:len() ~= 0 then
     local mbox
@@ -147,7 +168,7 @@ function newMap()
   end
 end
 
-function loadMyFile(yourFile)
+local function loadMyFile(yourFile)
   for _ext, _ in pairs(extensions) do
     if yourFile:endsWith(_ext) then
       add(yourFile)
@@ -156,7 +177,7 @@ function loadMyFile(yourFile)
   end
 end
 
-function loadDir(dir)
+local function loadDir(dir)
   if not dir:endsWith("/") then dir = dir.."/" end
 
   local list = g_resources.listDirectoryFiles(dir)
