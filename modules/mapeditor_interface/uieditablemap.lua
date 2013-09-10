@@ -72,8 +72,8 @@ local function paint(from, to, pos)
   }
   table.insert(tiles, pos)
   
+  local actualPos = tiles[1]
   while #tiles > 0 do
-    local actualPos = tiles[1]
     
     local found = false
     local tile = g_map.getTile(actualPos)

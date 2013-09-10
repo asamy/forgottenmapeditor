@@ -44,7 +44,7 @@ MiniWindow
 
     Button
       id: newButton
-      !text: 'New Map (CTRN+N)'
+      !text: 'New Map (CTRL+N)'
       anchors.top: reloadButton.bottom
       anchors.left: parent.left
       anchors.right: parent.right

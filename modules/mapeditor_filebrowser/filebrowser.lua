@@ -10,7 +10,7 @@ local root = "/data/materials/"
 local fsCache = {}
 
 local function guess()
-  return "newmap-" .. os.date("%Y/%m/%d-%H:%M:%S") .. ".otbm"
+  return "newmap-" .. os.date("%Y-%m-%d-%H-%M-%S") .. ".otbm"
 end
 
 function loadDat(f)
@@ -100,30 +100,6 @@ local function mapExists(mapFile, spawnFile, houseFile)
   )
 end
 
-function saveMap()
-  local current = _G["currentFile"] or _G["currentMap"]
-  if not current then
-    return
-  end
-  if current:len() == 0 then
-    current = guess()
-  end
-
-  current = current:gsub("^%s*(.-)%s*$", "%1")
-  if current:startsWith("/data") then
-    current = current:gsub("/data", "") 
-  end
-
-  if not mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
-    g_map.setHouseFile("data/" .. current .. "-houses.xml")
-    g_map.setSpawnFile("data/" .. current .. "-spawns.xml")
-  end
-
-  if saveHouses:isChecked() then g_houses.save(g_map.getHouseFile()) 		end
-  if saveSpawns:isChecked() then g_creatures.saveSpawns(g_map.getSpawnFile()) 	end
-  g_map.saveOtbm(current)
-end
-
 local function checks()
   local current = _G["currentMap"]
   if current and current:len() ~= 0 and _G["unsavedChanges"] then
@@ -137,23 +113,52 @@ local function checks()
 				{ text='Save & Close', callback=function() g_map.saveOtbm(current) g_map.clean() g_minimap.clean() _G["currentMap"] = "" defaultCallback() end}
 			},
 			defaultCallback, defaultCallback)
-  else
-    _G["currentMap"] = _G["selection"]
   end
 end
 
 function openMap()
   checks()
-  local filename = _G["currentMap"]
-  if g_resources.fileExists(filename) then
-    g_map.clean()
-    g_minimap.clean()
-    g_map.loadOtbm(filename)
-    g_houses.load(g_map.getHouseFile())
-    g_creatures.loadSpawns(g_map.getSpawnFile())
-    TownWindow.readTowns()
-    Interface.sync()
+
+  local filename = _G["currentMap"] or _G["selection"]
+  if not g_resources.fileExists(filename) then
+    g_logger.error("Internal error: unable to find map file " .. filename .. ", please report it if you think it's a bug")
+    return
   end
+
+  g_map.clean()
+  g_minimap.clean()
+  g_map.loadOtbm(filename)
+  g_houses.load(g_map.getHouseFile())
+  g_creatures.loadSpawns(g_map.getSpawnFile())
+  TownWindow.readTowns()
+  Interface.sync()
+
+  _G["currentMap"] = filename
+end
+
+function saveMap()
+  local current = _G["currentFile"] or _G["currentMap"]
+  if not current or current:len() == 0 then
+    current = guess()
+  end
+
+  if current:startsWith("/data") then
+    current = current:gsub("/data", "")
+  end
+  current = current:gsub(".otbm", ""):gsub("^%s*(.-)%s*$", "%1")
+
+  if not mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
+    g_map.setHouseFile(current .. "-houses.xml")
+    g_map.setSpawnFile(current .. "-spawns.xml")
+  end
+
+  if saveHouses:isChecked() then
+    g_houses.save(g_map.getHouseFile())
+  end
+  if saveSpawns:isChecked() then
+    g_creatures.saveSpawns(g_map.getSpawnFile())
+  end
+  g_map.saveOtbm(current .. ".otbm")
 end
 
 function newMap()
@@ -183,7 +188,6 @@ local function loadDir(dir)
   local list = g_resources.listDirectoryFiles(dir)
   for i = 1, #list do
     local name = dir..list[i]
-
     if g_resources.directoryExists(name) then
       g_resources.addSearchPath(name)
       loadDir(name)
