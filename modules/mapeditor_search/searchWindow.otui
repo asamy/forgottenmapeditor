@@ -34,13 +34,6 @@ MainWindow
     anchors.right: parent.right
     margin-top: 5
     height: 20
-    
-  Button
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    !text: tr('Search')
-    @onClick: SearchModule.search()
 
   Label
     anchors.top: prev.bottom
@@ -72,10 +65,3 @@ MainWindow
     anchors.left: searchList.right
     step: 14
     pixels-scroll: true
-    
-  Button
-    anchors.top: searchList.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    !text: tr('Search (only first 500 results will be shown)')
-    @onClick: SearchModule.searchOnMap()

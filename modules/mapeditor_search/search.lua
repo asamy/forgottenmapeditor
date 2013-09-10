@@ -1,7 +1,3 @@
--- TODO:
--- - Search button should be removed, instead of it add auto search when something is written on it
--- - Double click on found item should start SearchModule.searchOnMap() function
-
 SearchModule = {}
 
 local searchModule
@@ -29,6 +25,8 @@ function SearchModule.init()
   
   searchWindowButton = modules.mapeditor_topmenu.addLeftButton('searchWindowButton', tr('Search for item') .. ' (Ctrl+F)', '/images/topbuttons/search', SearchModule.toggleWindow)
   g_keyboard.bindKeyDown('Ctrl+F', SearchModule.toggleWindow)
+
+  searchText.onTextChange = SearchModule.search
 end
 
 function SearchModule.terminate()
@@ -71,10 +69,11 @@ function SearchModule.search()
       -- I used panel for it, can't figure out how to use UITable :(
       local searchResult = g_ui.createWidget('SearchResult', searchList)
       searchResult.itemId = item:getId()
-      
+
       local itemWidget = g_ui.createWidget('Item', searchResult)
+      connect(itemWidget, { onDoubleClick = function(self, mousePos) SearchModule.searchOnMap() end })
       itemWidget:setItemId(item:getId())
-      
+
       local label = g_ui.createWidget('SearchResultLabel', searchResult)
       label:setText(item:getName() .. ' : ' .. item:getId())
     end
