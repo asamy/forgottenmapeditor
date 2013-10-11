@@ -10,7 +10,7 @@ local root = "/data/materials/"
 local fsCache = {}
 
 local function guess()
-  return "newmap-" .. os.date("%Y-%m-%d-%H-%M-%S") .. ".otbm"
+  return "/newmap-" .. os.date("%Y-%m-%d-%H-%M-%S") .. ".otbm"
 end
 
 function loadDat(f)
@@ -150,6 +150,9 @@ function saveMap()
   if not mapExists(current, g_map.getSpawnFile(), g_map.getHouseFile()) then
     g_map.setHouseFile(current .. "-houses.xml")
     g_map.setSpawnFile(current .. "-spawns.xml")
+  else
+    g_map.setHouseFile(g_map.getHouseFile())
+    g_map.setSpawnFile(g_map.getSpawnFile())
   end
 
   if saveHouses:isChecked() then
