@@ -14,6 +14,7 @@ ItemCategoryFluid        = 12
 ItemCategoryDoor         = 13
 ItemCategoryLast         = 14
 ThingCategoryCreature    = 15
+ItemCategoryWall         = 16
 
 -- tileflags_t (src/client/tile.h)
 TILESTATE_NONE = 0 		-- 0
