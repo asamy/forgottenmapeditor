@@ -130,6 +130,11 @@ function UIEditableMap:resolve(pos)
             g_map.removeThing(topThing)
             return true
           end
+          if g_keyboard.isCtrlPressed() then
+            if g_map.getTile(pos) then
+              g_map.cleanTile(pos)
+            end
+          end
         end
       end
       return false
@@ -141,6 +146,12 @@ function UIEditableMap:resolve(pos)
       for x = 0, size - 1 do
         for y = 0, size - 1 do
           self:doRender(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
+        end
+      end
+
+      if g_keyboard.isCtrlPressed() then
+        if g_map.getTile(pos) then
+          g_map.removeThing()
         end
       end
       
