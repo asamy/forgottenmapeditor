@@ -132,7 +132,7 @@ function UIEditableMap:resolve(pos)
           end
           if g_keyboard.isCtrlPressed() then
             if g_map.getTile(pos) then
-              self:doRender(Item.createOtb(1), pos)
+              g_map.cleanTile(pos)
             end
           end
         end
@@ -151,7 +151,7 @@ function UIEditableMap:resolve(pos)
 
       if g_keyboard.isCtrlPressed() then
         if g_map.getTile(pos) then
-          self:doRender(Item.createOtb(1), pos)
+          g_map.removeThing()
         end
       end
       

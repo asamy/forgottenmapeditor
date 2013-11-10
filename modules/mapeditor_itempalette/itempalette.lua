@@ -1,7 +1,3 @@
-local extraItem = {
- wall = {2160; 2161}
-}
-
 ItemPalette = {}
 
 local paletteWindow
@@ -39,12 +35,6 @@ local function onOptionChange(widget, optText, optData)
     for i = 1, #creatures do
       local widget = g_ui.createWidget('PaletteCreature', paletteList)
       widget:setCreature(creatures[i]:cast())
-    end
-  end
-  if optData == ItemCategoryWall then
-    for i = 1, #extraItem.wall do
-      local widget = g_ui.createWidget('PaletteItem', paletteList)
-      widget:setItemId(extraItem.wall[i])
     end
   end
 end
@@ -109,7 +99,6 @@ function ItemPalette.initData()
   comboBox:addOption("Splashs",      ItemCategorySplash)
   comboBox:addOption("Fluids",       ItemCategoryFluid)
   comboBox:addOption("Doors",        ItemCategoryDoor)
-  comboBox:addOption("Walls",        ItemCategoryWall)
   comboBox:addOption("Creatures",    ThingCategoryCreature)
 
   comboBox:setCurrentIndex(1)
