@@ -22,7 +22,7 @@ end
 
 local extensions = {
   ["otb"]  = g_things.loadOtb,
-  ["otbm"] = function(f) openMap() end,
+  ["otbm"] = function(f) openMap(f) end,
   ["dat"]  = loadDat,
   ["spr"]  = g_sprites.loadSpr,
   ["xml"]  = function(f) openXml(f) end
@@ -39,26 +39,46 @@ local supportedVersions = {
   810, 853, 854, 860, 861, 862, 870,
   910, 940, 944, 953, 954, 960, 961,
   963, 970, 971, 973, 974, 973, 974,
-  975, 976, 977, 978, 979, 980, 1010
+  975, 976, 977, 978, 979, 980, 1010,
+  1022
 }
 
 function loadCoreFiles()
   local currentOption = versionComboBox:getCurrentOption()
-  local currentVersion = tostring(currentOption.text)
-  if not currentVersion then
-    g_logger.debug("Invalid version specified, cannot load core files")
-    return
+  VERSION        = tostring(currentOption.text)
+  VERSION_FOLDER = "/data/materials/"..VERSION.."/"
+  OTB_FILE       = "/data/materials/"..VERSION.."/items.otb"
+  XML_FILE       = "/data/materials/"..VERSION.."/items.xml"
+  MON_FILE       = "/data/materials/"..VERSION.."/monster/monsters.xml"
+  NPC_FOLDER     = "/data/materials/"..VERSION.."/npc"
+  DAT_FILE       = "/data/materials/"..VERSION.."/Tibia.dat"
+  SPR_FILE       = "/data/materials/"..VERSION.."/Tibia.spr"
+
+  if g_game.setClientVersion(VERSION) then
+    print("Error after load "..VERSION.." version.")
+    return false
   end
 
-  for _, f in ipairs(fsCache) do
-    local v = f:getText()
-    if v:find(currentVersion) then
-      local extension = v:extension()
-      if extension ~= "otbm" then
-        extensions[extension] (v)
-      end
-    end
+  print("--> Loading cores with "..VERSION.."")
+  g_game.setProtocolVersion(VERSION)
+  if not g_resources.directoryExists(VERSION_FOLDER) then
+    print("---> Folder "..VERSION.." not found '"..VERSION_FOLDER.."'")
+    return false
   end
+
+  print("---> "..VERSION.." Loaded")
+  print("--> Loading dat...")
+  g_things.loadDat(DAT_FILE)
+  print("--> Loading spr...")
+  g_sprites.loadSpr(SPR_FILE)
+  print("--> Loading OTB...")
+  g_things.loadOtb(OTB_FILE)
+  print("--> Loading XML...")
+  g_things.loadXml(XML_FILE)
+  print("--> Loading monsters...")
+  g_creatures.loadMonsters(MON_FILE)
+  print("--> Loading NPCs...")
+  g_creatures.loadNpcs(NPC_FOLDER)
 
   ItemPalette.initData()
 end
@@ -86,7 +106,7 @@ local function add(filename)
   local file  = g_ui.createWidget('FileLabel', fileList)
   file:setText(filename)
 
-  file.onDoubleClick = function() openFile(filename) end
+  file.onDoubleClick = function() print("-> Loading "..filename.."...") openFile(filename) end
   file.onMousePress  = function() _G["selection"] = filename end
 
   table.insert(fsCache, file)
@@ -210,6 +230,7 @@ function FileBrowser.init()
  
   for _, proto in ipairs(supportedVersions) do
     versionComboBox:addOption(proto)
+    versionComboBox:setCurrentOption(g_game.getProtocolVersion())
   end
 
   fileEdit.onTextChange = function(widget, newText, oldText)
