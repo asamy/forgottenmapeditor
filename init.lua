@@ -4,7 +4,7 @@
 -- setup application name and version
 g_app.setName('Forgotten Map Editor')
 g_app.setCompactName('fme')
-g_app.setVersion('dev')
+g_app.setVersion('0.1-beta')
 
 -- setup logger
 g_logger.setLogFile(g_resources.getWorkDir() .. g_app.getCompactName() .. ".log")
