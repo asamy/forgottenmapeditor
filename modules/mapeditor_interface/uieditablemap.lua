@@ -74,7 +74,6 @@ local function paint(from, to, pos)
   
   local actualPos = tiles[1]
   while #tiles > 0 do
-    
     local found = false
     local tile = g_map.getTile(actualPos)
     
@@ -105,7 +104,7 @@ function UIEditableMap:resolve(pos)
 
   local thing = _G["currentThing"]
   if type(thing) == 'string' then -- Creatures
-    local spawn = g_creatures.getSpawn(pos)
+    local spawn = g_creatures.getSpawnForPlacePos(pos)
     if spawn then
       spawn:addCreature(pos, g_creatures.getCreatureByName(thing))
     else
