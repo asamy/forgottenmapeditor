@@ -37,6 +37,20 @@ local function onOptionChange(widget, optText, optData)
       widget:setCreature(creatures[i]:cast())
     end
   end
+  if optData >= 16 then
+    for a, v in ipairs(extraItem[optText].from) do
+      for i = extraItem[optText].from[a], extraItem[optText].to[a] do
+        local widget = g_ui.createWidget('PaletteItem', paletteList)
+        local itemid = g_things.getItemType(i)
+        widget:setItemId(itemid:getClientId())
+      end
+    end
+    for a, v in ipairs(extraItem[optText].id) do
+      local widget = g_ui.createWidget('PaletteItem', paletteList)
+      local itemid = g_things.getItemType(v)
+      widget:setItemId(itemid:getClientId())
+    end
+  end
 end
 
 local function deselectChild(child)
@@ -94,11 +108,15 @@ function ItemPalette.initData()
   comboBox:addOption("Charges",      ItemCategoryCharges)
   comboBox:addOption("Teleports",    ItemCategoryTeleport)
   comboBox:addOption("MagicFields",  ItemCategoryMagicField)
-  comboBox:addOption("Writables",    ItemCategoryWritable)
   comboBox:addOption("Keys",         ItemCategoryKey)
   comboBox:addOption("Splashs",      ItemCategorySplash)
   comboBox:addOption("Fluids",       ItemCategoryFluid)
   comboBox:addOption("Doors",        ItemCategoryDoor)
+  if g_game.getProtocolVersion() >= 840 then
+    comboBox:addOption("Interior",     ItemCategoryInterior)
+    comboBox:addOption("Exterior",     ItemCategoryExterior)
+    comboBox:addOption("Stairs",       ItemCategoryStairs)
+  end
   comboBox:addOption("Creatures",    ThingCategoryCreature)
 
   comboBox:setCurrentIndex(1)

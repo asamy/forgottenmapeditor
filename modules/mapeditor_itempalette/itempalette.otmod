@@ -5,6 +5,7 @@ Module
 
   @onLoad: |
     dofile 'itempalette'
+    dofile 'extraItem'
     ItemPalette.init()
 
   @onUnload: |
