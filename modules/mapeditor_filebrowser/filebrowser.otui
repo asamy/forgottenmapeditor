@@ -49,10 +49,31 @@ MiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
       @onClick: newMap()
+    TextEdit
+      id: description
+      !text: 'Enter map description here'
+      anchors.top: newButton.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      focusable: true
+    TextEdit
+      id: sizeXText
+      !text: 'Enter map width here'
+      anchors.top: description.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      focusable: true
+    TextEdit
+      id: sizeYText
+      !text: 'Enter map height here'
+      anchors.top: sizeXText.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      focusable: true
     Button
       id: saveButton
       !text: 'Save Map (CTRL+S)'
-      anchors.top: newButton.bottom
+      anchors.top: sizeYText.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       @onClick: saveMap()

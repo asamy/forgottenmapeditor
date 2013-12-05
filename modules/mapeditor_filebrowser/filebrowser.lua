@@ -153,6 +153,18 @@ function openMap()
   TownWindow.readTowns()
   Interface.sync()
 
+  local descriptions = g_map.getDescriptions()
+  local desc
+  for i = 1, #descriptions do
+    desc = desc .. descriptions[i]
+  end
+  fileWindow:recursiveGetChildById('description'):setText(desc)
+
+  local size = g_map.getSize()
+  mapWidget:setRect({x = 0, y = 0, width = size.width, height = size.height})
+  fileWindow:recursiveGetChildById('sizeXText'):setText(size.width)
+  fileWindow:recursiveGetChildById('sizeYText'):setText(size.height)
+
   _G["currentMap"] = filename
 end
 
@@ -191,8 +203,16 @@ function newMap()
   if currentMap and currentMap:len() > 0 then
     local currentFile = _G["currentFile"]
     if currentFile then
-      _G["currentMap"] = currentFile;
+      _G["currentMap"] = currentFile
     end
+
+    local width  = tonumber(fileWindow:recursiveGetChildById('sizeXText'):getText())
+    local height = tonumber(fileWindow:recursiveGetChildById('sizeYText'):getText())
+
+    g_map.setWidth(width)
+    g_map.setHeight(height)
+    g_map.setDescription(fileWindow:recrusiveGetChildById('description'):getText())
+    mapWidget:setRect({x = 0, y = 0, width = width, height = height})
   end
 end
 
