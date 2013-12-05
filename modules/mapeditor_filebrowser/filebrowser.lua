@@ -193,6 +193,15 @@ function saveMap()
   if saveSpawns:isChecked() then
     g_creatures.saveSpawns(g_map.getSpawnFile())
   end
+
+  local w = tonumber(fileWindow:recursiveGetChildById('sizeXText'):getText())
+  local h = tonumber(fileWindow:recursiveGetChildById('sizeYText'):getText())
+
+  g_map.setWidth(w)
+  g_map.setHeight(h)
+  g_map.setDescription(fileWindow:recrusiveGetChildById('description'):getText())
+  mapWidget:setRect({x = 0, y = 0, width = w, height = h})
+
   g_map.saveOtbm(current .. ".otbm")
 end
 
@@ -206,13 +215,13 @@ function newMap()
       _G["currentMap"] = currentFile
     end
 
-    local width  = tonumber(fileWindow:recursiveGetChildById('sizeXText'):getText())
-    local height = tonumber(fileWindow:recursiveGetChildById('sizeYText'):getText())
+    local w = tonumber(fileWindow:recursiveGetChildById('sizeXText'):getText())
+    local h = tonumber(fileWindow:recursiveGetChildById('sizeYText'):getText())
 
-    g_map.setWidth(width)
-    g_map.setHeight(height)
+    g_map.setWidth(w)
+    g_map.setHeight(h)
     g_map.setDescription(fileWindow:recrusiveGetChildById('description'):getText())
-    mapWidget:setRect({x = 0, y = 0, width = width, height = height})
+    mapWidget:setRect({x = 0, y = 0, width = w, height = h})
   end
 end
 
