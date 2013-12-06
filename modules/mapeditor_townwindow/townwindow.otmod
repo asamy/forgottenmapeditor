@@ -2,7 +2,7 @@ Module
   name: mapeditor_townwindow
   description: Create the Town Window (based on the module manager module)
   author: fallen
-  website: https://github.com/allanference/forgottenmapeditor
+  website: https://github.com/decltype/forgottenmapeditor
 
   dependencies:
     - mapeditor_topmenu

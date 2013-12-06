@@ -2,7 +2,7 @@ Module
   name: lib
   description: All libs and constants
   author: Fallen
-  website: https://github.com/allanference/forgottenmapeditor/
+  website: https://github.com/decltype/forgottenmapeditor/
 
   @onLoad: |
     dofile 'const'

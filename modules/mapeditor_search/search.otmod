@@ -2,7 +2,7 @@ Module
   name: mapeditor_search
   description: Search module
   author: Crypton
-  website: https://github.com/allanference/forgottenmapeditor
+  website: https://github.com/decltype/forgottenmapeditor
 
   @onLoad: |
     dofile 'search'
