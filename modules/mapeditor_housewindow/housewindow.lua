@@ -24,8 +24,6 @@ function HouseWindow.init()
   townComboBox.onOptionChange = function(widget, optText, optData)
     HouseWindow.showHouses(optData)
   end
-
-  HouseWindow.readHouses()
 end
 
 function HouseWindow.terminate()
@@ -45,6 +43,10 @@ function HouseWindow.show()
   houseWindow:show()
   houseWindow:raise()
   houseWindow:focus()
+
+  if houseList:getFocusedChild() == nil then
+    HouseWindow.readHouses()
+  end
 end
 
 function HouseWindow.toggle()
@@ -116,6 +118,10 @@ function HouseWindow.addHouse()
   newHouse:setName(houseName)
   newHouse:setEntry({x = xp, y = yp, z = zp})
   newHouse:setTownId(townComboBox:getCurrentOption().data)
+
+  local label = g_ui.createWidget('HouseListLabel', houseList)
+  label:setText(houseName)
+  label:setOn(true)
 
   g_logger.notice(string.format("Created house %s", houseName))
 end
