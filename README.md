@@ -47,17 +47,13 @@ Monday, September 02, 2013.
 
 ![Screenshot](http://i.imgur.com/zcUeAyH.jpg)
 
-Monday, July 29, 2013. #1
-
-![Screenshot](http://i.imgur.com/M9KGjE0.jpg)
-
-Monday, July 29, 2013. #2 (Town Dialog Preview)
+Monday, July 29, 2013. (Town Dialog Preview)
 
 ![Screenshot](http://i.imgur.com/b2lQ8Ft.jpg)
 
-Monday, Sep 24, 2012.
+Saturday, Dec 7, 2013. (House Dialog Preview)
 
-![Screenshot](http://i.imgur.com/CZVqM.jpg)
+![Screenshot](http://4.ii.gl/3551zW.png)
 
 ## See Also
 
