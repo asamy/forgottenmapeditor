@@ -206,6 +206,17 @@ function Interface.init()
   positionLabel = rootPanel:recursiveGetChildById('positionLabel')
   itemLabel = rootPanel:recursiveGetChildById('itemLabel')
 
+  -- both undoAction and redoAction functions are defined in uieditablemap.lua
+  undoButton = modules.mapeditor_topmenu.addLeftButton('undoButton', tr('Undo last action') .. ' (CTRL+Z)',
+		'/images/topbuttons/undo', undoAction)
+  redoButton = modules.mapeditor_topmenu.addLeftButton('redoButton', tr('Redo last undone action') .. ' (CTRL+Y)',
+		'/images/topbuttons/redo', redoAction)
+
+  g_keyboard.bindKeyPress('Ctrl+Z', undoAction, mapWidget)
+  g_keyboard.bindKeyPress('Ctrl+Y', redoAction, mapWidget)
+
+  undoStack = UndoStack.create()
+
   mapWidget:setKeepAspectRatio(false)
   mapWidget:setZoom(30)
   mapWidget:setMaxZoomOut(4096)

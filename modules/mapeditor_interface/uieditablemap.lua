@@ -1,5 +1,19 @@
 UIEditableMap = extends(UIMap)
 
+function undoAction()
+  local item = undoStack:undo()
+  if item then
+    g_map.removeThing(item.thing)
+  end
+end
+
+function redoAction()
+  local item = undoStack:redo()
+  if item then
+    g_map.addThing(item.thing, item.pos, item.stackPos)
+  end
+end
+
 function UIEditableMap:doRender(thing, pos)
   if not thing then
     return false
@@ -28,7 +42,12 @@ function UIEditableMap:doRender(thing, pos)
     end
   end
 
-  g_map.addThing(thing, pos, thing:isItem() and -1 or 4)
+  local stackPos = thing:isItem() and -1 or 4
+  g_map.addThing(thing, pos, stackPos)
+
+  local item = { thing = thing, pos = pos, stackPos = stackPos }
+  undoStack:pushItem(item)
+
   if not _G["unsavedChanges"] then
     _G["unsavedChanges"] = true
   end
@@ -203,4 +222,3 @@ function handleMousePress(self, mousePos, button)
     return self:resolve(pos)
   end
 end
-

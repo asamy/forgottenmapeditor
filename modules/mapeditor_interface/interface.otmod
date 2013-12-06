@@ -5,6 +5,7 @@ Module
   reloadable: false
 
   @onLoad: |
+    dofile 'undo'
     dofile 'uieditablemap'
     dofile 'interface'
     Interface.init()
