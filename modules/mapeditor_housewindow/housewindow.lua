@@ -100,3 +100,34 @@ function HouseWindow.updateHouseInfo(houseName)
                                                             housePos.x, housePos.y, housePos.z))
   houseWindow:recursiveGetChildById('townID'):setText(tostring(house:getTownId()))
 end
+
+function HouseWindow.addHouse()
+  local houseName = houseWindow:recursiveGetChildById('houseName'):getText()
+  if g_houses.getHouseByName(houseName) then
+    g_logger.error(string.format("Sorry, house name '%s' already exists.", houseName))
+    return
+  end
+
+  local xp = houseWindow:recursiveGetChildById('newHouseX'):getText()
+  local yp = houseWindow:recursiveGetChildById('newHouseY'):getText()
+  local zp = houseWindow:recursiveGetChildById('newHouseZ'):getText()
+
+  local newHouse = House.create()
+  newHouse:setName(houseName)
+  newHouse:setEntry({x = xp, y = yp, z = zp})
+  newHouse:setTownId(townComboBox:getCurrentOption().data)
+
+  g_logger.notice(string.format("Created house %s", houseName))
+end
+
+function HouseWindow.deleteHouse()
+  local houseId = tonumber(houseWindow:recursiveGetChildById('houseID'):getText())
+  if not g_houses.getHouse(houseId) then
+    g_logger.error("Cannot find the house, make sure you have one selected")
+    return
+  end
+
+  g_houses.removeHouse(houseId)
+  houseList:removeChild(houseList:getFocusedChild())
+  g_logger.notice(string.format("Removed house %s", houseName))
+end

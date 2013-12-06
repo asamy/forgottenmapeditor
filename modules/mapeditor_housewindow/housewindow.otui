@@ -38,7 +38,7 @@ StatusLabel < Label
 
 MainWindow
   id: HouseWindow
-  size: 450 450
+  size: 450 470
   !text: tr('House Window')
   @onEscape: HouseWindow.hide()
 
@@ -73,6 +73,10 @@ MainWindow
     Button
       !text: tr('Goto Selected House')
       @onClick: HouseWindow.gotoHouse()
+
+    Button
+      !text: tr('Delete Selected House')
+      @onClick: HouseWindow.deleteHouse()
 
     ComboBox
       id: townComboBox
