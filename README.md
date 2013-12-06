@@ -6,7 +6,7 @@ ForgottenMapEditor is written using otclient's framework with modifications for 
 
 ## Authors
 
-- Ahmed "[Fallen](https://github.com/allanference)" Samy <f.fallen45@gmail.com>
+- Ahmed "[Fallen](https://github.com/decltype)" Samy <f.fallen45@gmail.com>
 
 - Eduardo "[edubart](https://github.com/edubart/)" Bart <edub4rt@gmail.com>
 
@@ -40,6 +40,11 @@ If you're kind of lost on how to contribute, here is a short guide:
 3. Commit your changes to YOUR repository.
 4. Create a pull request (Click the pull request button on top of your fork) or
     notify me via e-mail <f.fallen45@gmail.com>
+
+## Donations
+
+If you would like to support the project, please send any amount of cash to <pasamy18@gmail.com> (Paypal).
+We highly appreciate all donations, and they will be spread among other people who've helped build this project up.
 
 ## Screenshots
 
