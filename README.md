@@ -43,7 +43,7 @@ If you're kind of lost on how to contribute, here is a short guide:
 
 ## Donations
 
-If you would like to support the project, please send any amount of cash to <pasamy18@gmail.com> (Paypal).
+If you would like to support the project, please send any amount of cash [here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TGNLXR2QABs6KG)
 We highly appreciate all donations, and they will be spread among other people who've helped build this project up.
 
 ## Screenshots
