@@ -154,7 +154,7 @@ function openMap()
   Interface.sync()
 
   local descriptions = g_map.getDescriptions()
-  local desc
+  local desc = ""
   for i = 1, #descriptions do
     desc = desc .. descriptions[i]
   end

@@ -1,0 +1,15 @@
+Module
+  name: mapeditor_housewindow
+  description: Create the House Window (based on the module manager module)
+  author: fallen
+  website: https://github.com/decltype/forgottenmapeditor
+
+  dependencies:
+    - mapeditor_topmenu
+
+  @onLoad: |
+    dofile 'housewindow'
+    HouseWindow.init()
+
+  @onUnload: |
+    HouseWindow.terminate()

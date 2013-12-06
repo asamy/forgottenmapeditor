@@ -1,0 +1,130 @@
+HouseListLabel < Label
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+  color: #cccccc
+
+  $focus:
+    color: #ffffff
+
+  $on:
+    background-color: #006600
+  $!on:
+    background-color: #660000
+
+  $on focus:
+    background-color: #004400
+  $!on focus:
+    background-color: #440000
+
+HouseInfoLabel < Label
+  $!first:
+    margin-top: 5
+  margin-bottom: 2
+
+HouseValueLabel < FlatLabel
+  font: verdana-11px-antialised
+  color: #aaaaaa
+  text-offset: 2 3
+  padding-bottom: 5
+  height: 20
+
+StatusLabel < Label
+  margin-top: 5
+  color: white
+  anchors.top: parent.top
+  margin-left: 20
+
+MainWindow
+  id: HouseWindow
+  size: 450 450
+  !text: tr('House Window')
+  @onEscape: HouseWindow.hide()
+
+  TextList
+    id: houseList
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    width: 180
+    focusable: false
+    vertical-scrollbar: houseListScrollBar
+
+  VerticalScrollBar
+    id: houseListScrollBar
+    anchors.top: houseList.top
+    anchors.bottom: houseList.bottom
+    anchors.left: houseList.right
+    step: 14
+    pixels-scroll: true
+
+  Panel
+    id: houseInfo
+    anchors.left: houseListScrollBar.right
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin: 0 5 5 15
+    layout:
+      type: verticalBox
+      fit-children: true
+    height: 265
+
+    Button
+      !text: tr('Goto Selected House')
+      @onClick: HouseWindow.gotoHouse()
+
+    ComboBox
+      id: townComboBox
+      !text: tr('Select Town')
+
+    HouseInfoLabel
+      !text: tr('House name')
+    TextEdit
+      id: houseName
+
+    HouseInfoLabel
+      !text: tr('House ID')
+    TextEdit
+      id: houseID
+
+    HouseInfoLabel
+      !text: tr('House Entry Position')
+    HouseValueLabel
+      id: housePosition
+
+    HouseInfoLabel
+      !text: tr('Town ID')
+    HouseValueLabel
+      id: townID
+
+    HouseInfoLabel
+      !text: tr('Add New House')
+
+    HouseInfoLabel
+      !text: tr('New House Name')
+    TextEdit
+      id: newHouseName
+
+    HouseInfoLabel
+      !text: tr('Entry X Coordinate')
+    TextEdit
+      id: newHouseX
+
+    HouseInfoLabel
+      !text: tr('Entry Y Coordinate')
+    TextEdit
+      id: newHouseY
+
+    HouseInfoLabel
+      !text: tr('Entry Z Coordinate')
+    TextEdit
+      id: newHouseZ
+
+  Button
+    id: HouseAddButton
+    anchors.top: houseInfo.bottom
+    anchors.left: houseInfo.left
+    !text: tr('Add House')
+    enabled: true
+    @onClick: HouseWindow.addHouse()
