@@ -46,27 +46,22 @@ local supportedVersions = {
 function loadCoreFiles()
   local currentOption = versionComboBox:getCurrentOption()
   VERSION        = tostring(currentOption.text)
-  VERSION_FOLDER = "/data/materials/"..VERSION.."/"
-  OTB_FILE       = "/data/materials/"..VERSION.."/items.otb"
-  XML_FILE       = "/data/materials/"..VERSION.."/items.xml"
-  MON_FILE       = "/data/materials/"..VERSION.."/monster/monsters.xml"
-  NPC_FOLDER     = "/data/materials/"..VERSION.."/npc"
-  DAT_FILE       = "/data/materials/"..VERSION.."/Tibia.dat"
-  SPR_FILE       = "/data/materials/"..VERSION.."/Tibia.spr"
+  VERSION_FOLDER = "/data/materials/" ..VERSION.. "/"
+  OTB_FILE       = "/data/materials/" ..VERSION.. "/items.otb"
+  XML_FILE       = "/data/materials/" ..VERSION.. "/items.xml"
+  MON_FILE       = "/data/materials/" ..VERSION.. "/monster/monsters.xml"
+  NPC_FOLDER     = "/data/materials/" ..VERSION.. "/npc"
+  DAT_FILE       = "/data/materials/" ..VERSION.. "/Tibia.dat"
+  SPR_FILE       = "/data/materials/" ..VERSION.. "/Tibia.spr"
 
-  if g_game.setClientVersion(VERSION) then
-    print("Error after load "..VERSION.." version.")
-    return false
-  end
-
-  print("--> Loading cores with "..VERSION.."")
+  g_game.setClientVersion(VERSION)
   g_game.setProtocolVersion(VERSION)
   if not g_resources.directoryExists(VERSION_FOLDER) then
-    print("---> Folder "..VERSION.." not found '"..VERSION_FOLDER.."'")
+    print("---> Version " .. VERSION.." not found in folder '" ..VERSION_FOLDER .. "'")
     return false
   end
 
-  print("---> "..VERSION.." Loaded")
+  print("---> Loading " .. VERSION)
   print("--> Loading dat...")
   g_things.loadDat(DAT_FILE)
   print("--> Loading spr...")
@@ -199,7 +194,7 @@ function saveMap()
 
   g_map.setWidth(w)
   g_map.setHeight(h)
-  g_map.setDescription(fileWindow:recrusiveGetChildById('description'):getText())
+  g_map.setDescription(fileWindow:recursiveGetChildById('description'):getText())
   mapWidget:setRect({x = 0, y = 0, width = w, height = h})
 
   g_map.saveOtbm(current .. ".otbm")
@@ -220,7 +215,7 @@ function newMap()
 
     g_map.setWidth(w)
     g_map.setHeight(h)
-    g_map.setDescription(fileWindow:recrusiveGetChildById('description'):getText())
+    g_map.setDescription(fileWindow:recursiveGetChildById('description'):getText())
     mapWidget:setRect({x = 0, y = 0, width = w, height = h})
   end
 end
