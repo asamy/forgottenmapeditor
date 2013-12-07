@@ -194,7 +194,12 @@ function saveMap()
 
   g_map.setWidth(w)
   g_map.setHeight(h)
-  g_map.setDescription(fileWindow:recursiveGetChildById('description'):getText())
+
+  local desc = fileWindow:recursiveGetChildById('description'):getText()
+  if not desc:find(g_app.getName()) then
+    desc = desc .. "\nSaved with " .. g_app.getName() .. " " .. g_app.getVersion()
+  end
+  g_map.setDescription(desc)
   mapWidget:setRect({x = 0, y = 0, width = w, height = h})
 
   g_map.saveOtbm(current .. ".otbm")
