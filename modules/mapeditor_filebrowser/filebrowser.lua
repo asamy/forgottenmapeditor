@@ -151,7 +151,7 @@ function openMap()
   local descriptions = g_map.getDescriptions()
   local desc = ""
   for i = 1, #descriptions do
-    desc = desc .. descriptions[i]
+    desc = desc .. " " .. descriptions[i]
   end
   fileWindow:recursiveGetChildById('description'):setText(desc)
 
