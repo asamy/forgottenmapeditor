@@ -81,9 +81,9 @@ local function onMousePress(self, mousePos, button)
 end
 
 function ItemPalette.init()
+  comboBox      = g_ui.createWidget("ComboBox", rootWidget:recursiveGetChildById('leftPanel'))
   paletteWindow = g_ui.loadUI('itempalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
   paletteList   = paletteWindow:recursiveGetChildById('paletteList')
-  comboBox     = paletteWindow:recursiveGetChildById('paletteComboBox')
 
   connect(paletteList, { onMousePress = onMousePress })
   comboBox.onOptionChange = onOptionChange
@@ -91,7 +91,7 @@ function ItemPalette.init()
   _G["currentThing"] = 4526
   _G["secondThing"] = 106
   _G["currentWidget"] = nil
-  
+
   ToolPalette.update()
   ItemPalette.initData()
 end
