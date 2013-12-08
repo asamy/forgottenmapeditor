@@ -78,6 +78,7 @@ local function onMousePress(self, mousePos, button)
   end
 
   ToolPalette.update()
+  ToolPalette.setTool(ToolPencil)
 end
 
 function ItemPalette.init()
