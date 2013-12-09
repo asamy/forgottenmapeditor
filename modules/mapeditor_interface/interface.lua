@@ -236,6 +236,18 @@ function Interface.init()
   end
   
   mapWidget.onMouseWheel = function(self, mousePos, direction)
+    if g_keyboard.isAltPressed() then
+      local tool = ToolPalette.getCurrentTool()
+      if tool.sizes then
+        if direction == MouseWheelDown then
+          ToolPalette.redBrushSize()
+        else
+          ToolPalette.addBrushSize()
+        end
+      end
+      return
+    end
+  
     if direction == MouseWheelDown then
       if g_keyboard.isCtrlPressed() then
         updateFloor(-1)
