@@ -213,10 +213,6 @@ end
 
 function handleMousePress(self, mousePos, button)
   local pos = self:getPosition(mousePos)
-  if not pos then
-    return false
-  end
-
   if button == MouseRightButton or button == MouseLeftButton then
     return self:resolve(pos)
   end
