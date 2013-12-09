@@ -90,12 +90,11 @@ local function paint(from, to, pos)
     {x = 0, y = 1},
   }
   table.insert(tiles, pos)
-  
-  local actualPos = tiles[1]
+
   while #tiles > 0 do
     local found = false
+    local actualPos = tiles[1]
     local tile = g_map.getTile(actualPos)
-    
     if tile then
       local things = tile:getThings()
       for i = 1, #things do
