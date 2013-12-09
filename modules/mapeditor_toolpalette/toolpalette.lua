@@ -93,6 +93,51 @@ function ToolPalette.initOptions()
   zoneList:hide()
 end
 
+function ToolPalette.addBrushSize()
+  local tool = ToolPalette.getCurrentTool()
+  local size = tool.size
+  
+  for i = 1, #tool.sizes - 1 do
+    if tool.size == tool.sizes[i] then
+      tool.size = tool.sizes[i + 1]
+      
+      local children = sizePanel:getChildren()
+      for j = 1, #children do
+        if children[j] == i then
+          sizePanel:focusChild(children[j])
+        end
+      end
+      
+      ToolPalette.updateOptions()
+      return true
+    end
+  end
+  
+  return false
+end
+function ToolPalette.redBrushSize()
+  local tool = ToolPalette.getCurrentTool()
+  local size = tool.size
+  
+  for i = 2, #tool.sizes do
+    if tool.size == tool.sizes[i] then
+      tool.size = tool.sizes[i - 1]
+      
+      local children = sizePanel:getChildren()
+      for j = 1, #children do
+        if children[j] == i then
+          sizePanel:focusChild(children[j])
+        end
+      end
+      
+      ToolPalette.updateOptions()
+      return true
+    end
+  end
+  
+  return false
+end
+
 function ToolPalette.updateOptions()
   local tool = tools[_G["currentTool"].id]
   

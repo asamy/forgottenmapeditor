@@ -87,7 +87,18 @@ function ItemPalette.init()
   comboBox      = g_ui.createWidget("ComboBox", rootWidget:recursiveGetChildById('leftPanel'))
   paletteWindow = g_ui.loadUI('itempalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
   paletteList   = paletteWindow:recursiveGetChildById('paletteList')
-
+  
+  paletteList.onMouseMove = function(self, mousePos, mouseMoved)
+    local thing = self:getChildByPos(mousePos)
+    if thing then
+      if comboBox:getCurrentOption().text == "Creatures" then
+        updateBottomCreature(thing:getCreature():getName())
+      else
+        updateBottomItem(thing:getItemId())
+      end
+    end
+  end
+  
   connect(paletteList, { onMousePress = onMousePress })
   comboBox.onOptionChange = onOptionChange
 
