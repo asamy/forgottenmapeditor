@@ -49,6 +49,13 @@ function updateCursor(pos)
   end
 end
 
+function updateBottomItem(itemId)
+  itemLabel:setText("Actual item: " .. itemId .. " Name: " .. Item.create(itemId):getName())
+end
+function updateBottomCreature(name)
+  itemLabel:setText("Creature name: " .. name)
+end
+
 function updateBottomBar(pos)
   local pos = mapWidget:getPosition(g_window.getMousePosition()) or pos
   if pos then
@@ -57,11 +64,11 @@ function updateBottomBar(pos)
     local tile = g_map.getTile(pos)
     if tile and tile:getTopThing() then
       local topThing = tile:getTopThing()
-      local text = "Actual Item: " .. topThing:getId()
-      if topThing:isItem() or topThing:isCreature() then
-        text = text .. " Name: " .. topThing:getName()
+      if topThing:isItem() then
+        updateBottomItem(topThing:getId())
+      elseif topThing:isCreature() then
+        updateBottomCreature(topThing:getName())
       end
-      itemLabel:setText(text)
     else
       itemLabel:setText('Actual Item: None')  
     end
