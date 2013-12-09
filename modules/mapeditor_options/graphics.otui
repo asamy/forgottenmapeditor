@@ -42,6 +42,10 @@ Panel
     id: fullscreen
     !text: tr('Fullscreen')
 
+  OptionCheckBox
+    id: lockvisible
+    !text: tr('Lock Visible Floor')
+
   Label
     id: backgroundFrameRateLabel
     !text: tr('Game framerate limit: %s', 'max')

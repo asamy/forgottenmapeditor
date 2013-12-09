@@ -161,6 +161,10 @@ function updateFloor(value)
     pos.z = math.min(math.max(pos.z + value, 0), 15)
     mapWidget:setCameraPosition(pos)
     updateBottomBar(pos)
+
+    if g_settings.get("visiblefloor", "true") then
+      mapWidget:lockVisibleFloor(pos.z)
+    end
 end
 
 local showZones  = g_settings.getBoolean("show-zones", true)
