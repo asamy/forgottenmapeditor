@@ -20,16 +20,21 @@ local zoneList
 tools = {
   [ToolMouse] = {
     disableCursor = true,
+    drawTool = false
   },
   [ToolPencil] = {
     sizes = {1, 3, 5, 7, 9},
-    size = 1
+    size = 1,
+    drawTool = true
   },
-  [ToolPaint] = {},
+  [ToolPaint] = {
+    drawTool = true
+	},
   [ToolZone] = {
     sizes = {1, 3, 5, 7, 9},
     size = 1,
-    zone = TILESTATE_PROTECTIONZONE
+    zone = TILESTATE_PROTECTIONZONE,
+    drawTool = false
   },
 }
 
@@ -147,6 +152,10 @@ local function deselectChild(child)
   if child then
     child:setBorderWidth(0)
   end
+end
+
+function ToolPalette.getCurrentTool()
+  return tools[_G["currentTool"].id]
 end
 
 function ToolPalette.setTool(id)
