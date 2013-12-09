@@ -61,7 +61,7 @@ function HouseWindow.gotoHouse()
   local houseName = houseWindow:recursiveGetChildById('houseName'):getText()
   local house = g_houses.getHouseByName(houseName)
   if house then
-    mapWidget:setCameraPosition(house:getEntry())
+    MapEditor.setCameraPosition(house:getEntry())
   end
 end
 
