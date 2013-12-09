@@ -164,6 +164,8 @@ function updateFloor(value)
 
     if g_settings.get("visiblefloor", "true") then
       mapWidget:lockVisibleFloor(pos.z)
+    else
+      mapWidget:unlockVisibleFloor()
     end
 end
 
