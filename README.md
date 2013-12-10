@@ -40,6 +40,25 @@ If you're kind of lost on how to contribute, here is a short guide:
 3. Commit your changes to YOUR repository.
 4. Create a pull request (Click the pull request button on top of your fork) or
     notify me via e-mail <f.fallen45@gmail.com>
+ 
+**Note**: You do not need to re-fork the project when a new change is made to this repository.  Use the following git commands:
+ 
+```
+git remote add https://github.com/decltype/forgottenmapeditor.git upstream
+git fetch upstream
+```
+ 
+Then whenever a new change is pushed into my repository, just use:
+ 
+```
+git pull --rebase upstream master # pull from master branch
+```
+
+Alternatively, you can use git pull with the repository URL everytime, but it's quicker to just add the remote. Like so:
+
+```
+git pull --rebase https://github.com/decltype/forgottenmapeditor.git master
+```
 
 ## Donations
 
@@ -64,14 +83,12 @@ Saturday, Dec 7, 2013. (House Dialog Preview)
 
 [OTClient](https://github.com/edubart/otclient)
 
-ForgottenMapEditor depends on OTClient.
-
 ## Short guide for running
-
-Before reading further, make sure you have a copy of OTClient.
 
 Warning: OTClient precompiled binaries may not be up-to-date (They're not updated frequently)!
 So some of the new features may not work at all.
 
-Place the OTClient executable in the root directory of your forgottenmapeditor copy then run the executable.
+You most likely would want to go for a compilation from scratch when you want to test/develop the master branch.
+
+After you have a working executable, place it on top of FME folder then run the executable.
 
