@@ -36,23 +36,24 @@ local validXmlTypes = {
 }
 
 local supportedVersions = {
-  810, 853, 854, 860, 861, 862, 870,
-  910, 940, 944, 953, 954, 960, 961,
-  963, 970, 971, 973, 974, 973, 974,
-  975, 976, 977, 978, 979, 980, 1010,
-  1022
+  760, 810, 853, 854, 860, 861, 862,
+  870, 910, 940, 944, 953, 954, 960,
+  961, 963, 970, 971, 973, 974, 973,
+  974, 975, 976, 977, 978, 979, 980,
+  1010, 1022
 }
 
 function loadCoreFiles()
   local currentOption = versionComboBox:getCurrentOption()
   VERSION        = tostring(currentOption.text)
-  VERSION_FOLDER = "/data/materials/" ..VERSION.. "/"
-  OTB_FILE       = "/data/materials/" ..VERSION.. "/items.otb"
-  XML_FILE       = "/data/materials/" ..VERSION.. "/items.xml"
-  MON_FILE       = "/data/materials/" ..VERSION.. "/monster/monsters.xml"
-  NPC_FOLDER     = "/data/materials/" ..VERSION.. "/npc"
-  DAT_FILE       = "/data/materials/" ..VERSION.. "/Tibia.dat"
-  SPR_FILE       = "/data/materials/" ..VERSION.. "/Tibia.spr"
+  VERSION_FOLDER = "/data/materials/" .. VERSION .. "/"
+  OTB_FILE       = "/data/materials/" .. VERSION .. "/items.otb"
+  XML_FILE       = "/data/materials/" .. VERSION .. "/items.xml"
+  MON_FILE       = "/data/materials/" .. VERSION .. "/monster/monsters.xml"
+  MON_FALLBACK   = "/data/materials/monster/monsters.xml"
+  NPC_FOLDER     = "/data/materials/" .. VERSION .. "/npc"
+  DAT_FILE       = "/data/materials/" .. VERSION .. "/Tibia.dat"
+  SPR_FILE       = "/data/materials/" .. VERSION .. "/Tibia.spr"
 
   g_game.setClientVersion(VERSION)
   g_game.setProtocolVersion(VERSION)
@@ -70,8 +71,11 @@ function loadCoreFiles()
   g_things.loadOtb(OTB_FILE)
   print("--> Loading XML...")
   g_things.loadXml(XML_FILE)
+
   print("--> Loading monsters...")
   g_creatures.loadMonsters(MON_FILE)
+  print("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
+  g_creatures.loadMonsters(MON_FALLBACK)
   print("--> Loading NPCs...")
   g_creatures.loadNpcs(NPC_FOLDER)
 
@@ -101,7 +105,7 @@ local function add(filename)
   local file  = g_ui.createWidget('FileLabel', fileList)
   file:setText(filename)
 
-  file.onDoubleClick = function() print("-> Loading "..filename.."...") openFile(filename) end
+  file.onDoubleClick = function() print("-> Loading " .. filename .. "...") openFile(filename) end
   file.onMousePress  = function() _G["selection"] = filename end
 
   table.insert(fsCache, file)
