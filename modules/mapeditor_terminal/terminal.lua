@@ -56,7 +56,7 @@ local function completeCommand()
     commandTextEdit:setText(possibleCommands[1])
   -- show command matches
   elseif #possibleCommands > 0 then
-    print('>> ' .. commandBegin)
+    g_logger.debug('>> ' .. commandBegin)
 
     -- expand command
     local expandedComplete = commandBegin
@@ -79,7 +79,7 @@ local function completeCommand()
     commandTextEdit:setText(commandBegin)
 
     for i,v in ipairs(possibleCommands) do
-      print(v)
+      g_logger.debug(v)
     end
   end
 end
@@ -201,7 +201,7 @@ function Terminal.executeCommand(command)
   -- detect and convert commands with simple syntax
   local realCommand
   if string.sub(command, 1, 1) == '=' then
-    realCommand = 'print(' .. string.sub(command,2) .. ')'
+    realCommand = 'g_logger.debug(' .. string.sub(command,2) .. ')'
   else
     realCommand = command
   end
@@ -235,8 +235,8 @@ function Terminal.executeCommand(command)
   -- execute the command
   local ok, ret = pcall(func)
   if ok then
-    -- if the command returned a value, print it
-    if ret then print(ret) end
+    -- if the command returned a value, g_logger.debug it
+    if ret then g_logger.debug(ret) end
   else
     g_logger.log(LogError, 'command failed: ' .. ret)
   end

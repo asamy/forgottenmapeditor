@@ -15,38 +15,38 @@ SPR_FILE       = "/data/materials/" .. VERSION .. "/Tibia.spr"
 
 -- Nothing beyond here is useful to people who can't code
 function startup()
-  print("-> Loading startup files...")
+  g_logger.debug("-> Loading startup files...")
   -- All of the functions below throw exceptions on failure
   -- not in terms of terminaing the applications, though.
   if g_game.setClientVersion(VERSION) then
-    print("Error after load " .. VERSION .. " version.")
+    g_logger.debug("Error after load " .. VERSION .. " version.")
     return false
   end
 
   g_game.setProtocolVersion(VERSION)
-  print("--> Loading with version " .. VERSION)
+  g_logger.debug("--> Loading with version " .. VERSION)
   if not g_resources.directoryExists(VERSION_FOLDER) then
-    print("---> Folder " .. VERSION .. " not found '" .. VERSION_FOLDER .. "'")
+    g_logger.debug("---> Folder " .. VERSION .. " not found '" .. VERSION_FOLDER .. "'")
     return false
   end
 
-  print("--> Loading dat...")
+  g_logger.debug("--> Loading dat...")
   g_things.loadDat(DAT_FILE)
-  print("--> Loading spr...")
+  g_logger.debug("--> Loading spr...")
   g_sprites.loadSpr(SPR_FILE)
-  print("--> Loading OTB...")
+  g_logger.debug("--> Loading OTB...")
   g_things.loadOtb(OTB_FILE)
-  print("--> Loading XML...")
+  g_logger.debug("--> Loading XML...")
   g_things.loadXml(XML_FILE)
 
-  print("--> Loading monsters...")
+  g_logger.debug("--> Loading monsters...")
   g_creatures.loadMonsters(MON_FILE)
-  print("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
+  g_logger.debug("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
   g_creatures.loadMonsters(MON_FALLBACK)
-  print("--> Loading NPCs...")
+  g_logger.debug("--> Loading NPCs...")
   g_creatures.loadNpcs(NPC_FOLDER)
 end
 
 function shutdown()
-  print("Shutting down...")
+  g_logger.debug("Shutting down...")
 end

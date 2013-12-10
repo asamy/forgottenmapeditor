@@ -6,7 +6,7 @@ function dumpWidgets(widget, level)
     if child:isVisible() then
       local name = child:getId()
       if name:match('widget%d+') == nil then
-        print(string.rep(' ', level) .. name)
+        g_logger.debug(string.rep(' ', level) .. name)
       end
       if child:getId() ~= 'terminalBuffer' then
         dumpWidgets(child, level+1)

@@ -58,25 +58,25 @@ function loadCoreFiles()
   g_game.setClientVersion(VERSION)
   g_game.setProtocolVersion(VERSION)
   if not g_resources.directoryExists(VERSION_FOLDER) then
-    print("---> Version " .. VERSION.." not found in folder '" ..VERSION_FOLDER .. "'")
+    g_logger.debug("---> Version " .. VERSION.." not found in folder '" ..VERSION_FOLDER .. "'")
     return false
   end
 
-  print("---> Loading " .. VERSION)
-  print("--> Loading dat...")
+  g_logger.debug("---> Loading " .. VERSION)
+  g_logger.debug("--> Loading dat...")
   g_things.loadDat(DAT_FILE)
-  print("--> Loading spr...")
+  g_logger.debug("--> Loading spr...")
   g_sprites.loadSpr(SPR_FILE)
-  print("--> Loading OTB...")
+  g_logger.debug("--> Loading OTB...")
   g_things.loadOtb(OTB_FILE)
-  print("--> Loading XML...")
+  g_logger.debug("--> Loading XML...")
   g_things.loadXml(XML_FILE)
 
-  print("--> Loading monsters...")
+  g_logger.debug("--> Loading monsters...")
   g_creatures.loadMonsters(MON_FILE)
-  print("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
+  g_logger.debug("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
   g_creatures.loadMonsters(MON_FALLBACK)
-  print("--> Loading NPCs...")
+  g_logger.debug("--> Loading NPCs...")
   g_creatures.loadNpcs(NPC_FOLDER)
 
   ItemPalette.initData()
@@ -105,7 +105,7 @@ local function add(filename)
   local file  = g_ui.createWidget('FileLabel', fileList)
   file:setText(filename)
 
-  file.onDoubleClick = function() print("-> Loading " .. filename .. "...") openFile(filename) end
+  file.onDoubleClick = function() g_logger.debug("-> Loading " .. filename .. "...") openFile(filename) end
   file.onMousePress  = function() _G["selection"] = filename end
 
   table.insert(fsCache, file)

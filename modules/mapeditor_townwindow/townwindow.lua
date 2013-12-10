@@ -99,12 +99,12 @@ function TownWindow.addTown()
       end
     end
   elseif g_towns.getTown(id) then
-    print ('Town ID exists! Set to 0 for auto')
+    g_logger.debug ('Town ID exists! Set to 0 for auto')
     return
   end
 
   if not g_map.getTile(position) then
-    print ('Unable to find tile at that position.')
+    g_logger.debug ('Unable to find tile at that position.')
     return
   end
 
