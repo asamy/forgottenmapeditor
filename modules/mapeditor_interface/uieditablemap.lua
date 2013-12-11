@@ -177,7 +177,6 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         local tile = g_map.getTile(pos)
         if tile then
-          g_logger.warning("we're here");
           g_map.removeThing(tile:getTopThing())
           g_minimap.updateTile(tile:getPosition(), tile)
         end
