@@ -13,9 +13,7 @@ function init()
   rightPanel = rootWidget:recursiveGetChildById('rightPanel')
   minimapWindow = g_ui.loadUI('minimap', rightPanel)
   minimapWindow:setContentMinimumHeight(64)
-
   minimapWidget = minimapWindow:recursiveGetChildById('minimap')
-
   connect(mapWidget, { onMouseMove = function() 
                                       local pos = mapWidget:getCameraPosition()
                                       if pos ~= nil then minimapWidget:setCameraPosition(pos) end
@@ -56,19 +54,6 @@ end
 
 function onMiniWindowClose()
   minimapButton:setOn(false)
-end
-
-function updateCameraPosition()
-  local player = g_game.getLocalPlayer()
-  if not player then return end
-  local pos = player:getPosition()
-  if not pos then return end
-  if not minimapWidget:isDragging() then
-    if not fullmapView then
-      minimapWidget:setCameraPosition(player:getPosition())
-    end
-    minimapWidget:setCrossPosition(player:getPosition())
-  end
 end
 
 function center()

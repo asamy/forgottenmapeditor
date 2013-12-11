@@ -321,7 +321,7 @@ function Interface.init()
     end
   , nil, MouseMidButton)
   
-  g_mouse.bindAutoPress(mapWidget, handleMousePress, 50, MouseLeftButton)
+  g_mouse.bindAutoPress(mapWidget, handleMousePress, 10, MouseLeftButton)
   g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
   
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
