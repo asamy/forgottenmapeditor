@@ -49,7 +49,7 @@ local function onSizeChange(self, mousePos, button)
   
   self:focusChild(next)
   next:setBorderWidth(1)
-  tools[_G["currentTool"].id].size = next.value
+  ToolPalette.getCurrentTool().size = next.value
 end
 
 function ToolPalette.initOptions()  
@@ -81,7 +81,7 @@ function ToolPalette.initOptions()
     widget.name = zoneLabels[i].name
     connect(widget, { onMousePress = 
       function(self, mousePos, button)
-        tools[_G["currentTool"].id].zone = self.zone
+        ToolPalette.getCurrentTool().zone = self.zone
       end
     })
     widget:setOn(true)
@@ -139,7 +139,7 @@ function ToolPalette.redBrushSize()
 end
 
 function ToolPalette.updateOptions()
-  local tool = tools[_G["currentTool"].id]
+  local tool = ToolPalette.getCurrentTool()
   
   -- Size options
   if tool.size and tool.sizes then
