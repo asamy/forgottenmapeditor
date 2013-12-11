@@ -18,7 +18,7 @@ end
 
 function g_mouse.bindPressMove(widget, callback)
   connect(widget, { onMouseMove = function(widget, mousePos, mouseMoved)
-    if widget:isPressed() then
+    if widget:isHovered() and (g_mouse.isPressed(MouseLeftButton) or g_mouse.isPressed(MouseMidButton) or g_mouse.isPressed(MouseRightButton)) then
       callback(mousePos, mouseMoved)
       return true
     end
