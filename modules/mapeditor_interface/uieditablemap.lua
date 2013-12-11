@@ -24,10 +24,10 @@ function UIEditableMap:doRender(thing, pos)
   if g_keyboard.isCtrlPressed() then
     return self:removeThing(tile, thing)
   end
-  
+
   if tile then
     local topThing = tile:getTopThing()
-    if topThing and topThing:getId() == thing:getId() then
+    if topThing and ((topThing:isGround() and topThing:getId() == thing:getId()) or topThing:getId() == thing:getId()) then
       return false
     end
   end
