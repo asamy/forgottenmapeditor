@@ -76,7 +76,6 @@ local function onMousePress(self, mousePos, button)
   else
     deselectChild(previous)
   end
-  g_logger.debug(_G["currentTool"].drawTool)
   if ToolPalette.getCurrentTool().drawTool == false then
     ToolPalette.setTool(ToolPencil)
   end

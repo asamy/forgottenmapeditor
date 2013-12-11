@@ -289,6 +289,7 @@ function Interface.init()
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
       if g_keyboard.isCtrlPressed() then
+        navigating = true
         resetZoom()
         return
       end

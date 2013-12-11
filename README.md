@@ -65,6 +65,8 @@ git pull --rebase https://github.com/decltype/forgottenmapeditor.git master
 If you would like to support the project, please send any amount of cash [here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EY4YMC9S7R5TC)
 We highly appreciate all donations, and they will be spread among other people who've helped build this project up.
 
+In return, your name (and a link to your profile) shall be put in this README once you notify me about your donation.
+
 ## Screenshots
 
 Monday, September 02, 2013.
