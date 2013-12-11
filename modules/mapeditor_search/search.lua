@@ -71,7 +71,7 @@ function SearchModule.search()
       searchResult.itemId = item:getId()
 
       local itemWidget = g_ui.createWidget('Item', searchResult)
-      connect(itemWidget, { onDoubleClick = function(self, mousePos) SearchModule.searchOnMap() end })
+      connect(searchResult, { onDoubleClick = function(self, mousePos) SearchModule.searchOnMap() end })
       itemWidget:setItemId(item:getId())
 
       local label = g_ui.createWidget('SearchResultLabel', searchResult)
