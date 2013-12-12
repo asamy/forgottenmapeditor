@@ -29,8 +29,12 @@ function UIEditableMap:doRender(thing, pos)
 
   if tile then
     local topThing = tile:getTopThing()
-    if topThing and ((topThing:isGround() and topThing:getId() == thing:getId()) or topThing:getId() == thing:getId()) then
-      return false
+    if topThing then
+      if topThing:isGround() and topThing:getId() ~= thing:getId() then
+        self:removeThing(tile, topThing)
+      elseif topThing:getId() == thing:getId() then
+        return false
+      end
     end
   end
 
