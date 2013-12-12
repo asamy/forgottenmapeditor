@@ -183,7 +183,10 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         local tile = g_map.getTile(pos)
         if tile then
-          UIEditableMap:removeThing(tile, tile:getTopThing())
+          local topThing = tile:getTopThing()
+          if topThing and topThing:getId() == itemType:getClientId() then
+            UIEditableMap:removeThing(tile, topThing)
+          end
         end
       end
       
