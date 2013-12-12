@@ -269,6 +269,15 @@ function Interface.init()
     end
   end
 
+  g_mouse.bindPressMove(mapWidget, 
+    function(self, mousePos, mouseMoved)
+      if g_mouse.isPressed(MouseMidButton) then
+        navigating = true
+        mapWidget:movePixels(mousePos.x * zoomLevel, mousePos.y * zoomLevel)
+      end
+    end
+  )
+  
   mapWidget.onMouseRelease = function(self, mousePos, mouseButton)
     if navigating then
       navigating = false
@@ -293,31 +302,6 @@ function Interface.init()
         resetZoom()
         return
       end
-      
-      if elapsed < 150 then
-        return
-      end
-
-      navigating = true
-      local px = mousePos.x - self:getX()
-      local py = mousePos.y - self:getY()
-      local dx = px - self:getWidth()/2
-      local dy = -(py - self:getHeight()/2)
-      local radius = math.sqrt(dx*dx+dy*dy)
-      local movex = 0
-      local movey = 0
-      dx = dx/radius
-      dy = dy/radius
-
-      if dx > 0.5 then movex = 1 end
-      if dx < -0.5 then movex = -1 end
-      if dy > 0.5 then movey = -1 end
-      if dy < -0.5 then movey = 1 end
-
-      local cameraPos = self:getCameraPosition()
-      local pos = {x = cameraPos.x + movex, y = cameraPos.y + movey, z = cameraPos.z}
-      self:setCameraPosition(pos)
-      updateBottomBar()
     end
   , nil, MouseMidButton)
   
