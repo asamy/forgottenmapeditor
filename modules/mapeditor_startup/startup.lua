@@ -38,13 +38,24 @@ function startup()
   g_things.loadOtb(OTB_FILE)
   g_logger.debug("--> Loading XML...")
   g_things.loadXml(XML_FILE)
-
   g_logger.debug("--> Loading monsters...")
-  g_creatures.loadMonsters(MON_FILE)
-  g_logger.debug("--> Trying to load monsters again incase it wasn't loaded from: " .. MON_FALLBACK)
-  g_creatures.loadMonsters(MON_FALLBACK)
+  if g_resources.fileExists(MON_FILE) then
+    g_creatures.loadMonsters(MON_FILE)
+  else
+    g_logger.debug("---> File not found. " .. MON_FILE)
+  end
+  g_logger.debug("--> Trying to load monsters again incase it wasn't loaded...")
+  if g_resources.fileExists(MON_FALLBACK) then
+    g_creatures.loadMonsters(MON_FALLBACK)
+  else
+    g_logger.debug("---> File not found. " .. MON_FALLBACK)
+  end
   g_logger.debug("--> Loading NPCs...")
-  g_creatures.loadNpcs(NPC_FOLDER)
+  if g_resources.directoryExists(NPC_FOLDER) then
+    g_creatures.loadNpcs(NPC_FOLDER)
+  else
+    g_logger.debug("---> Folder not found. " .. NPC_FOLDER)
+  end
 end
 
 function shutdown()
