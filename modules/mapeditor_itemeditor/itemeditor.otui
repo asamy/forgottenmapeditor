@@ -1,0 +1,39 @@
+MainWindow
+  id: ItemEditor
+  size: 230 150
+  !text: tr('Edit an Item...')
+  @onEscape: ItemEditor.finish()
+
+  Panel
+    id: editPanel
+    layout:
+      type: grid
+      fit-children: true
+
+    Label
+      id: itemIdLabel
+    Label
+      id: itemNameLabel
+
+    Label
+      text: 'Unique ID: '
+    TextEdit
+      id: uniqueId
+
+    Label
+      text: 'Action ID: '
+    TextEdit
+      id: actionId
+
+    Label
+      text: 'Description: '
+    TextEdit
+      id: descriptionEdit
+      text: 'Enter item description here...'
+
+    CheckBox
+      id: saveExit
+      text: 'Save and exit'
+    Button
+      id: doneButton
+      text: 'Save changes'

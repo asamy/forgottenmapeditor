@@ -1,0 +1,13 @@
+Module
+  name: mapeditor_itemeditor
+  description: Edit item's unique/action id and description (CTRL+E to raise)
+  author: fallen
+  website: https://github.com/decltype/forgottenmapeditor
+  autoload: true
+
+  @onLoad: |
+    dofile 'itemeditor'
+    ItemEditor.init()
+
+  @onUnload: |
+    ItemEditor.terminate()

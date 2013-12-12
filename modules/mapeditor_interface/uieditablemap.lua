@@ -162,6 +162,9 @@ function UIEditableMap:resolve(pos)
           end
         end
       end
+      if g_keyboard.isShiftPressed() then
+        ItemEditor.showup()
+      end
       return false
     -- Pencil Tool --
     elseif actualTool == ToolPencil then
