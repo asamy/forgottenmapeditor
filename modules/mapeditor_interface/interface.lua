@@ -74,8 +74,8 @@ function updateBottomBar(pos)
     end
   end
 
-  local currentZoom = zoomLevels[zoomLevel]
-  zoomLabel:setText("Zoom level: " .. currentZoom .. "x" .. currentZoom)
+  local tileSize = zoomLevels[zoomLevel]
+  zoomLabel:setText("Zoom Level: " .. zoomLevel .. " (" .. tileSize .. "x" .. tileSize .. " shown.)")
 end  
 
 function resetZoom()

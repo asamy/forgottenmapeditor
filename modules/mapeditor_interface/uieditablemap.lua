@@ -56,6 +56,9 @@ function UIEditableMap:removeThing(tile, thing)
     g_minimap.updateTile(tile:getPosition(), tile)
     undoStack:removeUndoItem(
       function(e)
+        if not e then
+          return false
+        end
         local pos = e.pos
         local tilePos = tile:getPosition()
         return pos.x == tilePos.x and pos.y == tilePos.y and pos.z == tilePos.z
