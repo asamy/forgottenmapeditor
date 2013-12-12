@@ -3,8 +3,10 @@ UIEditableMap = extends(UIMap)
 function undoAction()
   local item = undoStack:undo()
   if item then
+    -- We don't need to call UIEditableMap:removeThing here, undoStack:undo()
+    -- already pushes the item undone into the redo stack.  So just do it manually.
     g_map.removeThing(item.thing)
-    g_minimap.updateTile(tile:getPosition(), tile)
+    g_minimap.updateTile(item.pos, tile)
   end
 end
 
@@ -46,15 +48,16 @@ end
 
 function UIEditableMap:removeThing(tile, thing)
   if tile and thing then
-    local things = tile:getThings()
-    for i = 1, #things do
-      if things[i]:getId() == thing:getId() then
-        g_map.removeThing(thing)
-        break
-      end
-    end
-
+    g_map.removeThing(thing)
     g_minimap.updateTile(tile:getPosition(), tile)
+    undoStack:removeUndoItem(
+      function(e)
+        local pos = e.pos
+        local tilePos = tile:getPosition()
+        return pos.x == tilePos.x and pos.y == tilePos.y and pos.z == tilePos.z
+      end
+    )
+    undoStack:pushRedoItem({ item = thing, pos = tile:getPosition(), stackPos = thing:getStackPos()})
   end
 end
 
@@ -103,8 +106,7 @@ local function paint(from, to, pos)
       local things = tile:getThings()
       for i = 1, #things do
         if things[i]:getId() == from then
-          g_map.removeThing(things[i])
-          g_minimap.updateTile(tile:getPosition(), tile)
+          UIEditableMap:removeThing(tile, thing)
           UIEditableMap:doRender(Item.createOtb(to), actualPos)
           found = true
           break
@@ -152,13 +154,14 @@ function UIEditableMap:resolve(pos)
         if tile then
           local topThing = tile:getTopThing()
           if topThing then
-            g_map.removeThing(topThing)
-            g_minimap.updateTile(tile:getPosition(), tile)
+            UIEditableMap:removeThing(tile, topThing)
             return true
           end
           if g_keyboard.isCtrlPressed() then
-            g_map.cleanTile(pos)
-            g_minimap.updateTile(tile:getPosition(), tile)
+            local things = tile:getThings()
+            for i = 1, #things do
+              UIEditableMap:removeThing(tile, things[i])
+            end
           end
         end
       end
@@ -180,8 +183,7 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         local tile = g_map.getTile(pos)
         if tile then
-          g_map.removeThing(tile:getTopThing())
-          g_minimap.updateTile(tile:getPosition(), tile)
+          UIEditableMap:removeThing(tile, tile:getTopThing())
         end
       end
       

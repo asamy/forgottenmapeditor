@@ -15,6 +15,21 @@ function UndoStack:pushItem(item)
   table.insert(self.items, item)
 end
 
+function UndoStack:pushRedoItem(item)
+  table.insert(self.undoneItems, item)
+end
+
+function UndoStack:removeUndoItem(callback)
+  local size = #self.items
+  for i = 1, size do
+    if callback(self.items[i]) then
+      self.items[i] = nil
+      return true
+    end
+  end
+  return false
+end
+
 function UndoStack:undo()
   local index = #self.items
   if index == 0 then
