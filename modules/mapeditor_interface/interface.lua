@@ -204,7 +204,7 @@ function Interface.initDefaultZoneOptions()
   local showZones = g_settings.getBoolean("show-zones", true)
 
   g_map.setShowZones(showZones)
-  g_map.setZoneOpacity(0.5)
+  g_map.setZoneOpacity(0.7)
   for i, v in pairs(defaultZoneFlags) do
     if showZones then  -- only enable if showing is enabled
       g_map.setShowZone(i, true)
