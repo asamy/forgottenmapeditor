@@ -73,6 +73,9 @@ function updateBottomBar(pos)
       itemLabel:setText('Actual Item: None')  
     end
   end
+
+  local currentZoom = zoomLevels[zoomLevel]
+  zoomLabel:setText("Zoom level: " .. currentZoom .. "x" .. currentZoom)
 end  
 
 function resetZoom()
@@ -214,10 +217,11 @@ function Interface.initDefaultZoneOptions()
 end
 
 function Interface.init()
-  rootPanel = g_ui.displayUI('interface.otui')
-  mapWidget = rootPanel:getChildById('map')
+  rootPanel     = g_ui.displayUI('interface.otui')
+  mapWidget     = rootPanel:getChildById('map')
   positionLabel = rootPanel:recursiveGetChildById('positionLabel')
-  itemLabel = rootPanel:recursiveGetChildById('itemLabel')
+  itemLabel     = rootPanel:recursiveGetChildById('itemLabel')
+  zoomLabel     = rootPanel:recursiveGetChildById('zoomLabel')
 
   -- both undoAction and redoAction functions are defined in uieditablemap.lua
   undoButton = modules.mapeditor_topmenu.addLeftButton('undoButton', tr('Undo last action') .. ' (CTRL+Z)',

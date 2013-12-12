@@ -70,3 +70,9 @@ UIWidget
       anchors.left: prev.right
       width: 250
       text: Actual Item: None
+
+    StatusLabel
+      id: zoomLabel
+      anchors.left: prev.right
+      width: 250
+      text: Zoom Level:
