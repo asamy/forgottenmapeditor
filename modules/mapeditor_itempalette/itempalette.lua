@@ -20,24 +20,19 @@ end
 local function onOptionChange(widget, optText, optData)
   paletteList:destroyChildren()
 
-  if optData ~= ThingCategoryCreature then
+  if optData <= 14 then
     local items = g_things.findItemTypeByCategory(optData)
     for i = 1, #items do
       local widget = g_ui.createWidget('PaletteItem', paletteList)
       widget:setItemId(items[i]:getClientId())
     end
-  else
-    if not g_creatures.isLoaded() then
-      return
-    end
-
+  elseif optData == 15 then
     local creatures = g_creatures.getCreatures()
     for i = 1, #creatures do
       local widget = g_ui.createWidget('PaletteCreature', paletteList)
       widget:setCreature(creatures[i]:cast())
     end
-  end
-  if optData >= 16 then
+  elseif optData >= 16 then
     for a, v in ipairs(extraItem[optText].from) do
       for i = extraItem[optText].from[a], extraItem[optText].to[a] do
         local widget = g_ui.createWidget('PaletteItem', paletteList)
@@ -130,7 +125,9 @@ function ItemPalette.initData()
     comboBox:addOption("Exterior",     ItemCategoryExterior)
     comboBox:addOption("Stairs",       ItemCategoryStairs)
   end
-  comboBox:addOption("Creatures",    ThingCategoryCreature)
+  if g_creatures.isLoaded() then
+    comboBox:addOption("Creatures",    ThingCategoryCreature)
+  end
 
   comboBox:setCurrentIndex(1)
 end

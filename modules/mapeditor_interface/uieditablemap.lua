@@ -4,7 +4,6 @@ function undoAction()
   local item = undoStack:undo()
   if item then
     g_map.removeThing(item.thing)
-    g_minimap.updateTile(tile:getPosition(), tile)
   end
 end
 
@@ -154,11 +153,6 @@ function UIEditableMap:resolve(pos)
           if topThing then
             g_map.removeThing(topThing)
             g_minimap.updateTile(tile:getPosition(), tile)
-            return true
-          end
-          if g_keyboard.isCtrlPressed() then
-            g_map.cleanTile(pos)
-            g_minimap.updateTile(tile:getPosition(), tile)
           end
         end
       end
@@ -180,8 +174,11 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         local tile = g_map.getTile(pos)
         if tile then
-          g_map.removeThing(tile:getTopThing())
-          g_minimap.updateTile(tile:getPosition(), tile)
+          local topThing = tile:getTopThing()
+          if topThing and topThing:getId() == itemType:getClientId() then
+            g_map.removeThing(topThing)
+            g_minimap.updateTile(tile:getPosition(), tile)
+          end
         end
       end
       
