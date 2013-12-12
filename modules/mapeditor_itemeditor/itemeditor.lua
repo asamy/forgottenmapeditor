@@ -2,6 +2,8 @@ ItemEditor = {}
 
 function ItemEditor.init()
   editWindow = g_ui.displayUI("itemeditor.otui")
+  editWindow:hide()
+
   uniqueEdit = editWindow:recursiveGetChildById("uniqueId")
   actionEdit = editWindow:recursiveGetChildById("actionId")
   descEdit   = editWindow:recursiveGetChildById("descriptionEdit")
@@ -9,7 +11,6 @@ function ItemEditor.init()
   local doneButton = editWindow:recursiveGetChildById("doneButton")
   connect(doneButton, { onMousePress = ItemEditor.finish })
   g_keyboard.bindKeyDown('Ctrl+E', ItemEditor.showup)
-  editWindow:hide()
 end
 
 function ItemEditor.showup()
@@ -19,7 +20,7 @@ function ItemEditor.showup()
     if not topThing or not topThing:isItem() then
       return false
     end
-    currentItem = topThing
+    ItemEditor.currentItem = topThing
 
     editWindow:recursiveGetChildById("itemIdLabel"):setText(tostring(topThing:getServerId()))
     editWindow:recursiveGetChildById("itemNameLabel"):setText(tostring(topThing:getName()))
@@ -41,15 +42,15 @@ function ItemEditor.finish()
   local actionId = tonumber(actionEdit:getText())
   local desc     = descEdit:getText()
 
-  assert(currentItem)
+  assert(ItemEditor.currentItem)
   if uniqueId then
-    currentItem:setUniqueId(uniqueId)
+    ItemEditor.currentItem:setUniqueId(uniqueId)
   end
   if actionId then
-    currentItem:setActionId(actionId)
+    ItemEditor.currentItem:setActionId(actionId)
   end
   if desc and desc ~= "" then
-    currentItem:setDescription(desc)
+    ItemEditor.currentItem:setDescription(desc)
   end
 
   if exitAfter then

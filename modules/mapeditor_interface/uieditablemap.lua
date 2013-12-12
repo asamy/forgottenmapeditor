@@ -159,16 +159,9 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         local tile = g_map.getTile(pos)
         if tile then
-          local topThing = tile:getTopThing()
-          if topThing then
-            UIEditableMap:removeThing(tile, topThing)
-            return true
-          end
-          if g_keyboard.isCtrlPressed() then
-            local things = tile:getThings()
-            for i = 1, #things do
-              UIEditableMap:removeThing(tile, things[i])
-            end
+          local things = tile:getThings()
+          for i = 1, #things do
+            UIEditableMap:removeThing(tile, things[i])
           end
         end
       end
