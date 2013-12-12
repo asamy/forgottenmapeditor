@@ -92,7 +92,7 @@ function UIEditableMap:deleteZone(zone, pos)
 end
 
 -- Flood Fill Algorithm: http://en.wikipedia.org/wiki/Flood_fill
-local function paint(from, to, pos)
+local function paint(from, to, pos, delete)
   if from == to then
     return false
   end
@@ -113,8 +113,11 @@ local function paint(from, to, pos)
       local things = tile:getThings()
       for i = 1, #things do
         if things[i]:getId() == from then
-          UIEditableMap:removeThing(tile, thing)
-          UIEditableMap:doRender(Item.createOtb(to), actualPos)
+          UIEditableMap:removeThing(tile, things[i])
+          if not delete then
+            UIEditableMap:doRender(Item.createOtb(to), actualPos)
+          end
+          
           found = true
           break
         end
@@ -194,10 +197,6 @@ function UIEditableMap:resolve(pos)
       return true
     -- Paint Bucket Tool --
     elseif actualTool == ToolPaint then
-      if g_keyboard.isCtrlPressed() then
-        return false
-      end
-      
       local tile = g_map.getTile(pos)
       if not tile then
         return false
@@ -208,7 +207,11 @@ function UIEditableMap:resolve(pos)
         return false
       end
 
-      return paint(itemId, itemType:getServerId(), pos)
+      if g_keyboard.isCtrlPressed() then
+        return paint(itemId, itemType:getServerId(), pos, true)
+      else
+        return paint(itemId, itemType:getServerId(), pos)
+      end
     -- Zone Tool --
     elseif actualTool == ToolZone then
       local size = tools[_G["currentTool"].id].size
