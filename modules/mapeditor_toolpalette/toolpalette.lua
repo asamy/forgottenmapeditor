@@ -230,7 +230,7 @@ local function onMousePress(self, mousePos, button)
 end
 
 function ToolPalette.init()
-  toolsWindow = g_ui.loadUI('toolpalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
+  toolsWindow    = g_ui.loadUI('toolpalette.otui', rootWidget:recursiveGetChildById('leftPanel'))
   ToolPalette.initOptions()
 
   actualItem = toolsWindow:recursiveGetChildById('ActualItem')

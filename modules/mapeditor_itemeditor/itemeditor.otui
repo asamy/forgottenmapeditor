@@ -1,39 +1,63 @@
 MainWindow
   id: ItemEditor
-  size: 230 150
+  size: 230 130
   !text: tr('Edit an Item...')
   @onEscape: ItemEditor.finish()
 
-  Panel
-    id: editPanel
-    layout:
-      type: grid
-      fit-children: true
 
-    Label
-      id: itemIdLabel
-    Label
-      id: itemNameLabel
+  Label
+    id: itemIdLabel
+    width: 50
+    margin-bottom: 5
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+  Label
+    id: itemNameLabel
+    anchors.left: prev.right
 
-    Label
-      text: 'Unique ID: '
-    TextEdit
-      id: uniqueId
+  Label
+    text: Unique ID:
+    width: 70
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: uniqueId
+    width: 135
+    anchors.top: itemNameLabel.bottom
+    anchors.left: prev.right
 
-    Label
-      text: 'Action ID: '
-    TextEdit
-      id: actionId
+  Label
+    text: Action ID:
+    width: 70
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: actionId
+    width: 135
+    anchors.top: uniqueId.bottom
+    anchors.left: prev.right
 
-    Label
-      text: 'Description: '
-    TextEdit
-      id: descriptionEdit
-      text: 'Enter item description here...'
+  Label
+    text: Description:
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: descriptionEdit
+    width: 135
+    anchors.top: actionId.bottom
+    anchors.left: prev.right
 
-    CheckBox
-      id: saveExit
-      text: 'Save and exit'
-    Button
-      id: doneButton
-      text: 'Save changes'
+  Label
+    text: Save & Exit:
+    width: 80
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  CheckBox
+    id: saveExit
+    anchors.top: descriptionEdit.bottom
+    anchors.left: prev.right
+  Button
+    id: doneButton
+    text: Save changes
+    anchors.top: descriptionEdit.bottom
+    anchors.left: prev.right
