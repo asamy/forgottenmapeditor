@@ -55,6 +55,10 @@ Panel
     !text: tr('Toggle force show animations on large zoom outs')
     !tooltip: tr('This can cause huge freeze when viewing large amount of tiles')
 
+  OptionCheckBox
+    id: showZones
+    !text: tr("Show Zone colors")
+
   Label
     id: backgroundFrameRateLabel
     !text: tr('Game framerate limit: %s', 'max')
