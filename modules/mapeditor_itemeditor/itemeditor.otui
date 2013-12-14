@@ -2,7 +2,8 @@ MainWindow
   id: ItemEditor
   size: 230 130
   !text: tr('Edit an Item...')
-  @onEscape: ItemEditor.finish()
+  @onEscape: editWindow:hide()
+  @onEnter: ItemEditor.finish()
 
 
   Label
