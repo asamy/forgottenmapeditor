@@ -5,6 +5,8 @@ local defaultOptions = {
   showFps = true,
   fullscreen = false,
   lockvisible = true,
+  toggleAnimations = true,
+  toggleForceShowAnimations = false,
   foregroundFrameRate = 61,
   backgroundFrameRate = 201,
   painterEngine = 0
@@ -108,6 +110,10 @@ function Options.setOption(key, value)
   if options[key] == value then return end
   if key == 'vsync' then
     g_window.setVerticalSync(value)
+  elseif key == 'toggleAnimations' then
+    g_map.setShowAnimations(value)
+  elseif key == 'toggleForceShowAnimations' then
+    g_map.setForceShowAnimations(value)
   elseif key == 'showFps' then
     addEvent(function()
       local frameCounter = rootWidget:recursiveGetChildById('frameCounter')

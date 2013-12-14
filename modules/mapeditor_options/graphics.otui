@@ -46,6 +46,15 @@ Panel
     id: lockvisible
     !text: tr('Lock Visible Floor')
 
+  OptionCheckBox
+    id: toggleAnimations
+    !text: tr('Toggle animations')
+
+  OptionCheckBox
+    id: toggleForceShowAnimations
+    !text: tr('Toggle force show animations on large zoom outs')
+    !tooltip: tr('This can cause huge freeze when viewing large amount of tiles')
+
   Label
     id: backgroundFrameRateLabel
     !text: tr('Game framerate limit: %s', 'max')
