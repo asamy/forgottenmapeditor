@@ -24,7 +24,7 @@ tools = {
   [ToolPencil] = {
     sizes = {1, 3, 5, 7, 9},
     size = 1,
-    drawTool = true,
+    drawTool = true
   },
   [ToolPaint] = {
     drawTool = true

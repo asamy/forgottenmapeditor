@@ -71,7 +71,6 @@ function UIEditableMap:doRender(thing, pos)
     _G["unsavedChanges"] = true
   end
    _G["currentGhostThing"] = nil
-   print("render")
   return true
 end
 
