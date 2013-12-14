@@ -243,6 +243,7 @@ function Interface.init()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updateBottomBar()
     updateCursor(mousePos)
+    updateGhostItem(mousePos)
   end
   
   mapWidget.onMouseWheel = function(self, mousePos, direction)

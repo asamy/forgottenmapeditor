@@ -17,6 +17,30 @@ function redoAction()
   end
 end
 
+function updateGhostItem(mousePos)
+  local thing = _G["currentThing"]
+  local cameraPos = mapWidget:getPosition(mousePos)
+
+  if _G["currentGhostThing"] ~= nil then
+    g_map.removeThing(_G["currentGhostThing"])
+  end
+
+  if type(thing) == 'string' then
+    local creature = g_creatures.getCreatureByName(thing)
+    if creature then
+      _G["currentGhostThing"] = creature
+      g_map.addThing(creature, cameraPos, 4)
+    end
+  elseif type(thing) == 'number' then
+    local itemType = g_things.findItemTypeByClientId(thing)
+    if itemType then
+      local item = Item.createOtb(itemType:getServerId())
+      _G["currentGhostThing"] = item
+      g_map.addThing(item, cameraPos, -1)
+    end
+  end
+end
+
 function UIEditableMap:doRender(thing, pos)
   if not thing then
     return false
@@ -137,6 +161,8 @@ function UIEditableMap:resolve(pos)
   end
 
   local thing = _G["currentThing"]
+  local tile = g_map.getTile(pos)
+
   if type(thing) == 'string' then -- Creatures
     local spawn = g_creatures.getSpawnForPlacePos(pos)
     if spawn then
@@ -156,7 +182,6 @@ function UIEditableMap:resolve(pos)
     -- Selection Tool --
     if actualTool == ToolMouse then
       if g_keyboard.isCtrlPressed() then
-        local tile = g_map.getTile(pos)
         if tile then
           local things = tile:getThings()
           for i = 1, #things do
@@ -167,7 +192,6 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isShiftPressed() then
         ItemEditor.showup()
       end
-      return false
     -- Pencil Tool --
     elseif actualTool == ToolPencil then
       local size = tools[_G["currentTool"].id].size
@@ -182,18 +206,15 @@ function UIEditableMap:resolve(pos)
       if g_keyboard.isCtrlPressed() then
         for x = 0, size - 1 do
           for y = 0, size - 1 do
-            local tile = g_map.getTile({x = pos.x + x, y = pos.y + y, z = pos.z})
+            tile = g_map.getTile({x = pos.x + x, y = pos.y + y, z = pos.z})
             if tile then
               UIEditableMap:removeThing(tile, tile:getTopThing())
             end
           end
         end
       end
-      
-      return true
     -- Paint Bucket Tool --
     elseif actualTool == ToolPaint then
-      local tile = g_map.getTile(pos)
       if not tile then
         return false
       end
@@ -222,11 +243,10 @@ function UIEditableMap:resolve(pos)
           end
         end
       end
-      
-      return true
     end
   end
-  return false
+
+  return true
 end
 
 function handleMousePress(self, mousePos, button)
