@@ -27,14 +27,6 @@ local navigating = false
 
 local isPushed = false
 function updateCursor(pos)
-  local actualTool = tools[_G["currentTool"].id]
-  if actualTool.disableCursor and isPushed then
-    g_mouse.popCursor('target')
-  end
-  if actualTool.disableCursor then
-    return
-  end
-  
   if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX())
       and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
     if not isPushed then

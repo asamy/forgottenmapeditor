@@ -20,6 +20,9 @@ end
 function updateGhostItem(mousePos)
   local thing = _G["currentThing"]
   local cameraPos = mapWidget:getPosition(mousePos)
+  if not cameraPos then
+    return
+  end
 
   if _G["currentGhostThing"] ~= nil then
     g_map.removeThing(_G["currentGhostThing"])
@@ -49,7 +52,7 @@ function UIEditableMap:doRender(thing, pos)
   local tile = g_map.getTile(pos)
   if tile then
     local topThing = tile:getTopThing()
-    if topThing then
+    if not _G["currentGhostThing"] and topThing then
       if topThing:isGround() and topThing:getId() ~= thing:getId() then
         self:removeThing(tile, topThing)
       elseif topThing:getId() == thing:getId() then
@@ -67,6 +70,8 @@ function UIEditableMap:doRender(thing, pos)
   if not _G["unsavedChanges"] then
     _G["unsavedChanges"] = true
   end
+   _G["currentGhostThing"] = nil
+   print("render")
   return true
 end
 
