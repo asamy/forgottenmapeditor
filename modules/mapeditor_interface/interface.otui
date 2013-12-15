@@ -4,6 +4,12 @@ StatusLabel < Label
   anchors.top: parent.top
   margin-left: 20
 
+selectionBox < UIWidget
+  background-color: blue	
+  width: 300
+  height: 300
+  opacity: 0.4
+
 UIWidget
   id: rootPanel
   anchors.fill: parent

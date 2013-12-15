@@ -19,6 +19,10 @@ tool4 < tool
   icon-source: /images/tools/zone
   !tooltip: tr('Zone Tool')
 
+mode1 < tool
+  icon-source: /images/tools/mouse
+  !tooltip: tr('Normal mode')
+
 optionLabel < Label
   color: white
   margin-top: 3
