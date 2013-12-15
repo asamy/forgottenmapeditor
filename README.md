@@ -6,7 +6,7 @@ ForgottenMapEditor is written using otclient's framework with modifications for 
 
 ## About this repository
 
-This is the development repository ![Screenshot](http://i.imgur.com/vWYd7XN.png), we encourage you to find our buggy code, and please report in any bug you find. **Please label your issue report**!
+This is the development repository.  We encourage you to find our buggy code, and please report in any bug you find. **Please label your issue report**!
 
 ## Authors
 
