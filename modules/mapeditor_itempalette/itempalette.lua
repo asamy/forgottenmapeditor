@@ -32,7 +32,7 @@ local function onOptionChange(widget, optText, optData)
       local widget = g_ui.createWidget('PaletteCreature', paletteList)
       widget:setCreature(creatures[i]:cast())
     end
-  elseif optData >= ItemCategoryInterior then
+  elseif optData >= ItemCategoryInterior and optData < ItemCategoryAll then
     for a, v in ipairs(extraItem[optText].from) do
       for i = extraItem[optText].from[a], extraItem[optText].to[a] do
         local widget = g_ui.createWidget('PaletteItem', paletteList)
@@ -44,6 +44,14 @@ local function onOptionChange(widget, optText, optData)
       local widget = g_ui.createWidget('PaletteItem', paletteList)
       local itemid = g_things.getItemType(v)
       widget:setItemId(itemid:getClientId())
+    end
+  elseif optData == ItemCategoryAll then
+    for cat = ItemCategoryGround, ItemCategoryLast do
+      local categoryItems = g_things.findItemTypeByCategory(cat)
+      for idx = 1, #categoryItems do
+        local widget = g_ui.createWidget('PaletteItem', paletteList)
+        widget:setItemId(categoryItems[idx]:getClientId())
+      end
     end
   end
 end
@@ -126,6 +134,7 @@ function ItemPalette.initData()
     comboBox:addOption("Stairs",       ItemCategoryStairs)
   end
   comboBox:addOption("Creatures",    ThingCategoryCreature)
+  comboBox:addOption("All",          ItemCategoryAll)
   comboBox:setCurrentIndex(1)
 end
 
