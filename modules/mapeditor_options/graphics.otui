@@ -59,6 +59,10 @@ Panel
     id: showZones
     !text: tr("Show Zone colors")
 
+  OptionCheckBox
+    id: showHouses
+    !text: tr('Show house colors')
+
   Label
     id: backgroundFrameRateLabel
     !text: tr('Game framerate limit: %s', 'max')

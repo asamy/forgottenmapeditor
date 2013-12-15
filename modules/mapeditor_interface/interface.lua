@@ -164,8 +164,8 @@ function updateFloor(value)
     end
 end
 
-local showZones  = g_settings.getBoolean("show-zones", true)
-local showHouses = g_settings.getBoolean("show-zones", true)
+local showZones  = g_settings.getBoolean("showZones", true)
+local showHouses = g_settings.getBoolean("showHouses", true)
 
 function toggleZones()
   if showZones then

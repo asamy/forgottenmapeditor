@@ -7,6 +7,7 @@ local defaultOptions = {
   lockvisible = true,
   toggleAnimations = true,
   showZones = true,
+  showHouses = true,
   toggleForceShowAnimations = false,
   foregroundFrameRate = 61,
   backgroundFrameRate = 201,
@@ -117,6 +118,8 @@ function Options.setOption(key, value)
     g_map.setForceShowAnimations(value)
   elseif key == 'showZones' then
     g_map.setShowZones(value)
+  elseif key == 'showHouses' then
+    g_map.setShowZone(TILESTATE_HOUSE, value)
   elseif key == 'showFps' then
     addEvent(function()
       local frameCounter = rootWidget:recursiveGetChildById('frameCounter')
