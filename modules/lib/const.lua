@@ -18,8 +18,6 @@ ItemCategoryInterior     = 16
 ItemCategoryExterior     = 17
 ItemCategoryStairs       = 18
 
-ItemCategoryAll          = 19
-
 -- tileflags_t (src/client/tile.h)
 TILESTATE_NONE = 0 		-- 0
 TILESTATE_PROTECTIONZONE = 1 	-- 1<<0

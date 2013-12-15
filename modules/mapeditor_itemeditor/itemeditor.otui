@@ -1,6 +1,6 @@
 MainWindow
   id: ItemEditor
-  size: 230 130
+  size: 230 230
   !text: tr('Edit an Item...')
   @onEscape: editWindow:hide()
   @onEnter: ItemEditor.finish()
@@ -8,7 +8,7 @@ MainWindow
 
   Label
     id: itemIdLabel
-    width: 50
+    width: 120
     margin-bottom: 5
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -39,6 +39,8 @@ MainWindow
     anchors.left: prev.right
 
   Label
+    id: descriptionLabel
+    width: 70
     text: Description:
     anchors.top: prev.bottom
     anchors.bottom: parent.bottom
@@ -49,16 +51,58 @@ MainWindow
     anchors.left: prev.right
 
   Label
+    text: Text:
+    width: 70
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: textEdit
+    width: 135
+    anchors.top: descriptionEdit.bottom
+    anchors.left: prev.right
+
+  Label
+    id: tpCoordLabel
+    text: Teleport Coordinates:
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: xCoord
+    width: 15
+    anchors.top: tpCoordLabel.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: yCoord
+    width: 15
+    anchors.top: tpCoordLabel.bottom
+    anchors.left: prev.right
+  TextEdit
+    id: zCoord
+    width: 15
+    anchors.top: tpCoordLabel.bottom
+    anchors.left: prev.right
+
+  Label
+    text: Town ID
+    tooltip: This will fill in X/Y/Z coordinates for you.
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: townId
+    anchors.top: zCoord.bottom
+    anchors.bottom: parent.bottom
+
+  Label
     text: Save & Exit:
     width: 80
     anchors.top: prev.bottom
     anchors.bottom: parent.bottom
   CheckBox
     id: saveExit
-    anchors.top: descriptionEdit.bottom
+    anchors.top: townId.bottom
     anchors.left: prev.right
   Button
     id: doneButton
     text: Save changes
-    anchors.top: descriptionEdit.bottom
+    anchors.top: townId.bottom
     anchors.left: prev.right
