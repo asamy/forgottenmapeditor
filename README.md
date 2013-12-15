@@ -4,13 +4,17 @@ ForgottenMapEditor is an otclient module, therefore it depends on OTClient.
 
 ForgottenMapEditor is written using otclient's framework with modifications for reading and writing OT binary files and XML files.
 
+## About this repository
+
+This is the development repository ![Screenshot](http://i.imgur.com/vWYd7XN.png), we encourage you to find our buggy code, and please report in any bug you find. **Please label your issue report**!
+
 ## Authors
 
 - Ahmed "[Fallen](https://github.com/decltype)" Samy <f.fallen45@gmail.com>
 
 - Eduardo "[edubart](https://github.com/edubart/)" Bart <edub4rt@gmail.com>
 
-## Thanks to
+## Contributors / Thanks to
 
 [Sam](https://github.com/TheSumm)
 
@@ -18,7 +22,7 @@ ForgottenMapEditor is written using otclient's framework with modifications for 
 
 [Bruno Carvalho](https://github.com/BrunoDCC)
 
-for their contributions.
+[Christian Johansson](https://github.com/dalkon)
 
 ## Special thanks to
 

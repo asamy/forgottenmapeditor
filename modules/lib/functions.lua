@@ -68,3 +68,7 @@ function vardump(value, depth, key)
     print(spaces..linePrefix.."("..type(value)..") "..tostring(value))
   end
 end
+
+function cmpos(p1, p2)
+  return p1.x == p2.x and p1.y == p2.y and p1.z == p2.z
+end

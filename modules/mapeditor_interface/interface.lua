@@ -234,7 +234,7 @@ function Interface.init()
   Interface.initDefaultZoneOptions()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updateBottomBar()
-    updateCursor(mousePos)
+    --updateCursor(mousePos)
     updateGhostItem(mousePos)
   end
   
@@ -324,9 +324,6 @@ function Interface.init()
   g_keyboard.bindKeyPress('PageDown', function() updateFloor(1) end, rootPanel)
   g_keyboard.bindKeyPress('Ctrl+PageUp', function() updateZoom(1) end, rootPanel)
   g_keyboard.bindKeyPress('Ctrl+PageDown', function() updateZoom(-1) end, rootPanel)
-  
-  g_keyboard.bindKeyPress('Ctrl+e', function() toggleZones() end, rootPanel)
-  g_keyboard.bindKeyPress('Ctrl+h', function() toggleHouses() end, rootPanel)
 end
 
 function Interface.sync()
@@ -344,4 +341,3 @@ end
 
 function Interface.terminate()
 end
-

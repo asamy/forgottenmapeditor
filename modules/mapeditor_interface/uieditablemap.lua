@@ -24,6 +24,10 @@ function updateGhostItem(mousePos)
     return
   end
 
+  if lastCameraPos and cmpos(cameraPos, lastCameraPos) then
+    return
+  end
+
   if _G["currentGhostThing"] ~= nil then
     g_map.removeThing(_G["currentGhostThing"])
   end
@@ -42,9 +46,11 @@ function updateGhostItem(mousePos)
       g_map.addThing(item, cameraPos, -1)
     end
   end
+
+  lastCameraPos = cameraPos
 end
 
-function UIEditableMap:doRender(thing, pos)
+function UIEditableMap:__draw(thing, pos)
   if not thing then
     return false
   end
@@ -70,49 +76,48 @@ function UIEditableMap:doRender(thing, pos)
   if not _G["unsavedChanges"] then
     _G["unsavedChanges"] = true
   end
-   _G["currentGhostThing"] = nil
+
+  if _G["currentGhostThing"] then
+    g_map.removeThing(_G["currentGhostThing"])
+    _G["currentGhostThing"] = nil
+  end
   return true
 end
 
 function UIEditableMap:removeThing(tile, thing)
-  if tile and thing then
-    g_map.removeThing(thing)
-    g_minimap.updateTile(tile:getPosition(), tile)
-    undoStack:removeUndoItem(
-      function(e)
-        if not e then
-          return false
-        end
-        local pos = e.pos
-        local tilePos = tile:getPosition()
-        return pos.x == tilePos.x and pos.y == tilePos.y and pos.z == tilePos.z
+  if tile then
+    local currThing = _G["currentGhostThing"]
+    if currThing then
+      if currThing == thing then
+        g_map.removeThing(currThing)
+        _G["currentGhostThing"] = nil
       end
-    )
-    undoStack:pushRedoItem({ item = thing, pos = tile:getPosition(), stackPos = thing:getStackPos()})
+      if tile then
+        thing = tile:getTopThing()
+      end
+    end
+
+    if thing then
+      g_map.removeThing(thing)
+      g_minimap.updateTile(tile:getPosition(), tile)
+      undoStack:removeUndoItem( function(e) return e and cmpos(tile:getPosition(), e.pos) end )
+      undoStack:pushRedoItem({ item = thing, pos = tile:getPosition(), stackPos = thing:getStackPos()})
+    end
   end
 end
 
 function UIEditableMap:addZone(zone, pos)
   local tile = g_map.getTile(pos)
-  if not tile then
-    return false
+  if tile then
+    tile:setFlag(zone)
   end
-  
-  tile:setFlag(zone)
 end
 
 function UIEditableMap:deleteZone(zone, pos)
   local tile = g_map.getTile(pos)
-  if not tile then
-    return false
+  if tile and tile:hasFlag(zone) then
+    tile:remFlag(zone)
   end
-  
-  if not tile:hasFlag(zone) then
-    return false
-  end
-  
-  local flags = tile:getFlags()
-  tile:setFlags(bit32.bxor(flags, zone))
 end
 
 -- Flood Fill Algorithm: http://en.wikipedia.org/wiki/Flood_fill
@@ -139,7 +144,7 @@ local function paint(from, to, pos, delete)
         if things[i]:getId() == from then
           UIEditableMap:removeThing(tile, things[i])
           if not delete then
-            UIEditableMap:doRender(Item.createOtb(to), actualPos)
+            UIEditableMap:__draw(Item.createOtb(to), actualPos)
           end
           
           found = true
@@ -203,17 +208,13 @@ function UIEditableMap:resolve(pos)
       pos.y = pos.y - (size - 1) / 2
       for x = 0, size - 1 do
         for y = 0, size - 1 do
-          self:doRender(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
-        end
-      end
-
-      if g_keyboard.isCtrlPressed() then
-        for x = 0, size - 1 do
-          for y = 0, size - 1 do
+          if g_keyboard.isCtrlPressed() then
             tile = g_map.getTile({x = pos.x + x, y = pos.y + y, z = pos.z})
             if tile then
-              UIEditableMap:removeThing(tile, tile:getTopThing())
+              self:removeThing(tile, tile:getTopThing())
             end
+          else
+            self:__draw(Item.createOtb(itemType:getServerId()), {x = pos.x + x, y = pos.y + y, z = pos.z})
           end
         end
       end
@@ -250,6 +251,14 @@ function UIEditableMap:resolve(pos)
     end
   end
 
+  if g_keyboard.isShiftPressed() and tile then
+    if tile:isSelected() then
+      tile:unselect()
+    else
+      tile:select()
+    end
+    print(tile:isSelected() and "true" or "false")
+  end
   return true
 end
 
