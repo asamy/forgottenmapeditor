@@ -191,20 +191,9 @@ function UIEditableMap:resolve(pos)
     end
     
     -- Selection Tool --
-    if actualTool == ToolMouse then
-      if g_keyboard.isCtrlPressed() then
-        if tile then
-          local things = tile:getThings()
-          for i = 1, #things do
-            UIEditableMap:removeThing(tile, things[i])
-          end
-        end
-      end
-      if g_keyboard.isShiftPressed() then
-        ItemEditor.showup()
-      end
+      -- Check selection.lua
     -- Pencil Tool --
-    elseif actualTool == ToolPencil then
+    if actualTool == ToolPencil then
       local size = tools[_G["currentTool"].id].size
       pos.x = pos.x - (size - 1) / 2
       pos.y = pos.y - (size - 1) / 2

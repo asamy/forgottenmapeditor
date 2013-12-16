@@ -268,14 +268,28 @@ function Interface.init()
 
   g_mouse.bindPressMove(mapWidget, 
     function(self, mousePos, mouseMoved)
+      if g_mouse.isPressed(MouseLeftButton) and ToolPalette.getCurrentTool().id == ToolSelect then
+        SelectionTool.selectMove(mousePos, mouseMoved)
+        return
+      end
+    
       if g_mouse.isPressed(MouseMidButton) then
         navigating = true
         mapWidget:movePixels(mousePos.x * zoomLevel, mousePos.y * zoomLevel)
+        return
       end
     end
   )
   
+  mapWidget.onMousePress = function(self, mousePos, mouseButton)
+    if ToolPalette.getCurrentTool().id == ToolSelect then
+      SelectionTool.unselectAll()
+      SelectionTool.startSelecting()
+    end
+  end
+  
   mapWidget.onMouseRelease = function(self, mousePos, mouseButton)
+    SelectionTool.stopSelecting()
     if navigating then
       navigating = false
       return true
@@ -303,7 +317,14 @@ function Interface.init()
   , nil, MouseMidButton)
   
   g_mouse.bindAutoPress(mapWidget, handleMousePress, 100, MouseLeftButton)
-  g_mouse.bindPress(mapWidget, function() ToolPalette.setTool(ToolMouse) end, MouseRightButton)
+  g_mouse.bindPress(mapWidget, 
+    function() 
+      if ToolPalette.getCurrentTool().id == ToolSelect then
+        SelectionTool.unselectAll()
+      else
+        ToolPalette.setTool(ToolSelect) 
+      end
+    end, MouseRightButton)
   
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
   local startPos = {x = 500, y = 500, z = 7}
