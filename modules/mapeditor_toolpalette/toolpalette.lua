@@ -14,22 +14,30 @@ local options
 local sizeLabel
 local sizePanel
 
+local selectionLabel
+local selectionPanel
+
 local zoneLabel
 local zoneList
 
 tools = {
-  [ToolMouse] = {
+  [ToolSelect] = {
+    id = ToolSelect,
+    mode = SelectionNormal,
     drawTool = false
   },
   [ToolPencil] = {
+    id = ToolPencil,
     sizes = {1, 3, 5, 7, 9},
     size = 1,
     drawTool = true
   },
   [ToolPaint] = {
+    id = ToolPaint,
     drawTool = true
 	},
   [ToolZone] = {
+    id = ToolZone,
     sizes = {1, 3, 5, 7, 9},
     size = 1,
     zone = TILESTATE_PROTECTIONZONE,
@@ -51,9 +59,24 @@ local function onSizeChange(self, mousePos, button)
   ToolPalette.getCurrentTool().size = next.value
 end
 
+local function onModeChange(self, mousePos, button)
+  local next = self:getChildByPos(mousePos)
+  if not next then
+    return
+  end
+  
+  self:getFocusedChild():setBorderWidth(0)
+  self:focusChild(nil)
+  
+  self:focusChild(next)
+  next:setBorderWidth(1)
+  ToolPalette.getCurrentTool().mode = next.i
+end
+
 function ToolPalette.initOptions()  
   options = toolsWindow:recursiveGetChildById('options')
   
+  -- Size
   sizeLabel = g_ui.createWidget('optionLabel', options)
   sizeLabel:setText('Brush size:')
   sizeLabel:hide()
@@ -61,7 +84,25 @@ function ToolPalette.initOptions()
   sizePanel = g_ui.createWidget('optionPanel', options)
   connect(sizePanel, { onMousePress = onSizeChange })
   sizePanel:hide()
+ 
+  -- Selection
+  selectionLabel = g_ui.createWidget('optionLabel', options)
+  selectionLabel:setText('Selection type:')
+  selectionLabel:hide()
   
+  selectionPanel = g_ui.createWidget('optionPanel', options)
+  for i = 1, 1 do
+    local widget = g_ui.createWidget('mode' .. i, selectionPanel)
+    widget.i = i
+    
+    if i == 1 then
+      selectionPanel:focusChild(widget)
+    end
+  end
+  connect(selectionPanel, { onMousePress = onModeChange })
+  selectionPanel:hide()
+ 
+  -- Zones
   zoneLabel = g_ui.createWidget('optionLabel', options)
   zoneLabel:setText('Select zone:')
   zoneLabel:hide()
@@ -159,6 +200,15 @@ function ToolPalette.updateOptions()
   else
     sizeLabel:hide()
     sizePanel:hide()
+  end
+  
+  -- Selection
+  if tool.mode then
+    selectionLabel:show()
+    selectionPanel:show()
+  else
+    selectionLabel:hide()
+    selectionPanel:hide()
   end
   
   -- Zone

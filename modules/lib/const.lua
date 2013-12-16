@@ -37,6 +37,9 @@ defaultZoneFlags = {
   [TILESTATE_NOLOGOUT]       = "yellow"
 }
 
+-- Selection modes
+SelectionNormal = 1
+
 North     = 0
 East      = 1
 South     = 2
@@ -46,7 +49,7 @@ SouthEast = 5
 SouthWest = 6
 NorthWest = 7
 
-ToolMouse  = 1
+ToolSelect = 1
 ToolPencil = 2
 ToolPaint  = 3
 ToolZone   = 4

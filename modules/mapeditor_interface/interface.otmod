@@ -6,9 +6,11 @@ Module
 
   @onLoad: |
     dofile 'undo'
+    dofile 'selection'
     dofile 'uieditablemap'
     dofile 'interface'
     Interface.init()
+    SelectionTool.init()
 
   @onUnload: |
     Interface.terminate()
