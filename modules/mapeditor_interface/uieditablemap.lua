@@ -159,7 +159,9 @@ local function paint(from, to, pos, delete)
       end
     end
     table.remove(tiles, 1)
-    if #tiles > 1000 then break end
+    if #tiles > 1000 then
+      break
+    end
   end
 end
 
