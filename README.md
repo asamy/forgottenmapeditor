@@ -1,5 +1,11 @@
 # Forgotten Map Editor
 
+**Development Status**: _Paused_
+
+**Merging pull requests/patches status**: _Still going, might be delayed._
+
+**Next release date**: _This month or next month._
+
 ForgottenMapEditor is an otclient module, therefore it depends on OTClient.
 
 ForgottenMapEditor is written using otclient's framework with modifications for reading and writing OT binary files and XML files.
