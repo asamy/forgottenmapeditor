@@ -234,8 +234,12 @@ function Interface.init()
   Interface.initDefaultZoneOptions()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updateBottomBar()
-    --updateCursor(mousePos)
-    updateGhostItem(mousePos)
+    
+    if ToolPalette.getCurrentTool().drawTool then
+      updateGhostItem(mousePos)
+    else
+      updateCursor(mousePos)
+    end
   end
   
   mapWidget.onMouseWheel = function(self, mousePos, direction)

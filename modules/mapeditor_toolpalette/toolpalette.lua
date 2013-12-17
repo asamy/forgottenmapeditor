@@ -257,6 +257,11 @@ function ToolPalette.setTool(id)
   toolList:focusChild(tools[id].widget)
   _G["currentTool"] = tools[id].widget
   tools[id].widget:setBorderWidth(1)
+  
+  if ToolPalette.getCurrentTool().drawTool == false then
+    g_map.removeThing(_G["currentGhostThing"])
+  end
+  
   ToolPalette.updateOptions()
 end
 
