@@ -17,6 +17,14 @@ function redoAction()
   end
 end
 
+function removeghostThings()
+  for i = 1, #_G["ghostThings"] do
+    g_map.removeThing(_G["ghostThings"][i])
+  end
+  
+  _G["ghostThings"] = nil
+end
+
 function updateGhostItem(mousePos)
   local thing = _G["currentThing"]
   local cameraPos = mapWidget:getPosition(mousePos)
@@ -28,21 +36,21 @@ function updateGhostItem(mousePos)
     return
   end
 
-  if _G["currentGhostThing"] ~= nil then
-    g_map.removeThing(_G["currentGhostThing"])
+  if _G["ghostThings"] ~= nil then
+    removeghostThings()
   end
 
   if type(thing) == 'string' then
     local creature = g_creatures.getCreatureByName(thing)
     if creature then
-      _G["currentGhostThing"] = creature
+      _G["ghostThings"] = {creature}
       g_map.addThing(creature, cameraPos, 4)
     end
   elseif type(thing) == 'number' then
     local itemType = g_things.findItemTypeByClientId(thing)
     if itemType then
       local item = Item.createOtb(itemType:getServerId())
-      _G["currentGhostThing"] = item
+      _G["ghostThings"] = {item}
       g_map.addThing(item, cameraPos, -1)
     end
   end
@@ -58,7 +66,7 @@ function UIEditableMap:__draw(thing, pos)
   local tile = g_map.getTile(pos)
   if tile then
     local topThing = tile:getTopThing()
-    if not _G["currentGhostThing"] and topThing then
+    if not _G["ghostThings"] and topThing then
       if topThing:isGround() and topThing:getId() ~= thing:getId() then
         self:removeThing(tile, topThing)
       elseif topThing:getId() == thing:getId() then
@@ -77,20 +85,20 @@ function UIEditableMap:__draw(thing, pos)
     _G["unsavedChanges"] = true
   end
 
-  if _G["currentGhostThing"] then
-    g_map.removeThing(_G["currentGhostThing"])
-    _G["currentGhostThing"] = nil
+  if _G["ghostThings"] then
+    removeghostThings()
   end
   return true
 end
 
 function UIEditableMap:removeThing(tile, thing)
   if tile then
-    local currThing = _G["currentGhostThing"]
-    if currThing then
-      if currThing == thing then
-        g_map.removeThing(currThing)
-        _G["currentGhostThing"] = nil
+    local ghostThings = _G["ghostThings"]
+    if ghostThings then
+      for i = 1, #ghostThings do
+        if ghostThings[i] == thing then
+          removeghostThings()
+        end
       end
       if tile then
         thing = tile:getTopThing()

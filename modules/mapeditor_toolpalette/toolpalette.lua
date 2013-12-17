@@ -259,7 +259,7 @@ function ToolPalette.setTool(id)
   tools[id].widget:setBorderWidth(1)
   
   if ToolPalette.getCurrentTool().drawTool == false then
-    g_map.removeThing(_G["currentGhostThing"])
+    removeGhostItems()
   end
   
   ToolPalette.updateOptions()
