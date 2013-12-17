@@ -259,7 +259,7 @@ function ToolPalette.setTool(id)
   tools[id].widget:setBorderWidth(1)
   
   if ToolPalette.getCurrentTool().drawTool == false then
-    removeGhostItems()
+    removeghostThings()
   end
   
   ToolPalette.updateOptions()
