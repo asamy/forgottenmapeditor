@@ -247,9 +247,9 @@ function Interface.init()
       local tool = ToolPalette.getCurrentTool()
       if tool.sizes then
         if direction == MouseWheelDown then
-          ToolPalette.redBrushSize()
+          ToolPalette.decBrushSize()
         else
-          ToolPalette.addBrushSize()
+          ToolPalette.incBrushSize()
         end
       end
       return

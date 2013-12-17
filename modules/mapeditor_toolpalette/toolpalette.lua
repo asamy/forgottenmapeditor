@@ -133,7 +133,7 @@ function ToolPalette.initOptions()
   zoneList:hide()
 end
 
-function ToolPalette.addBrushSize()
+function ToolPalette.incBrushSize()
   local tool = ToolPalette.getCurrentTool()
   local size = tool.size
   
@@ -156,7 +156,7 @@ function ToolPalette.addBrushSize()
   updateGhostThings(g_window.getMousePosition(), true)
   return false
 end
-function ToolPalette.redBrushSize()
+function ToolPalette.decBrushSize()
   local tool = ToolPalette.getCurrentTool()
   local size = tool.size
   
