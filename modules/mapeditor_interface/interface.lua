@@ -234,8 +234,12 @@ function Interface.init()
   Interface.initDefaultZoneOptions()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
     updateBottomBar()
-    --updateCursor(mousePos)
-    updateGhostItem(mousePos)
+    
+    if ToolPalette.getCurrentTool().drawTool then
+      updateGhostThings(mousePos)
+    else
+      updateCursor(mousePos)
+    end
   end
   
   mapWidget.onMouseWheel = function(self, mousePos, direction)
@@ -243,9 +247,9 @@ function Interface.init()
       local tool = ToolPalette.getCurrentTool()
       if tool.sizes then
         if direction == MouseWheelDown then
-          ToolPalette.redBrushSize()
+          ToolPalette.decBrushSize()
         else
-          ToolPalette.addBrushSize()
+          ToolPalette.incBrushSize()
         end
       end
       return

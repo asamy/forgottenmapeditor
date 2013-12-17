@@ -133,7 +133,7 @@ function ToolPalette.initOptions()
   zoneList:hide()
 end
 
-function ToolPalette.addBrushSize()
+function ToolPalette.incBrushSize()
   local tool = ToolPalette.getCurrentTool()
   local size = tool.size
   
@@ -153,9 +153,10 @@ function ToolPalette.addBrushSize()
     end
   end
   
+  updateGhostThings(g_window.getMousePosition(), true)
   return false
 end
-function ToolPalette.redBrushSize()
+function ToolPalette.decBrushSize()
   local tool = ToolPalette.getCurrentTool()
   local size = tool.size
   
@@ -175,6 +176,7 @@ function ToolPalette.redBrushSize()
     end
   end
   
+  updateGhostThings(g_window.getMousePosition(), true)
   return false
 end
 
@@ -257,6 +259,11 @@ function ToolPalette.setTool(id)
   toolList:focusChild(tools[id].widget)
   _G["currentTool"] = tools[id].widget
   tools[id].widget:setBorderWidth(1)
+  
+  if ToolPalette.getCurrentTool().drawTool == false then
+    removeGhostThings()
+  end
+  
   ToolPalette.updateOptions()
 end
 
