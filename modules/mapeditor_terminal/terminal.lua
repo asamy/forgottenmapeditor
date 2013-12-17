@@ -27,6 +27,7 @@ local function navigateCommand(step)
     if currentHistoryIndex > 0 then
       local command = commandHistory[numCommands - currentHistoryIndex + 1]
       commandTextEdit:setText(command)
+      commandTextEdit:setCursorPos(#command)
     else
       commandTextEdit:clearText()
     end
