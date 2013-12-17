@@ -153,6 +153,7 @@ function ToolPalette.addBrushSize()
     end
   end
   
+  updateGhostThings(g_window.getMousePosition(), true)
   return false
 end
 function ToolPalette.redBrushSize()
@@ -175,6 +176,7 @@ function ToolPalette.redBrushSize()
     end
   end
   
+  updateGhostThings(g_window.getMousePosition(), true)
   return false
 end
 
@@ -259,7 +261,7 @@ function ToolPalette.setTool(id)
   tools[id].widget:setBorderWidth(1)
   
   if ToolPalette.getCurrentTool().drawTool == false then
-    removeghostThings()
+    removeGhostThings()
   end
   
   ToolPalette.updateOptions()

@@ -236,7 +236,7 @@ function Interface.init()
     updateBottomBar()
     
     if ToolPalette.getCurrentTool().drawTool then
-      updateGhostItem(mousePos)
+      updateGhostThings(mousePos)
     else
       updateCursor(mousePos)
     end

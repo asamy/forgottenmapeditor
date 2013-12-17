@@ -17,7 +17,7 @@ function redoAction()
   end
 end
 
-function removeghostThings()
+function removeGhostThings()
   for i = 1, #_G["ghostThings"] do
     g_map.removeThing(_G["ghostThings"][i])
   end
@@ -25,19 +25,20 @@ function removeghostThings()
   _G["ghostThings"] = nil
 end
 
-function updateGhostItem(mousePos)
+function updateGhostThings(mousePos, force)
+  local force = false or force
   local thing = _G["currentThing"]
   local cameraPos = mapWidget:getPosition(mousePos)
   if not cameraPos then
     return
   end
 
-  if lastCameraPos and cmpos(cameraPos, lastCameraPos) then
+  if lastCameraPos and cmpos(cameraPos, lastCameraPos) and force == false then
     return
   end
 
   if _G["ghostThings"] ~= nil then
-    removeghostThings()
+    removeGhostThings()
   end
 
   if type(thing) == 'string' then
@@ -49,9 +50,17 @@ function updateGhostItem(mousePos)
   elseif type(thing) == 'number' then
     local itemType = g_things.findItemTypeByClientId(thing)
     if itemType then
-      local item = Item.createOtb(itemType:getServerId())
-      _G["ghostThings"] = {item}
-      g_map.addThing(item, cameraPos, -1)
+      _G["ghostThings"] = {}
+      local size = ToolPalette.getCurrentTool().size
+      local px = cameraPos.x - (size - 1) / 2
+      local py = cameraPos.y - (size - 1) / 2
+      for x = 0, size - 1 do
+        for y = 0, size - 1 do
+          local item = Item.createOtb(itemType:getServerId())
+          table.insert(_G["ghostThings"], item)
+          g_map.addThing(item, { x = px + x, y = py + y, z = cameraPos.z }, -1)
+        end
+      end
     end
   end
 
@@ -86,7 +95,7 @@ function UIEditableMap:__draw(thing, pos)
   end
 
   if _G["ghostThings"] then
-    removeghostThings()
+    removeGhostThings()
   end
   return true
 end
@@ -97,7 +106,7 @@ function UIEditableMap:removeThing(tile, thing)
     if ghostThings then
       for i = 1, #ghostThings do
         if ghostThings[i] == thing then
-          removeghostThings()
+          removeGhostThings()
         end
       end
       if tile then
