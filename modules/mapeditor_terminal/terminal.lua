@@ -128,8 +128,9 @@ function Terminal.init()
     end
   end
 
-  terminalButton = modules.mapeditor_topmenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + ~)', '/images/topbuttons/terminal', Terminal.toggle)
+  terminalButton = modules.mapeditor_topmenu.addLeftButton('terminalButton', tr('Terminal') .. ' (Ctrl + ~, Ctrl + F8)', '/images/topbuttons/terminal', Terminal.toggle)
   g_keyboard.bindKeyDown("Ctrl+F8", Terminal.toggle)
+  g_keyboard.bindKeyDown("Ctrl+`", Terminal.toggle)
 
   commandHistory = g_settings.getList('terminal-history')
 
