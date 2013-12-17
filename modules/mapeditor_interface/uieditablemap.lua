@@ -194,7 +194,7 @@ function UIEditableMap:resolve(pos)
       -- Check selection.lua
     -- Pencil Tool --
     if actualTool == ToolPencil then
-      local size = tools[_G["currentTool"].id].size
+      local size = ToolPalette.getCurrentTool().size
       pos.x = pos.x - (size - 1) / 2
       pos.y = pos.y - (size - 1) / 2
       for x = 0, size - 1 do
@@ -227,15 +227,15 @@ function UIEditableMap:resolve(pos)
       end
     -- Zone Tool --
     elseif actualTool == ToolZone then
-      local size = tools[_G["currentTool"].id].size
+      local size = ToolPalette.getCurrentTool().size
       pos.x = pos.x - (size - 1) / 2
       pos.y = pos.y - (size - 1) / 2
       for x = 0, size - 1 do
         for y = 0, size - 1 do
           if not g_keyboard.isCtrlPressed() then
-            self:addZone(tools[_G["currentTool"].id].zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
+            self:addZone(ToolPalette.getCurrentTool().zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
           else
-            self:deleteZone(tools[_G["currentTool"].id].zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
+            self:deleteZone(ToolPalette.getCurrentTool().zone, {x = pos.x + x, y = pos.y + y, z = pos.z})
           end
         end
       end
