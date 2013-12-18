@@ -68,17 +68,14 @@ MainWindow
     anchors.bottom: parent.bottom
   TextEdit
     id: xCoord
-    width: 15
     anchors.top: tpCoordLabel.bottom
     anchors.bottom: parent.bottom
   TextEdit
     id: yCoord
-    width: 15
     anchors.top: tpCoordLabel.bottom
     anchors.left: prev.right
   TextEdit
     id: zCoord
-    width: 15
     anchors.top: tpCoordLabel.bottom
     anchors.left: prev.right
 

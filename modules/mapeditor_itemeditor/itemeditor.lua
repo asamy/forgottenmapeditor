@@ -7,6 +7,7 @@ function ItemEditor.init()
   uniqueEdit = editWindow:recursiveGetChildById("uniqueId")
   actionEdit = editWindow:recursiveGetChildById("actionId")
   descEdit   = editWindow:recursiveGetChildById("descriptionEdit")
+  textEdit   = editWindow:recursiveGetChildById("textEdit")
 
   local doneButton = editWindow:recursiveGetChildById("doneButton")
   connect(doneButton, { onMousePress = ItemEditor.finish })
@@ -45,6 +46,7 @@ function ItemEditor.finish()
   local uniqueId = tonumber(uniqueEdit:getText())
   local actionId = tonumber(actionEdit:getText())
   local desc     = descEdit:getText()
+  local text     = textEdit:getText()
 
   assert(ItemEditor.currentItem)
   if uniqueId then

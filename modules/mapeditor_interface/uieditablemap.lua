@@ -6,7 +6,6 @@ function undoAction()
     -- We don't need to call UIEditableMap:removeThing here, undoStack:undo()
     -- already pushes the item undone into the redo stack.  So just do it manually.
     g_map.removeThing(item.thing)
-    g_minimap.updateTile(item.pos, tile)
   end
 end
 
@@ -116,7 +115,6 @@ function UIEditableMap:removeThing(tile, thing)
 
     if thing then
       g_map.removeThing(thing)
-      g_minimap.updateTile(tile:getPosition(), tile)
       undoStack:removeUndoItem( function(e) return e and cmpos(tile:getPosition(), e.pos) end )
       undoStack:pushRedoItem({ item = thing, pos = tile:getPosition(), stackPos = thing:getStackPos()})
     end
