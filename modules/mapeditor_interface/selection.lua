@@ -4,16 +4,18 @@ selection = {}
 selecting = false
 selectionBox = nil
 
+local startTilePos
 local startPos
 
 function SelectionTool.startSelecting()
-  startPos = mapWidget:getPosition(g_window.getMousePosition())
-  local tile = g_map.getTile(startPos)
+  startPos = g_window.getMousePosition()
+  startTilePos = mapWidget:getPosition(g_window.getMousePosition())
+  local tile = g_map.getTile(startTilePos)
   if tile then
     SelectionTool.select(tile)
   end
   
-  selectionBox:setPosition(g_window.getMousePosition())
+  selectionBox:setPosition(startPos)
   selectionBox:setWidth(0)
   selectionBox:setHeight(0)
   selecting = true
@@ -26,19 +28,37 @@ function SelectionTool.stopSelecting()
 end
 
 function SelectionTool.selectMove(mousePos, mouseMoved)
-  local mousePos = selectionBox:getPosition()
-  local width = g_window.getMousePosition().x - mousePos.x
-  local height = g_window.getMousePosition().y - mousePos.y
-  
+  local mousePos = g_window.getMousePosition()
+  local selectionBoxPos = selectionBox:getPosition()
+  local width = math.abs(mousePos.x - startPos.x)
+  local height = math.abs(g_window.getMousePosition().y - startPos.y)
+
+  -- Selections in all directions
+  if mousePos.x < startPos.x or mousePos.y < startPos.y then
+    selectionBox:setPosition(mousePos)
+    if mousePos.x >= startPos.x then
+      selectionBox:setX(startPos.x)
+    end
+    if mousePos.y >= startPos.y then
+      selectionBox:setY(startPos.y)
+    end
+  else
+    selectionBox:setPosition(startPos)
+  end
+
   selectionBox:setWidth(width)
   selectionBox:setHeight(height)
 
   -- TODO: Optimization!
   SelectionTool.unselectAll()
-  local actualPos = mapWidget:getPosition(g_window.getMousePosition())
-  for x = startPos.x, actualPos.x do
-    for y = startPos.y, actualPos.y do
-      for z = startPos.z, actualPos.z do
+  local actualPos = mapWidget:getPosition(mousePos)
+  
+  local from = { x = math.min(startTilePos.x, actualPos.x), y = math.min(startTilePos.y, actualPos.y), z = math.min(startTilePos.z, actualPos.z)}
+  local to = { x = math.max(startTilePos.x, actualPos.x), y = math.max(startTilePos.y, actualPos.y), z = math.max(startTilePos.z, actualPos.z)}
+
+  for x = from.x, to.x do
+    for y = from.y, to.y do
+      for z = from.z, to.z do
         local tile = g_map.getTile({ x = x, y = y, z = z })
         if tile then
           SelectionTool.select(tile)
