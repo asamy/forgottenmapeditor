@@ -50,7 +50,7 @@ function updateGhostThings(mousePos, force)
     local itemType = g_things.findItemTypeByClientId(thing)
     if itemType then
       _G["ghostThings"] = {}
-      local size = ToolPalette.getCurrentTool().size
+      local size = ToolPalette.getCurrentTool().size or 1
       local px = cameraPos.x - (size - 1) / 2
       local py = cameraPos.y - (size - 1) / 2
       for x = 0, size - 1 do
