@@ -34,6 +34,8 @@ This is the development repository.  We encourage you to find our buggy code, an
 
 [Red](http://otland.net/members/red.13708/)
 
+[Mark Samman](https://github.com/marksamman)
+
 ## License
 
 Licensed under MIT (Also known as "The Expat License"),  see LICENSE for more information.
