@@ -1,4 +1,5 @@
 UIEditableMap = extends(UIMap)
+_G["ghostThings"] = {}
 
 function undoAction()
   local item = undoStack:undo()
@@ -22,7 +23,7 @@ function removeGhostThings()
     g_map.removeThing(_G["ghostThings"][i])
   end
   
-  _G["ghostThings"] = nil
+  _G["ghostThings"] = {}
 end
 
 function updateGhostThings(mousePos, force)
@@ -37,11 +38,13 @@ function updateGhostThings(mousePos, force)
     return
   end
 
-  if _G["ghostThings"] ~= nil then
+  if #_G["ghostThings"] > 0 then
     removeGhostThings()
   end
 
-  if type(thing) == 'string' then
+  if ToolPalette.moving then
+    SelectionTool.addGhostItems()
+  elseif type(thing) == 'string' then
     local creature = g_creatures.getCreatureByName(thing)
     if creature then
       _G["ghostThings"] = {creature}
@@ -75,7 +78,7 @@ function UIEditableMap:__draw(thing, pos)
   local tile = g_map.getTile(pos)
   if tile then
     local topThing = tile:getTopThing()
-    if not _G["ghostThings"] and topThing then
+    if #_G["ghostThings"] == 0 and topThing then
       if topThing:isGround() and topThing:getId() ~= thing:getId() then
         self:removeThing(tile, topThing)
       elseif topThing:getId() == thing:getId() then

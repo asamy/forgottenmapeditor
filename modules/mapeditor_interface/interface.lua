@@ -273,7 +273,7 @@ function Interface.init()
   g_mouse.bindPressMove(mapWidget, 
     function(self, mousePos, mouseMoved)
       if g_mouse.isPressed(MouseLeftButton) and ToolPalette.getCurrentTool().id == ToolSelect then
-        SelectionTool.selectMove(mousePos, mouseMoved)
+        SelectionTool.mouseMove(mousePos, mouseMoved)
         return
       end
     
@@ -287,13 +287,12 @@ function Interface.init()
   
   mapWidget.onMousePress = function(self, mousePos, mouseButton)
     if ToolPalette.getCurrentTool().id == ToolSelect then
-      SelectionTool.unselectAll()
-      SelectionTool.startSelecting()
+      SelectionTool.mousePress()
     end
   end
   
   mapWidget.onMouseRelease = function(self, mousePos, mouseButton)
-    SelectionTool.stopSelecting()
+    SelectionTool.mouseRelease()
     if navigating then
       navigating = false
       return true
