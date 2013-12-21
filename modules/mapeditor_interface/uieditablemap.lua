@@ -42,7 +42,7 @@ function updateGhostThings(mousePos, force)
     removeGhostThings()
   end
 
-  if ToolPalette.moving then
+  if SelectionTool.moving then
     SelectionTool.addGhostItems()
   elseif type(thing) == 'string' then
     local creature = g_creatures.getCreatureByName(thing)
