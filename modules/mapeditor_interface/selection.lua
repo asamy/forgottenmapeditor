@@ -81,22 +81,25 @@ function SelectionTool.mouseRelease()
     
     ToolPalette.moving = false
     -- Maybe there is better way to change ghost items to normal items?
-    for i = 1, #_G["ghostThings"] do
-      local items = selection[i]:getItems()
-      local pos = selection[i]:getPosition()
+    local tmp = {}
+    for i = 1, #selection do
+      table.insert(tmp, {})
+      tmp[i].items = selection[i]:getItems()
+      tmp[i].pos = selection[i]:getPosition()
+    end
+    SelectionTool.removeThings()
+    
+    for i = 1, #tmp do
+      local pos = tmp[i].pos
       local newPos = { x = pos.x + (cameraPos.x - ToolPalette.startTilePos.x), y = pos.y + (cameraPos.y - ToolPalette.startTilePos.y), z = pos.z + (cameraPos.z - ToolPalette.startTilePos.z) }
-      
-      for j = 1, #items do
-        local item = Item.createOtb(items[j]:getServerId())
+
+      for j = 1, #tmp[i].items do
+        local item = Item.createOtb(tmp[i].items[j]:getServerId())
         g_map.addThing(item, newPos)
       end
-      table.insert(tilesToSelect, g_map.getTile(newPos))
+      SelectionTool.select(g_map.getTile(newPos))
     end
-    
-    SelectionTool.removeThings()
-    for i = 1, #tilesToSelect do
-      SelectionTool.select(tilesToSelect[i])
-    end
+
     removeGhostThings()
   else
     ToolPalette.selecting = false
