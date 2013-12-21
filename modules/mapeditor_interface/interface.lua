@@ -233,6 +233,10 @@ function Interface.init()
 
   Interface.initDefaultZoneOptions()
   mapWidget.onMouseMove = function(self, mousePos, mouseMoved)
+    if SelectionTool.pasting and ToolPalette.getCurrentTool().id == ToolSelect then
+      SelectionTool.mousePressMove(mousePos, mouseMoved)
+    end
+  
     updateBottomBar()
     
     if ToolPalette.getCurrentTool().drawTool then
@@ -273,7 +277,7 @@ function Interface.init()
   g_mouse.bindPressMove(mapWidget, 
     function(self, mousePos, mouseMoved)
       if g_mouse.isPressed(MouseLeftButton) and ToolPalette.getCurrentTool().id == ToolSelect then
-        SelectionTool.mouseMove(mousePos, mouseMoved)
+        SelectionTool.mousePressMove(mousePos, mouseMoved)
         return
       end
     
@@ -324,6 +328,11 @@ function Interface.init()
     function() 
       if ToolPalette.getCurrentTool().id == ToolSelect then
         SelectionTool.unselectAll()
+        
+        if SelectionTool.pasting then
+          removeGhostThings()
+          SelectionTool.pasting = false
+        end
       else
         ToolPalette.setTool(ToolSelect) 
       end

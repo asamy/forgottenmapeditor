@@ -1,12 +1,19 @@
 SelectionTool = {
   selecting = false,
   moving = false,
-  startPos, startTilePos
+  pasting = false,
+  startPos, startTilePos, 
+  firstTilePos
 }
 selection = {} -- Array with selected tiles
+clipboard = {}
 local selectionBox = nil -- Selection box widget
 
 function SelectionTool.mousePress()
+  if SelectionTool.pasting then
+    SelectionTool.paste()
+  end
+
   SelectionTool.startPos = g_window.getMousePosition()
   SelectionTool.startTilePos = mapWidget:getPosition(g_window.getMousePosition())
   local tile = g_map.getTile(SelectionTool.startTilePos)
@@ -28,7 +35,7 @@ function SelectionTool.mousePress()
   end
 end
 
-function SelectionTool.mouseMove(mousePos, mouseMoved)
+function SelectionTool.mousePressMove(mousePos, mouseMoved)
   local startPos, startTilePos = SelectionTool.startPos, SelectionTool.startTilePos
   local mousePos = g_window.getMousePosition()
   
@@ -58,18 +65,29 @@ function SelectionTool.mouseMove(mousePos, mouseMoved)
     
     local from = { x = math.min(startTilePos.x, actualPos.x), y = math.min(startTilePos.y, actualPos.y), z = math.min(startTilePos.z, actualPos.z)}
     local to = { x = math.max(startTilePos.x, actualPos.x), y = math.max(startTilePos.y, actualPos.y), z = math.max(startTilePos.z, actualPos.z)}
-
+    SelectionTool.firstTilePos = { x = to.x, y = to.y, z = to.z }
+    
     for x = from.x, to.x do
       for y = from.y, to.y do
         for z = from.z, to.z do
           local tile = g_map.getTile({ x = x, y = y, z = z })
           if tile and not tile:isEmpty() then
             SelectionTool.select(tile)
+            
+            if x < SelectionTool.firstTilePos.x then
+              SelectionTool.firstTilePos.x = x
+            end
+            if y < SelectionTool.firstTilePos.y then
+              SelectionTool.firstTilePos.y = y
+            end
+            if z < SelectionTool.firstTilePos.z then
+              SelectionTool.firstTilePos.z = z
+            end
           end
         end
       end
     end
-  else -- Moving
+  else
     updateGhostThings(mousePos, true)
   end
 end
@@ -111,22 +129,80 @@ end
 function SelectionTool.addGhostItems()
   local cameraPos = mapWidget:getPosition(g_window.getMousePosition())
   removeGhostThings()
-  for i = 1, #selection do
-    local items = selection[i]:getItems()
-    local pos = selection[i]:getPosition()
-    for j = 1, #items do
-      local item = Item.createOtb(items[j]:getServerId())
+  
+  if SelectionTool.moving then
+    for i = 1, #selection do
+      local items = selection[i]:getItems()
+      local pos = selection[i]:getPosition()
+      for j = 1, #items do
+        local item = Item.createOtb(items[j]:getServerId())
+        table.insert(_G["ghostThings"], item)
+        g_map.addThing(item, { x = pos.x + (cameraPos.x - SelectionTool.startTilePos.x), y = pos.y + (cameraPos.y - SelectionTool.startTilePos.y), z = pos.z + (cameraPos.z - SelectionTool.startTilePos.z) }, -1)
+      end
+    end
+  elseif SelectionTool.pasting then
+    for i = 1, #clipboard do
+      local pos = { x = cameraPos.x + clipboard[i].pos.x, y = cameraPos.y + clipboard[i].pos.y, z = cameraPos.z + clipboard[i].pos.z }
+      local item = Item.createOtb(clipboard[i].item:getServerId())
+      g_map.addThing(item, pos, -1)
       table.insert(_G["ghostThings"], item)
-      g_map.addThing(item, { x = pos.x + (cameraPos.x - SelectionTool.startTilePos.x), y = pos.y + (cameraPos.y - SelectionTool.startTilePos.y), z = pos.z + (cameraPos.z - SelectionTool.startTilePos.z) }, -1)
     end
   end
 end
 
 function SelectionTool.init()
   g_keyboard.bindKeyPress('Delete', function() SelectionTool.removeThings() end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+x', function() SelectionTool.cut() end, rootPanel)
+  g_keyboard.bindKeyPress('Ctrl+c', function() SelectionTool.copy() end, rootPanel)
+  
+  g_keyboard.bindKeyPress('Ctrl+v', function()
+    if #clipboard == 0 then
+      return false
+    end
+    SelectionTool.pasting = true
+  end, rootPanel)
   
   selectionBox = g_ui.createWidget('selectionBox', rootPanel)
   selectionBox:hide()
+end
+
+function SelectionTool.cut()
+  if #selection == 0 then
+    return false
+  end
+
+  SelectionTool.copy()
+  SelectionTool.removeThings()
+end
+
+function SelectionTool.copy()
+  if #selection == 0 then
+    return false
+  end
+  clipboard = {}
+  
+  for i = 1, #selection do
+    local items = selection[i]:getItems()
+    local pos = selection[i]:getPosition()
+    for j = 1, #items do
+      local item = Item.createOtb(items[j]:getServerId())
+      local itemPos = { x = pos.x - SelectionTool.firstTilePos.x, y = pos.y - SelectionTool.firstTilePos.y, z = pos.z - SelectionTool.firstTilePos.z }
+      table.insert(clipboard, { item = item, pos = itemPos })
+    end
+  end
+  
+end
+
+function SelectionTool.paste()
+  local cameraPos = mapWidget:getPosition(g_window.getMousePosition())
+  SelectionTool.pasting = false
+  removeGhostThings()
+  
+  for i = 1, #clipboard do
+    local pos = { x = cameraPos.x + clipboard[i].pos.x, y = cameraPos.y + clipboard[i].pos.y, z = cameraPos.z + clipboard[i].pos.z }
+    local item = Item.createOtb(clipboard[i].item:getServerId())
+    g_map.addThing(item, pos)
+  end
 end
 
 function SelectionTool.select(tile)
