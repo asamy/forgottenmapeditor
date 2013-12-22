@@ -41,7 +41,7 @@ function updateGhostThings(mousePos, force)
     removeGhostThings()
   end
 
-  if ToolPalette.moving then
+  if SelectionTool.moving or SelectionTool.pasting then
     SelectionTool.addGhostItems()
   elseif type(thing) == 'string' then
     local creature = g_creatures.getCreatureByName(thing)
@@ -260,14 +260,6 @@ function UIEditableMap:resolve(pos)
     end
   end
 
-  if g_keyboard.isShiftPressed() and tile then
-    if tile:isSelected() then
-      tile:unselect()
-    else
-      tile:select()
-    end
-    print(tile:isSelected() and "true" or "false")
-  end
   return true
 end
 
