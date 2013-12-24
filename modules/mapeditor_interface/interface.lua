@@ -1,8 +1,7 @@
-Interface = {}
-
-local zoomLevel = 4
-local defaultZoom = 4
-local zoomLevels = {
+Interface = {
+  zoomLevel = 4,
+  defaultZoom = 4,
+  zoomLevels = {
    8,
    16,
    24,
@@ -22,21 +21,24 @@ local zoomLevels = {
    3072,
    4096,
    8192
+  },
+  navigating = false,
+  showZones  = g_settings.getBoolean("Interface.showZones", true),
+  showHouses = g_settings.getBoolean("Interface.showHouses", true),
+  isPushed = false
 }
-local navigating = false
 
-local isPushed = false
 function updateCursor(pos)
   if pos.x > mapWidget:getX() and pos.x < (mapWidget:getWidth() + mapWidget:getX())
       and pos.y > mapWidget:getY() and pos.y < (mapWidget:getHeight() + mapWidget:getY()) then
-    if not isPushed then
-      isPushed = true
+    if not Interface.isPushed then
+      Interface.isPushed = true
       g_mouse.pushCursor('target')
     end
   else
-    if isPushed then
+    if Interface.isPushed then
       g_mouse.popCursor('target')
-      isPushed = false
+      Interface.isPushed = false
     end
   end
 end
@@ -66,14 +68,14 @@ function updateBottomBar(pos)
     end
   end
 
-  local tileSize = zoomLevels[zoomLevel]
-  zoomLabel:setText("Zoom Level: " .. zoomLevel .. " (" .. tileSize .. "x" .. tileSize .. " tiles shown.)")
+  local tileSize = Interface.zoomLevels[Interface.zoomLevel]
+  zoomLabel:setText("Zoom Level: " .. Interface.zoomLevel .. " (" .. tileSize .. "x" .. tileSize .. " tiles shown.)")
 end  
 
 function resetZoom()
-  mapWidget:setZoom(zoomLevels[defaultZoom])
+  mapWidget:setZoom(Interface.zoomLevels[Interface.defaultZoom])
   updateBottomBar(pos)
-  zoomLevel = defaultZoom
+  Interface.zoomLevel = Interface.defaultZoom
 end
 
 function updateZoom(delta)
@@ -83,9 +85,9 @@ function updateZoom(delta)
   end
   
   if delta then
-    zoomLevel = math.min(#zoomLevels, math.max(zoomLevel + delta, 1))
+    Interface.zoomLevel = math.min(#Interface.zoomLevels, math.max(Interface.zoomLevel + delta, 1))
   end
-  mapWidget:setZoom(zoomLevels[zoomLevel])
+  mapWidget:setZoom(Interface.zoomLevels[Interface.zoomLevel])
   
   if delta then
     mapWidget:setCameraPosition(zoomedTile)
@@ -164,18 +166,15 @@ function updateFloor(value)
     end
 end
 
-local showZones  = g_settings.getBoolean("showZones", true)
-local showHouses = g_settings.getBoolean("showHouses", true)
-
 function toggleZones()
-  if showZones then
-    g_map.setShowZones(false)
-    showZones = false
-    showHouses = false
+  if Interface.showZones then
+    g_map.setInterface.showZones(false)
+    Interface.showZones = false
+    Interface.showHouses = false
   else
-    g_map.setShowZones(true)
-    showZones = true
-    showHouses = true
+    g_map.setInterface.showZones(true)
+    Interface.showZones = true
+    Interface.showHouses = true
   end
   
   -- Workaround - Map widget isn't updating when you toggle showing zones (it's updating only on first 2 zoom levels)
@@ -183,11 +182,11 @@ function toggleZones()
 end
 
 function toggleHouses()
-  if showHouses then
+  if Interface.showHouses then
     g_map.setShowZone(TILESTATE_HOUSE, false)
-    showHouses = false
+    Interface.showHouses = false
   else
-    showHouses = true
+    Interface.showHouses = true
     g_map.setShowZone(TILESTATE_HOUSE, true)
   end
   
@@ -196,12 +195,10 @@ function toggleHouses()
 end
 
 function Interface.initDefaultZoneOptions()
-  local showZones = g_settings.getBoolean("show-zones", true)
-
-  g_map.setShowZones(showZones)
+  g_map.setShowZones(Interface.showZones)
   g_map.setZoneOpacity(0.7)
   for i, v in pairs(defaultZoneFlags) do
-    if showZones then  -- only enable if showing is enabled
+    if Interface.showZones then  -- only enable if showing is enabled
       g_map.setShowZone(i, true)
     end
     g_map.setZoneColor(i, type(v) == "string" and tocolor(v) or v)
@@ -282,8 +279,8 @@ function Interface.init()
       end
     
       if g_mouse.isPressed(MouseMidButton) then
-        navigating = true
-        mapWidget:movePixels(mousePos.x * zoomLevel, mousePos.y * zoomLevel)
+        Interface.navigating = true
+        mapWidget:movePixels(mousePos.x * Interface.zoomLevel, mousePos.y * Interface.zoomLevel)
         return
       end
     end
@@ -297,8 +294,8 @@ function Interface.init()
   
   mapWidget.onMouseRelease = function(self, mousePos, mouseButton)
     SelectionTool.mouseRelease()
-    if navigating then
-      navigating = false
+    if Interface.navigating then
+      Interface.navigating = false
       return true
     end
     if mouseButton == MouseMidButton then
@@ -316,7 +313,7 @@ function Interface.init()
   g_mouse.bindAutoPress(mapWidget,
     function(self, mousePos, mouseButton, elapsed)
       if g_keyboard.isCtrlPressed() then
-        navigating = true
+        Interface.navigating = true
         resetZoom()
         return
       end
@@ -373,4 +370,6 @@ function Interface.sync()
 end
 
 function Interface.terminate()
+  g_settings.set("show-zones",  Interface.showZones)
+  g_settings.set("show-houses", Interface.showHouses)
 end

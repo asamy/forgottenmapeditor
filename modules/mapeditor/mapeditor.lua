@@ -31,7 +31,6 @@ function MapEditor.terminate()
   g_settings.set('window-size', g_window.getUnmaximizedSize())
   g_settings.set('window-pos', g_window.getUnmaximizedPos())
   g_settings.set('window-maximized', g_window.isMaximized())
-  g_settings.set('show-zones', g_map.showZones())
   MapEditor = nil
 end
 
