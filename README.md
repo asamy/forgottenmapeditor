@@ -4,11 +4,9 @@
 
 **Merging pull requests/patches status**: _Still going, might be delayed._
 
-**Next release date**: _This month or next month._
+**Next release date**: _Late january or early/mid february_
 
-ForgottenMapEditor is an otclient module, therefore it depends on OTClient.
-
-ForgottenMapEditor is written using otclient's framework with modifications for reading and writing OT binary files and XML files.
+**ForgottenMapEditor** is an otclient module, therefore it depends on OTClient. It is written using otclient's framework with modifications for reading and writing OT binary files and XML files.
 
 ## About this repository
 
