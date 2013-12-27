@@ -218,6 +218,7 @@ function saveMap()
   mapWidget:setRect({x = 0, y = 0, width = w, height = h})
 
   g_map.saveOtbm(current .. ".otbm")
+  _G["unsavedChanges"] = false
 end
 
 function newMap()
