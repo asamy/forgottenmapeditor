@@ -1,0 +1,42 @@
+** HUGE NOTE **
+This file is written to lighten down stupid posts about simple usage.  I'm not calling you stupid, nor am I calling the poster stupid!
+The following file is subject to change anytime, may or may not be without notice.  So make sure to read it every release to be safe.
+This file was written by Ahmed Samy <f.fallen45@gmail.com>
+** OVER      **
+
+The following shortcuts will be used in this document frequently so keep them in mind when reading:
+	- mwheelup / mwheeldown = mouse wheel up / down
+	- CTRL ---> C
+	- SHIFT --> S
+
+Section 1: Basic Usage
+
+- Camera movement is done by holding mouse wheel and move the mouse toward the direction.  Or C+up/down/left/right keyboard keys (Without C, it will move 64 pixels in the direction),
+	with C+ it will move 320 pixels.
+- Zooming in and out by mwheel up/down or CTRL + page up/down.
+- Changing floor up/down by mwheel up/down respectively.  Or page up/down
+- Select selection tool (first tool) from the tool palette over the item palette and press on the items you want to have select,
+	you can then cut/paste/delete the items you selected.
+	Cut: C+X
+	Copy: C+C
+	Paste: C+V then press on position you want to place on.
+
+- Pressing mouse right button will remove all selections.
+- In order to scroll in the item palette, you have to either scroll in an empty area or over the scroll bar itself.
+- To launch house window press CTRL+H, town window is CTRL+T
+- To launch terminal for debugging purposes & executing lua code CTRL+~ or CTRL+F8
+- To search for an item on the whole map press CTRL+F.
+- To load a map, you need to double click it on the file browser.
+- To delete an item, hold C and press on the item, you can delete as much items as you want.
+
+Section 2: Advanced Usage
+
+- You can auto load a version every time the mapeditor starts up by modifiying the version variable in
+	modules/mapeditor_startup/startup.lua
+- To load every core file manually, double click the file but make sure to load them in this order so that everything works fine:
+	* Tibia.dat
+	* Tibia.spr
+	* items.otb
+	* items.xml
+
+Thank you for using FME, please donate! (https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EY4YMC9S7R5TC) You specify the amount!
