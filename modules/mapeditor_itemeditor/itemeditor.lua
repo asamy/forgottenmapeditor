@@ -23,12 +23,17 @@ function ItemEditor.showup()
     end
     ItemEditor.currentItem = topThing
 
-    editWindow:recursiveGetChildById("itemIdLabel"):setText(tostring(topThing:getServerId()))
-    editWindow:recursiveGetChildById("itemNameLabel"):setText(tostring(topThing:getName()))
+    editWindow:recursiveGetChildById("itemIdLabel"):setText("ID: " .. tostring(topThing:getServerId()))
+    editWindow:recursiveGetChildById("itemNameLabel"):setText("Name: " .. tostring(topThing:getName()))
     editWindow:recursiveGetChildById("uniqueId"):setText(tostring(topThing:getUniqueId()))
     editWindow:recursiveGetChildById("actionId"):setText(tostring(topThing:getActionId()))
     editWindow:recursiveGetChildById("descriptionEdit"):setText(tostring(topThing:getDescription()))
     editWindow:recursiveGetChildById("textEdit"):setText(tostring(topThing:getText()))
+
+    local teleportDest = topThing:getTeleportDestination()
+    if teleportDest then
+      editWindow:recursiveGetChildById("tpCoordEdit"):setText(string.format("x: %i y: %i z: %i", teleportDest.x, teleportDest.y, teleportDest.z))
+    end
     editWindow:show()
     editWindow:raise()
     editWindow:focus()
@@ -47,18 +52,18 @@ function ItemEditor.finish()
   local actionId = tonumber(actionEdit:getText())
   local desc     = descEdit:getText()
   local text     = textEdit:getText()
+  local tpDest   = editWindow:recursiveGetChildById("tpCoordEdit"):getText()
 
-  assert(ItemEditor.currentItem)
-  if uniqueId then
-    ItemEditor.currentItem:setUniqueId(uniqueId)
-  end
-  if actionId then
-    ItemEditor.currentItem:setActionId(actionId)
-  end
-  if desc and desc ~= "" then
-    ItemEditor.currentItem:setDescription(desc)
+  if uniqueId then ItemEditor.currentItem:setUniqueId(uniqueId) end
+  if actionId then ItemEditor.currentItem:setActionId(actionId) end
+  if desc then     ItemEditor.currentItem:setDescription(desc)  end
+  if text then     ItemEditor.currentItem:setText(text)         end
+  if tpDest then
+    local xp, yp, zp = tpDest:gmatch("x: %i"), tpDest:gmatch("y: %i"), zp:gmatch("z: %i")
+    ItemEditor.currentItem:setTeleportDestination({x = xp, y = yp, z = zp})
   end
 
+  _G["unsavedChanges"] = true
   if exitAfter then
     editWindow:hide()
   end
