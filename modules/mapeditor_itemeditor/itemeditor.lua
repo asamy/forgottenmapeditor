@@ -28,7 +28,13 @@ function ItemEditor.showup()
     editWindow:recursiveGetChildById("uniqueId"):setText(tostring(topThing:getUniqueId()))
     editWindow:recursiveGetChildById("actionId"):setText(tostring(topThing:getActionId()))
     editWindow:recursiveGetChildById("descriptionEdit"):setText(tostring(topThing:getDescription()))
-    editWindow:recursiveGetChildById("textEdit"):setText(tostring(topThing:getText()))
+
+    local isWritable = g_things.getItemType(topThing:getServerId()):isWritable()
+    if isWritable then
+      editWindow:recursiveGetChildById("textEdit"):setText(tostring(topThing:getText()))
+    else
+      editWindow:recursiveGetChildById("textEdit"):setEnabled(false)
+    end
 
     local teleportDest = topThing:getTeleportDestination()
     if teleportDest then
