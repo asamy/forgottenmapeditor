@@ -1,10 +1,9 @@
 MainWindow
   id: ItemEditor
-  size: 230 230
+  size: 230 190
   !text: tr('Edit an Item...')
   @onEscape: editWindow:hide()
   @onEnter: ItemEditor.finish()
-
 
   Label
     id: itemIdLabel
@@ -63,31 +62,29 @@ MainWindow
 
   Label
     id: tpCoordLabel
-    text: Teleport Coordinates:
+    text: Teleport:
+    width: 70
     anchors.top: prev.bottom
     anchors.bottom: parent.bottom
   TextEdit
-    id: xCoord
-    anchors.top: tpCoordLabel.bottom
-    anchors.bottom: parent.bottom
-  TextEdit
-    id: yCoord
-    anchors.top: tpCoordLabel.bottom
-    anchors.left: prev.right
-  TextEdit
-    id: zCoord
-    anchors.top: tpCoordLabel.bottom
+    id: tpCoordEdit
+    text: x: XP y: YP z: ZP
+    tooltip: Type the teleport coordinates in XP, YP, and ZP
+    width: 135
+    anchors.top: textEdit.bottom
     anchors.left: prev.right
 
   Label
     text: Town ID
+    width: 70
     tooltip: This will fill in X/Y/Z coordinates for you.
     anchors.top: prev.bottom
     anchors.bottom: parent.bottom
   TextEdit
     id: townId
-    anchors.top: zCoord.bottom
-    anchors.bottom: parent.bottom
+    width: 135
+    anchors.top: tpCoordEdit.bottom
+    anchors.left: prev.right
 
   Label
     text: Save & Exit:
