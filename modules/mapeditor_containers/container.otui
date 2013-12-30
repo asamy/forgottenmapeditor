@@ -1,0 +1,33 @@
+ContainerWindow < MiniWindow
+  height: 150
+
+  UIItem
+    id: containerItemWidget
+    virtual: true
+    size: 16 16
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 4
+    margin-left: 4
+
+  UIButton
+    id: upButton
+    anchors.top: minimizeButton.top
+    anchors.right: minimizeButton.left
+    margin-right: 3
+    size: 14 14
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 42 0 14 14
+
+    $hover:
+      image-clip: 42 14 14 14
+
+    $pressed:
+      image-clip: 42 28 14 14
+
+  MiniWindowContents
+    padding-right: 0
+    layout:
+      type: grid
+      cell-size: 34 34
+      flow: true

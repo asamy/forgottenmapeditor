@@ -18,6 +18,7 @@ Module
     - mapeditor_itempalette
     - mapeditor_minimap
     - mapeditor_search
+    - mapeditor_containers
     - mapeditor_options
 
   @onLoad: |
