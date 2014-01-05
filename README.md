@@ -72,7 +72,7 @@ git pull --rebase https://github.com/decltype/forgottenmapeditor.git master
 
 ## Donations
 
-[![Donate](https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSZZ4UXKmzKSbSBPxPDL65npDRanQ9-JarL8kaRyVJS8pEpu18K)](https://www.paypal.com/fi/cgi-bin/webscr?cmd=_flow&SESSION=X9irvH89nEmyB3q7GNovZTBHFq01r3XcdyqjrNCG8Zew20M_faNoRDcyp8u&dispatch=5885d80a13c0db1f8e263663d3faee8def8934b92a630e40b7fef61ab7e9fe63)
+[![Donate](https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSZZ4UXKmzKSbSBPxPDL65npDRanQ9-JarL8kaRyVJS8pEpu18K)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EY4YMC9S7R5TC)
 
 If you would like to support the project, please send any amount of cash (press the button above).
 We highly appreciate all donations, and they will be spread among other people who've helped build this project up.
