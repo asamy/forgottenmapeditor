@@ -1,6 +1,6 @@
 MainWindow
   id: ItemEditor
-  size: 230 190
+  size: 230 205
   !text: tr('Edit an Item...')
   @onEscape: editWindow:hide()
   @onEnter: ItemEditor.finish()
@@ -87,16 +87,27 @@ MainWindow
     anchors.left: prev.right
 
   Label
+    text: Depot ID
+    width: 70
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+  TextEdit
+    id: depotId
+    width: 135
+    anchors.top: townId.bottom
+    anchors.left: prev.right
+
+  Label
     text: Save & Exit:
     width: 80
     anchors.top: prev.bottom
     anchors.bottom: parent.bottom
   CheckBox
     id: saveExit
-    anchors.top: townId.bottom
+    anchors.top: depotId.bottom
     anchors.left: prev.right
   Button
     id: doneButton
     text: Save changes
-    anchors.top: townId.bottom
+    anchors.top: depotId.bottom
     anchors.left: prev.right

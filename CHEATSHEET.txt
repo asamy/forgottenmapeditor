@@ -1,8 +1,9 @@
 ** HUGE NOTE **
-This file is written to lighten down stupid posts about simple usage.  I'm not calling you stupid, nor am I calling the poster stupid!
-The following file is subject to change anytime, may or may not be without notice.  So make sure to read it every release to be safe.
+This file is written to lighten down stupid posts about simple usage.
+	I'm not calling you stupid, nor am I calling the poster stupid!
+The following file is subject to change anytime, may or may not be without notice.
+	So make sure to read it every release to not experience weird behaviours.
 This file was written by Ahmed Samy <f.fallen45@gmail.com>
-** OVER      **
 
 The following shortcuts will be used in this document frequently so keep them in mind when reading:
 	- mwheelup / mwheeldown = mouse wheel up / down

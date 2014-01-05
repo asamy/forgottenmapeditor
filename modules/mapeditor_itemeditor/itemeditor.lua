@@ -35,6 +35,12 @@ function ItemEditor.showup()
     else
       editWindow:recursiveGetChildById("textEdit"):setEnabled(false)
     end
+    local isContainer = g_things.getItemType(topThing:getServerId()):getCategory == ItemCategoryContainer
+    if isContainer then
+      editWindow:recursiveGetChildById("depotId"):setText(tostring(topThing:getDepotId()))
+    else
+      editWindow:recursiveGetChildById("depotId"):setEnabled(false)
+    end
 
     local teleportDest = topThing:getTeleportDestination()
     if teleportDest then
@@ -59,11 +65,13 @@ function ItemEditor.finish()
   local desc     = descEdit:getText()
   local text     = textEdit:getText()
   local tpDest   = editWindow:recursiveGetChildById("tpCoordEdit"):getText()
+  local depotId  = tonumber(editWindow:recursiveGetChildById("depotId"):getText())
 
   if uniqueId then ItemEditor.currentItem:setUniqueId(uniqueId) end
   if actionId then ItemEditor.currentItem:setActionId(actionId) end
   if desc then     ItemEditor.currentItem:setDescription(desc)  end
   if text then     ItemEditor.currentItem:setText(text)         end
+  if depotId then  ItemEditor.currentItem:setDepotId(depotId)   end
   if tpDest then
     local xp, yp, zp = tpDest:gmatch("x: %i"), tpDest:gmatch("y: %i"), zp:gmatch("z: %i")
     ItemEditor.currentItem:setTeleportDestination({x = xp, y = yp, z = zp})

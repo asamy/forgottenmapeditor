@@ -322,7 +322,7 @@ function Interface.init()
   
   g_mouse.bindAutoPress(mapWidget, handleMousePress, 100, MouseLeftButton)
   g_mouse.bindPress(mapWidget, 
-    function() 
+    function(mousePos) 
       if ToolPalette.getCurrentTool().id == ToolSelect then
         SelectionTool.unselectAll()
         
@@ -333,6 +333,20 @@ function Interface.init()
       else
         ToolPalette.setTool(ToolSelect) 
       end
+
+      local pos = mapWidget:getPosition(mousePos)
+      if not pos then
+        return false
+      end
+
+      local tile = g_map.getTile(pos)
+      if tile then
+        local topThing = tile:getTopThing()
+        if topThing and topThing:isContainer() then
+          openContainer(topThing, nil)
+        end
+      end
+      return true
     end, MouseRightButton)
   
   local newRect = {x = 500, y = 500, width = 1000, height = 1000}
