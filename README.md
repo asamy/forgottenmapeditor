@@ -34,13 +34,15 @@ Licensed under MIT (Also known as "The Expat License"),  see LICENSE for more in
 ## Contribute!
 
 Contributions are always welcome.  You're welcome to contribute anything, whether documentation or code.  
-If you're kind of lost on how to contribute, here is a short guide:  
+If you're kind of lost on how to contribute, here is a short guide:
+
 1. Make a GitHub account (if you don't have one) -
     GitHub have guidelines for newbies, so make sure to read them if you're lost.
 2. Fork the repository
 3. Commit your changes to YOUR repository.
 4. Create a pull request (Click the pull request button on top of your fork) or
-    notify me via e-mail <f.fallen45@gmail.com>  	
+    notify me via e-mail <f.fallen45@gmail.com>
+
 **Note**: You do not need to re-fork the project when a new change is made to this repository.  Use the following git commands:
  
 ```
