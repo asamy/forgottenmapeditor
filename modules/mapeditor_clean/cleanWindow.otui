@@ -1,0 +1,25 @@
+MainWindow
+  id: cleanWindow
+  size: 350 90
+  !text: tr('Map cleaning tools')
+  @onEscape: CleanModule.hideWindow()
+  
+  Label
+    id: label1
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    color: white
+    !text: tr('Status: ')
+    
+  Label
+    id: statusLabel
+    anchors.bottom: parent.bottom
+    anchors.left: label1.right
+    color: green
+
+  Button
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    !text: tr('Delete empty spawns')
+    @onClick: CleanModule.cleanSpawns()

@@ -20,6 +20,7 @@ Module
     - mapeditor_search
     - mapeditor_containers
     - mapeditor_options
+    - mapeditor_clean
 
   @onLoad: |
     dofile 'mapeditor'
