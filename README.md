@@ -58,14 +58,6 @@ Alternatively, you can use git pull with the repository URL everytime, but it's 
 git pull --rebase https://github.com/decltype/forgottenmapeditor.git master
 ```
 
-## Donations
-
-[![Donate](https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSZZ4UXKmzKSbSBPxPDL65npDRanQ9-JarL8kaRyVJS8pEpu18K)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EY4YMC9S7R5TC)
-
-If you would like to support the project, please send any amount of cash (press the button above).
-We highly appreciate all donations, and they will be spread among other people who've helped build this project up.  
-In return, your name (and a link to your profile) shall be put in this README once you notify me about your donation.
-
 ## Screenshots
 
 Monday, September 02, 2013.  
