@@ -1,0 +1,12 @@
+Module
+  name: mapeditor_clean
+  description: Map cleaning module
+  author: Crypton
+  website: https://github.com/decltype/forgottenmapeditor
+
+  @onLoad: |
+    dofile 'clean'
+    CleanModule.init()
+
+  @onUnload: |
+    CleanModule.terminate()
