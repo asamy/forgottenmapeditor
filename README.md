@@ -17,15 +17,15 @@ This is the development repository.  We encourage you to find our buggy code, an
 
 ## Contributors / Thanks to
 
-[Sam](https://github.com/TheSumm) (Summ)  
-[Mateusz Pawlica](https://github.com/Crypton33) (Crypton33)  
-[Bruno Carvalho](https://github.com/BrunoDCC) (BrunoDCC)  
-[Christian Johansson](https://github.com/dalkon) (Dalkon)
+- [Sam](https://github.com/TheSumm) (Summ)  
+- [Mateusz Pawlica](https://github.com/Crypton33) (Crypton33)  
+- [Bruno Carvalho](https://github.com/comedinha) (BrunoDCC)  
+- [Christian Johansson](https://github.com/dalkon) (Dalkon)
 
 ## Special thanks to
 
-[Chandler](http://otland.net/members/red.13708/) (Red)  
-[Mark Samman](https://github.com/marksamman)
+- [Chandler](http://otland.net/members/red.13708/) (Red)  
+- [Mark Samman](https://github.com/marksamman)
 
 ## License
 
