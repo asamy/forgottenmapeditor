@@ -5,7 +5,6 @@ MainWindow
   @onEscape: CleanModule.hideWindow()
   
   Label
-    id: label1
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     color: white
@@ -14,7 +13,7 @@ MainWindow
   Label
     id: statusLabel
     anchors.bottom: parent.bottom
-    anchors.left: label1.right
+    anchors.left: prev.right
     color: green
 
   Button
