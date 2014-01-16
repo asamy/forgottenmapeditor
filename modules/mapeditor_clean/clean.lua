@@ -46,5 +46,9 @@ function CleanModule.cleanSpawns()
     end
   end
   
-  statusLabel:setText("Successfully cleaned " .. cleaned .. " empty spawns.")
+	if cleaned > 0 then
+		statusLabel:setText("Successfully deleted " .. cleaned .. " empty spawns.")
+	else
+		statusLabel:setText("There were no spawns to delete.")
+	end
 end
