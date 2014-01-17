@@ -35,7 +35,7 @@ function ItemEditor.showup()
     else
       editWindow:recursiveGetChildById("textEdit"):setEnabled(false)
     end
-    local isContainer = g_things.getItemType(topThing:getServerId()):getCategory == ItemCategoryContainer
+    local isContainer = g_things.getItemType(topThing:getServerId()):getCategory() == ItemCategoryContainer
     if isContainer then
       editWindow:recursiveGetChildById("depotId"):setText(tostring(topThing:getDepotId()))
     else
